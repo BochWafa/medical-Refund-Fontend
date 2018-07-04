@@ -23,7 +23,6 @@ const route: Routes = [
     HeaderComponent,
     MenuComponent,
     ContenuComponent,
-    FooterComponent,
     DashboardComponent,
     NotfoundComponent
   ],
