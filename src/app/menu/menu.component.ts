@@ -8,23 +8,45 @@ import {Router} from '@angular/router';
 })
 export class MenuComponent implements OnInit {
 
+   subMenu1Visibility = false;
+   subMenu2Visibility = false;
+
   constructor(private router: Router) { }
 
   ngOnInit() {
   }
 
 
-  goEmploye() {
+  openEmploye() {
 
+    this.subMenu2Visibility = false;
+
+    this.subMenu1Visibility = !this.subMenu1Visibility;
+
+  }
+
+  addEmploye() {
     this.router.navigateByUrl('/dashboard/(dashboard-content:add-employe)', { skipLocationChange: true });
 
   }
 
 
-  goHealthProfessional() {
+  openHealthProfessional() {
 
-    this.router.navigateByUrl('/dashboard/(dashboard-content:add-professional-health)', { skipLocationChange: true });
+    this.subMenu1Visibility = false;
+
+    this.subMenu2Visibility = !this.subMenu2Visibility;
 
   }
+
+  addProfessionalHealth() {
+    this.router.navigateByUrl('/dashboard/(dashboard-content:add-professional-health)', { skipLocationChange: true });
+  }
+
+
+
+
+
+
 
 }

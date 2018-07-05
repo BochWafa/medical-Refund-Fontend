@@ -8,13 +8,27 @@
     <nav class="navbar-sidebar">
       <ul class="list-unstyled navbar__list">
 
-        <li (click)="goEmploye()">
-          <span><i class="fa fa-user-circle" aria-hidden="true"></i>Les employés</span>
+        <li>
+          <span (click)="openEmploye()"><i class="fa fa-user-circle" aria-hidden="true"></i>Les employés</span>
+
+          <ul class="sub-list" *ngIf="subMenu1Visibility">
+            <li><span><i class="fa fa-align-justify" aria-hidden="true"></i>Afficher</span></li>
+            <li><span><i class="fa fa-cog" aria-hidden="true"></i>Modifier</span></li>
+            <li><span><i class="fa fa-eraser" aria-hidden="true"></i>Supprimer</span></li>
+            <li (click)="addEmploye()"><span><i class="fa fa-plus-square" aria-hidden="true"></i>Ajouter</span></li>
+          </ul>
         </li>
 
 
-        <li (click)="goHealthProfessional()">
-          <span><i class="fa fa-stethoscope" aria-hidden="true"></i>Professionnel santé</span>
+        <li>
+          <span (click)="openHealthProfessional()"><i class="fa fa-stethoscope" aria-hidden="true"></i>Professionnel santé</span>
+
+          <ul class="sub-list" *ngIf="subMenu2Visibility">
+            <li><span><i class="fa fa-align-justify" aria-hidden="true"></i>Afficher</span></li>
+            <li><span><i class="fa fa-cog" aria-hidden="true"></i>Modifier</span></li>
+            <li><span><i class="fa fa-eraser" aria-hidden="true"></i>Supprimer</span></li>
+            <li  (click)="addProfessionalHealth()"><span><i class="fa fa-plus-square" aria-hidden="true"></i>Ajouter</span></li>
+          </ul>
         </li>
 
 
