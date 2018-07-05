@@ -14,11 +14,11 @@ export class MenuComponent implements OnInit {
   }
 
 
-goEmploye() {
+  goEmploye() {
 
-  this.router.navigateByUrl('/dashboard/(dashboard-content:add-employe)', { skipLocationChange: true });
+    this.router.navigateByUrl('/dashboard/(dashboard-content:add-employe)', { skipLocationChange: true });
 
-}
+  }
 
 
   goHealthProfessional() {
