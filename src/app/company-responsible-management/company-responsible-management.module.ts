@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { AddEmployeComponent } from './add-employe/add-employe.component';
 import { AddProfessionalHealthComponent } from './add-professional-health/add-professional-health.component';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   imports: [
-    CommonModule
+    HttpClientModule
   ],
   declarations: [AddEmployeComponent, AddProfessionalHealthComponent]
 })

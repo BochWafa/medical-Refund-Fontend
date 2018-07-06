@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import {HttpClientModule} from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -26,6 +27,7 @@ import {CompanyResponsibleManagementModule} from './company-responsible-manageme
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     CompanyResponsibleManagementModule,
     RouterModule,
     AppRoutingModule

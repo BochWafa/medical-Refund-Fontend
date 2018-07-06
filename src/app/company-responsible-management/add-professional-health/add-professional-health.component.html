@@ -1,3 +1,69 @@
-<p>
-  add-professional-health works!
-</p>
+
+<div class="row">
+<div class="card col-sm-8">
+  <div class="card-body">
+    <h4 class="card-title">Ajouter un professionel santé</h4>
+
+
+<br>
+
+    <div class="form-group">
+      <label>Nom du centre:</label>
+      <input type="text" class="form-control" #name>
+    </div>
+
+
+    <div class="form-group">
+      <label>Adresse du centre:</label>
+      <input type="text" class="form-control" #address>
+    </div>
+
+
+    <div class="form-group">
+      <label>Type:</label>
+      <input type="text" class="form-control" #type>
+    </div>
+
+    <div class="form-group">
+    <label>Spécialité:</label>
+    <select class="custom-select" #select>
+      <option selected>Choisir la spécialité</option>
+
+      <option  value="Angiologue">Angiologue</option>
+      <option  value="Cardiologue">Cardiologue</option>
+      <option  value="Cancérologue">Cancérologue</option>
+      <option  value="Dentiste">Dentiste</option>
+      <option  value="Dermatologue">Dermatologue</option>
+      <option  value="Diabétologue">Diabétologue</option>
+      <option  value="Gastro">Gastro</option>
+      <option  value="Gynécologue">Gynécologue</option>
+      <option  value="Neurologue">Neurologue</option>
+      <option  value="Ophtalmologiste">Ophtalmologiste</option>
+      <option  value="OtoRhinoLaryngologiste">OtoRhinoLaryngologiste</option>
+      <option  value="Pneumologue">Pneumologue</option>
+      <option  value="Pharmacien">Pharmacien</option>
+      <option  value="Rhumatologue">Rhumatologue</option>
+      <option  value="Urologue">Urologue</option>
+
+    </select>
+    </div>
+
+    <br>
+    <br>
+
+    <div class="btns">
+    <button class="btn btn-primary" >Annuler</button>
+      &nbsp;
+      &nbsp;
+      &nbsp;
+      &nbsp;
+      <button class="btn btn-primary" (click)="doAdd(name.value, address.value, type.value, select.value)">Valider</button>
+    </div>
+
+
+  </div>
+</div>
+
+</div>
+
+

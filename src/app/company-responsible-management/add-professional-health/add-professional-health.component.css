@@ -1,0 +1,12 @@
+.row{
+  width:1525px;
+
+}
+
+.btns{
+  text-align: center;
+}
+
+.btn btn-primary{
+  margin-left: 100px;
+}
