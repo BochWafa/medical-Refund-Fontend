@@ -11,6 +11,9 @@ import { NotfoundComponent } from './notfound/notfound.component';
 import { HomeComponent } from './home/home.component';
 import {AppRoutingModule} from './app-routing/app-routing.module';
 import {CompanyResponsibleManagementModule} from './company-responsible-management/company-responsible-management.module';
+import {HttpModule} from '@angular/http';
+import {EmployesService} from './employes.service';
+import { AddEmployeComponent } from './company-responsible-management/add-employe/add-employe.component';
 
 
 
@@ -28,9 +31,10 @@ import {CompanyResponsibleManagementModule} from './company-responsible-manageme
     BrowserModule,
     CompanyResponsibleManagementModule,
     RouterModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpModule
   ],
-  providers: [],
+  providers: [EmployesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

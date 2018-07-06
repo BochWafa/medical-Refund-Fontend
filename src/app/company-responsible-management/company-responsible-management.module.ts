@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AddEmployeComponent } from './add-employe/add-employe.component';
+import { ListEmployeComponent } from './list-employe/list-employe.component';
 import { AddProfessionalHealthComponent } from './add-professional-health/add-professional-health.component';
+import {AddEmployeComponent} from './add-employe/add-employe.component';
 
 @NgModule({
   imports: [
     CommonModule
   ],
-  declarations: [AddEmployeComponent, AddProfessionalHealthComponent]
+  declarations: [ListEmployeComponent, AddProfessionalHealthComponent, AddEmployeComponent]
 })
 export class CompanyResponsibleManagementModule { }
