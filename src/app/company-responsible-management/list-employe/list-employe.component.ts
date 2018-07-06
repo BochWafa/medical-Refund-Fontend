@@ -8,7 +8,7 @@ import {EmployesService} from '../../employes.service';
   styleUrls: ['./list-employe.component.css']
 })
 export class ListEmployeComponent implements OnInit {
-employe: Employe[];
+employe: Array<Employe>;
   constructor(private es: EmployesService) { }
 
   ngOnInit() {

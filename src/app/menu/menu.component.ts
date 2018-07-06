@@ -40,7 +40,7 @@ export class MenuComponent implements OnInit {
   }
 
   addProfessionalHealth() {
-    this.router.navigateByUrl('/dashboard/(dashboard-content:add-professional-health)', { skipLocationChange: true });
+    this.router.navigateByUrl('/dashboard/(dashboard-content:add-bulletin)', { skipLocationChange: true });
   }
 
 
