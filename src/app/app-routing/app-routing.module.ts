@@ -15,7 +15,8 @@ const routes: Routes = [
   {path: 'accueil', component: HomeComponent},
   {path: 'dashboard', component: DashboardComponent, children: [
       {path: 'list-employe', component: ListEmployeComponent, outlet: 'dashboard-content'},
-      {path: 'add-professional-health', component: AddProfessionalHealthComponent, outlet: 'dashboard-content'}
+      {path: 'add-professional-health', component: AddProfessionalHealthComponent, outlet: 'dashboard-content'},
+      {path: 'add-employe', component: AddEmployeComponent, outlet: 'dashboard-content'}
     ]},
   {path: 'add-employe', component: AddEmployeComponent},
   {path: '', redirectTo: 'accueil', pathMatch: 'full'},

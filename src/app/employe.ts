@@ -8,6 +8,7 @@ export class Employe {
   cnamSector: string;
   email: string;
 familySituation: string;
+firstName: string;
   name: string;
   password: string;
   registrationNumber: number;

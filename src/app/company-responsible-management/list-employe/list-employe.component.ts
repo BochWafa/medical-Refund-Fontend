@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Employe} from '../../employe';
 import {EmployesService} from '../../employes.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-add-employe',
@@ -9,7 +10,7 @@ import {EmployesService} from '../../employes.service';
 })
 export class ListEmployeComponent implements OnInit {
 employe: Employe[];
-  constructor(private es: EmployesService) { }
+  constructor(private es: EmployesService, private route: Router) { }
 
   ngOnInit() {
     this.es.getAll().subscribe( response => {
@@ -27,4 +28,7 @@ employe: Employe[];
 
 onEdit(id: number) {}
 onInfo(id: number) {}
+goAddEmploye() {
+    this.route.navigateByUrl('/dashboard/(dashboard-content:add-employe)', {skipLocationChange: true});
+}
 }
