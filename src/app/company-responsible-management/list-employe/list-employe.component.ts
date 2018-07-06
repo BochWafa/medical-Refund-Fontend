@@ -13,8 +13,8 @@ employe: Employe[];
   constructor(private es: EmployesService, private route: Router) { }
 
   ngOnInit() {
-    this.es.getAll().subscribe( response => {
-      this.employe = response.json();
+    this.es.getAll().subscribe( (response: Array<Employe>) => {
+      this.employe = response;
     }, error => {console.log(error);
     });
   }

@@ -7,10 +7,6 @@ import {ListEmployeComponent} from '../company-responsible-management/list-emplo
 import {AddProfessionalHealthComponent} from '../company-responsible-management/add-professional-health/add-professional-health.component';
 import {AddEmployeComponent} from '../company-responsible-management/add-employe/add-employe.component';
 
-
-
-
-
 const routes: Routes = [
   {path: 'accueil', component: HomeComponent},
   {path: 'dashboard', component: DashboardComponent, children: [
