@@ -13,7 +13,6 @@ import { HomeComponent } from './home/home.component';
 import {AppRoutingModule} from './app-routing/app-routing.module';
 import {CompanyResponsibleManagementModule} from './company-responsible-management/company-responsible-management.module';
 import {EmployesService} from './employes.service';
-import { AddEmployeComponent } from './company-responsible-management/add-employe/add-employe.component';
 
 @NgModule({
   declarations: [

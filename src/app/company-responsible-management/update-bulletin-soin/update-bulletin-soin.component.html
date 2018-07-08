@@ -1,6 +1,6 @@
-<div class="card" >
+<div class="card" *ngIf="bulletinSoin != null">
   <div class="card-header">
-    <strong>Enregistrer un bulletin de soin</strong>
+    <strong>Modification du Bulletin</strong>
   </div>
   <div class="card-body card-block">
     <form action="" method="post" class="form-horizontal">
@@ -9,16 +9,11 @@
           <label class=" form-control-label">Cin de l'assuré</label>
         </div>
         <div class="col-12 col-md-9">
-          <select name="cin" id="cin" class="form-control">
-            <option value="0"></option>
-            <option value="1">Option #1</option>
-            <option value="2">Option #2</option>
-            <option value="3">Option #3</option>
-          </select>
+          <input type="text" id="cin" name="cin" placeholder="" class="form-control" disabled>
         </div>
       </div>
 
-      <div class="row form-group" *ngIf="infoAssureVisibility">
+      <div class="row form-group">
         <div class="col col-md-3">
           <label for="mat" class=" form-control-label">Numéro de matricule</label>
         </div>
@@ -28,7 +23,7 @@
       </div>
 
 
-      <div class="row form-group" *ngIf="infoAssureVisibility">
+      <div class="row form-group">
         <div class="col col-md-3">
           <label for="name" class=" form-control-label">Nom</label>
         </div>
@@ -39,7 +34,7 @@
 
 
 
-      <div class="row form-group" *ngIf="infoAssureVisibility">
+      <div class="row form-group">
         <div class="col col-md-3">
           <label for="prenom" class=" form-control-label">Prénom</label>
         </div>
@@ -50,13 +45,19 @@
 
 
 
-
       <div class="row form-group">
         <div class="col col-md-3">
           <label class="form-control-label">Ficher PDF</label>
         </div>
-        <div class="col-12 col-md-9">
-          <input type="file" id="filegat" name="filegat" class="inputs" #pdf>
+        <div class="col-12 col-md-9" [hidden]="updatePDF">
+          {{bulletinSoin.urlBulletin}} &nbsp;&nbsp;&nbsp;
+          <button class="btn btn-warning btn-sm" (click)="updatePDF = true">
+            <i class="fa fa-clipboard"></i> &nbsp;
+            Modifier
+          </button>
+        </div>
+        <div class="col-12 col-md-9" [hidden]="!updatePDF">
+          <input type="file"  class="inputs"  #pdf >
         </div>
       </div>
 
@@ -68,15 +69,24 @@
           <label class=" form-control-label">Montant à remboursé (Dinar)</label>
         </div>
         <div class="col-12 col-md-9">
-          <input type="number" id="montant" name="montant" placeholder="" class="form-control" min="0" #montant>
+          <input type="number" id="montant" name="montant"  class="form-control" min="0"  [(ngModel)]="montant">
         </div>
       </div>
 
 
-<div #as></div>
 
 
 
+      <div class="row" style="text-align: center" >
+        <div class="col-12">
+          <button type="button" class="btn btn-warning"  (click)="showArticle()" *ngIf="!showArticles">
+            <i class="fa fa-plus-square"></i>&nbsp; Afficher les articles</button>
+        </div>
+      </div>
+
+      <div #as></div>
+      <span *ngIf="showArticles">
+      <div #as></div>
 
       <div class="row" style="text-align: center" >
         <div class="col-12">
@@ -84,7 +94,7 @@
             <i class="fa fa-plus-square"></i>&nbsp; Ajouter un article médical</button>
         </div>
       </div>
-
+</span>
 
 
 
@@ -94,7 +104,7 @@
     </form>
   </div>
   <div class="card-footer">
-    <button type="submit" class="btn btn-primary btn-sm" (click)="valider(pdf, montant)">
+    <button type="submit" class="btn btn-primary btn-sm" (click)="valider(pdf.files[0],montant.value)">
       <i class="fa fa-dot-circle-o"></i> Valider
     </button>
     &nbsp;&nbsp;&nbsp;

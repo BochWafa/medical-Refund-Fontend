@@ -1,0 +1,37 @@
+<button (click)="goAddBulletinSoin()" class="btn btn-success"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Ajouter un bulletin de soin</button>
+<br>
+<br>
+<div class="table-responsive m-b-40">
+  <table class="table table-borderless table-data3">
+    <thead>
+    <tr>
+      <th>Assuré</th>
+      <th>Piéce jointe</th>
+      <th>Date affiliation</th>
+      <th>Date de validtion</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let b of bulletins">
+      <td>a</td>
+      <td>{{b.urlBulletin}}</td>
+      <td>{{b.dateAffiliation | date:'dd/MM/yyyy'}}</td>
+      <td *ngIf="b.dateValidation !== null">{{b.dateValidation}}</td>
+      <td *ngIf="b.dateValidation == null" class="notValid">n'est pas validé</td>
+
+      <td>
+        <span (click)="onInfo(b.id)"class="clickable" data-toggle="tooltip" title="Détails"><i class="fa fa-file-text"></i></span>
+      </td>
+      <td>
+        <span (click)="onEdit(b.id)"class="clickable" data-toggle="tooltip" title="Modifier"><i class="fas fa-edit"></i></span>
+      </td>
+      <td>
+        <span (click)="onDelete(b.id)"class="clickable" data-toggle="tooltip" title="Supprimer"><i class="fas fa-trash-alt"></i></span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

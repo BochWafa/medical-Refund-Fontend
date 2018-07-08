@@ -1,6 +1,6 @@
-<div class="card">
+<div class="card" >
   <div class="card-header">
-    <strong>Employe</strong> Form
+    <strong>Ajouter</strong> un employé
   </div>
   <div class="card-body card-block">
     <form action="" method="post" class="form-horizontal">
@@ -10,9 +10,8 @@
         </div>
         <div class="col-12 col-md-9">
           <input type="number" id="cin" name="cin" placeholder="Enter Cin..." class="form-control">
-          <br>
           <div class="alert alert-danger">
-              <h6>AAAAAAAAA!! </h6>
+              <h6>CIN doit être composé de 8 nombres </h6>
           </div>
         </div>
       </div>
@@ -106,17 +105,17 @@
 
       <div class="row form-group">
         <div class="col col-md-3">
-          <label for="secteur" class=" form-control-label">Secteur GAT</label>
+          <label for="secteur" class=" form-control-label">Secteur CNAM</label>
         </div>
         <div class="col-12 col-md-9">
-          <input type="text" id="secteur" name="secteur" placeholder="Enter Le Secteur GAT..." class="form-control">
+          <input type="text" id="secteur" name="secteur" placeholder="Enter Le Secteur CNAM..." class="form-control">
         </div>
       </div>
 
 
       <div class="row form-group">
         <div class="col col-md-3">
-          <label for="filegat" class=" form-control-label">Fiche D'Affiliation GAT</label>
+          <label for="filegat" class=" form-control-label">Fiche D'Affiliation CNAM</label>
         </div>
         <div class="col-12 col-md-9">
           <input type="file" id="filegat" name="filegat" class="form-control-file">
@@ -138,19 +137,7 @@
         </div>
       </div>
 
-      <div class="row form-group">
-        <div class="col col-md-3">
-          <label for="societe" class=" form-control-label">Societé</label>
-        </div>
-        <div class="col-12 col-md-9">
-          <select name="societe" id="societe" class="form-control">
-            <option value="0"></option>
-            <option value="1">Option #1</option>
-            <option value="2">Option #2</option>
-            <option value="3">Option #3</option>
-          </select>
-        </div>
-      </div>
+
 
 
 
@@ -158,7 +145,7 @@
   </div>
   <div class="card-footer">
     <button type="submit" class="btn btn-primary btn-sm">
-      <i class="fa fa-dot-circle-o"></i> Submit
+      <i class="fa fa-dot-circle-o"></i> Valider
     </button>
     &nbsp;&nbsp;&nbsp;
     <button type="reset" class="btn btn-danger btn-sm">

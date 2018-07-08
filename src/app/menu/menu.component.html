@@ -9,26 +9,12 @@
       <ul class="list-unstyled navbar__list">
 
         <li>
-          <span (click)="openEmploye()"><i class="fa fa-user-circle" aria-hidden="true"></i>Gestion des utilisateurs</span>
-
-          <ul class="sub-list" *ngIf="subMenu1Visibility">
-            <li><span><i class="fa fa-align-justify" aria-hidden="true"></i>Afficher</span></li>
-            <li><span><i class="fa fa-cog" aria-hidden="true"></i>Modifier</span></li>
-            <li><span><i class="fa fa-eraser" aria-hidden="true"></i>Supprimer</span></li>
-            <li (click)="addEmploye()"><span><i class="fa fa-plus-square" aria-hidden="true"></i>Ajouter</span></li>
-          </ul>
+          <span (click)="listEmploye()"><i class="fa fa-user-circle" aria-hidden="true"></i>Gestion des utilisateurs</span>
         </li>
 
 
         <li>
-          <span (click)="openHealthProfessional()"><i class="fa fa-stethoscope" aria-hidden="true"></i>Bulletin de soin</span>
-
-          <ul class="sub-list" *ngIf="subMenu2Visibility">
-            <li><span><i class="fa fa-align-justify" aria-hidden="true"></i>Afficher</span></li>
-            <li><span><i class="fa fa-cog" aria-hidden="true"></i>Modifier</span></li>
-            <li><span><i class="fa fa-eraser" aria-hidden="true"></i>Supprimer</span></li>
-            <li  (click)="addProfessionalHealth()"><span><i class="fa fa-plus-square" aria-hidden="true"></i>Ajouter</span></li>
-          </ul>
+          <span (click)="listBulletin()"><i class="fa fa-stethoscope" aria-hidden="true"></i>Bulletins de soin</span>
         </li>
 
 
