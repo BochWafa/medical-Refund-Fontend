@@ -9,15 +9,20 @@ import { ListBulletinSoinComponent } from './list-bulletin-soin/list-bulletin-so
 import { ArticleMedicalComponent } from './add-bulletin-soin/article-medical/article-medical.component';
 import {FormsModule} from '@angular/forms';
 import { UpdateBulletinSoinComponent } from './update-bulletin-soin/update-bulletin-soin.component';
+import { ShowBulletinComponent } from './show-bulletin/show-bulletin.component';
+import {MatDialogModule} from '@angular/material';
+
 
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    MatDialogModule
   ],
-  declarations: [AddEmployeComponent, ListEmployeComponent, AddBulletinSoinComponent, ListBulletinSoinComponent, ArticleMedicalComponent, UpdateBulletinSoinComponent]
+  declarations: [AddEmployeComponent, ListEmployeComponent, AddBulletinSoinComponent, ListBulletinSoinComponent, ArticleMedicalComponent,
+    UpdateBulletinSoinComponent, ShowBulletinComponent]
 
 })
 export class CompanyResponsibleManagementModule { }

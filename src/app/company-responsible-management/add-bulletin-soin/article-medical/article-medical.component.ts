@@ -1,4 +1,6 @@
 import {Component, ComponentRef, OnInit} from '@angular/core';
+import {MatDialog} from '@angular/material';
+
 
 @Component({
   selector: 'app-article-medical',
@@ -23,6 +25,8 @@ export class ArticleMedicalComponent implements OnInit {
 
   updateFile = false;
   urlFichier;
+  updateDeleted = false;
+
 
 
 
@@ -41,13 +45,22 @@ export class ArticleMedicalComponent implements OnInit {
   }
 
 
+
+  openAlert() {
+
+
+
+  }
+
   deleteUpdateArticle() {
 
     const index = this.articles.indexOf(this.ref);
-    this.articles.splice(index, 1);
+
+   this.updateDeleted = true;
+
     this.ref.destroy();
 
-    // Il faut ajouter des opérations pour le mis à jour BD etc..
+
   }
 
   uploadFile(file) {

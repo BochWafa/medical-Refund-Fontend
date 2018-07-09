@@ -8,7 +8,7 @@
         <button type="button" class="btn btn-danger float-right mt-1"  (click)="deleteArticle()"  *ngIf="!update">
           <i class="fa fa-remove" style="color:white"></i></button>
 
-        <button type="button" class="btn btn-danger float-right mt-1" (click)="deleteUpdateArticle()"  *ngIf="update">
+        <button type="button" class="btn btn-danger float-right mt-1" (click)="openAlert()"  *ngIf="update">
           <i class="fa fa-remove" style="color:white"></i> &nbsp;Supprimer</button>
       </strong>
     </div>
@@ -78,13 +78,3 @@
     </div>
   </div>
 </div>
-
-
-
-
-
-
-
-
-
-

@@ -30,7 +30,6 @@ export class UpdateBulletinSoinComponent implements OnInit {
   showArticles = false;
   @ViewChild('as', {read: ViewContainerRef}) as;
 
-
   montant = 0;
 
 
@@ -186,6 +185,7 @@ addArticles() {
 
     const files = new Array();
 
+    console.log(this.articles);
     for (const amc of this.articles) {
       if ((amc.instance.update && amc.instance.updateFile) || !amc.instance.update) {
       files.push(amc.instance.pdf);
@@ -242,13 +242,19 @@ addArticles() {
             (e) => console.log(e)
           );
 
+
         } else
+
           if (!this.detectBulletinSoinChange()) {
           am.id = amAncien.id;
+          }
 
-        }
+          if (amc.instance.updateDeleted) {
+            am.active = false;
+          }
 
-        console.log('am : ' + am.id);
+
+
 
         articlesMedical.push(am);
       }

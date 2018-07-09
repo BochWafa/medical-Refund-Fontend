@@ -1,0 +1,85 @@
+
+
+      <h1 class="display-5 my-3">Bulletin de soin</h1>
+
+<br><br>
+
+
+      <div class="au-card au-card-top-countries col-lg-12" id="card">
+        <div class="au-card-inner">
+          <div class="table-responsive">
+            <table class="table table-top-countries">
+              <tbody>
+              <tr>
+                <td>Montant à remboursé</td>
+                <td class="text-right">{{bulletinSoin.montantRembourse}} Dinard</td>
+              </tr>
+              <tr>
+                <td>Fichier PDF</td>
+                <td class="text-right">{{bulletinSoin.urlBulletin}}</td>
+              </tr>
+              <tr>
+                <td>Nom</td>
+                <td class="text-right">Nahdi</td>
+              </tr>
+              <tr>
+                <td>Prénom</td>
+                <td class="text-right">Ghazi</td>
+              </tr>
+              <tr>
+                <td>Matricule</td>
+                <td class="text-right">00000000</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+
+      <br>
+      <br>
+
+      <div *ngFor="let article of bulletinSoin.articleMedicals ; let i = index" class="articles">
+
+        <div class="au-card m-b-30">
+          <div class="au-card-inner">
+
+            <h2 class="title-2 m-b-40">Article Médical {{i+1}}</h2>
+
+
+              <dl>
+                <dt>Libellé</dt>
+                <dd>{{article.libelle}}</dd>
+                </dl>
+
+
+
+                  <dl>
+                    <dt>Description</dt>
+                    <dd>{{article.description}}</dd>
+                  </dl>
+
+
+                <dl>
+                  <dt>Prix</dt>
+                  <dd>{{article.prix}} Dinard</dd>
+                </dl>
+
+           <dl>
+             <dt>Quantité</dt>
+             <dd>{{article.quantite}}</dd>
+           </dl>
+
+              <dl>
+                <dt>Fichier PDF</dt>
+                <dd>{{article.urlFichier}}</dd>
+            </dl>
+
+          </div>
+        </div>
+
+      </div>
+
+
+

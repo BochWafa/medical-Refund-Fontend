@@ -4,6 +4,7 @@ min-height: 440px;
 
 
 #footer{
+  z-index: 20;
   background: #2e2e2e;
 }
 

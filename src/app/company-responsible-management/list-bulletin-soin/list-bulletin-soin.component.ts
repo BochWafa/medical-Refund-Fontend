@@ -34,7 +34,7 @@ export class ListBulletinSoinComponent implements OnInit {
 
 
   onInfo(id) {
-    //
+    this.router.navigateByUrl('/dashboard/(dashboard-content:show-bulletin/' + id + ')', {skipLocationChange: true});
   }
 
   onEdit(id) {
