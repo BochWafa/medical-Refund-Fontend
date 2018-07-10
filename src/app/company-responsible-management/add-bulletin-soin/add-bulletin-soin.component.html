@@ -1,0 +1,105 @@
+<div class="card" >
+  <div class="card-header">
+    <strong>Nouveau bulletin de soin</strong>
+  </div>
+  <div class="card-body card-block">
+    <form action="" method="post" class="form-horizontal">
+      <div class="row form-group">
+        <div class="col col-md-3">
+          <label class=" form-control-label">Cin de l'assuré</label>
+        </div>
+        <div class="col-12 col-md-9">
+          <select name="cin" id="cin" class="form-control">
+            <option value="0"></option>
+            <option value="1">Option #1</option>
+            <option value="2">Option #2</option>
+            <option value="3">Option #3</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row form-group" *ngIf="infoAssureVisibility">
+        <div class="col col-md-3">
+          <label for="mat" class=" form-control-label">Numéro de matricule</label>
+        </div>
+        <div class="col-12 col-md-9">
+          <input type="text" id="mat" name="mat" placeholder="" class="form-control" disabled>
+        </div>
+      </div>
+
+
+      <div class="row form-group" *ngIf="infoAssureVisibility">
+        <div class="col col-md-3">
+          <label for="name" class=" form-control-label">Nom</label>
+        </div>
+        <div class="col-12 col-md-9">
+          <input type="text" id="name" name="name" placeholder="" class="form-control" disabled>
+        </div>
+      </div>
+
+
+
+      <div class="row form-group" *ngIf="infoAssureVisibility">
+        <div class="col col-md-3">
+          <label for="prenom" class=" form-control-label">Prénom</label>
+        </div>
+        <div class="col-12 col-md-9">
+          <input type="email" id="prenom" name="prenom" placeholder="" class="form-control" disabled>
+        </div>
+      </div>
+
+
+
+
+      <div class="row form-group">
+        <div class="col col-md-3">
+          <label class="form-control-label">Ficher PDF</label>
+        </div>
+        <div class="col-12 col-md-9">
+          <input type="file" id="filegat" name="filegat" class="inputs" #pdf>
+        </div>
+      </div>
+
+
+
+
+      <div class="row form-group">
+        <div class="col col-md-3">
+          <label class=" form-control-label">Montant à remboursé (Dinar)</label>
+        </div>
+        <div class="col-12 col-md-9">
+          <input type="number" id="montant" name="montant" placeholder="" class="form-control" min="0" #montant>
+        </div>
+      </div>
+
+
+<div #as></div>
+
+
+
+
+      <div class="row" style="text-align: center" >
+        <div class="col-12">
+          <button type="button" class="btn btn-warning" id="addArticle" (click)="addArticle()">
+            <i class="fa fa-plus-square"></i>&nbsp; Ajouter un article médical</button>
+        </div>
+      </div>
+
+
+
+
+
+
+
+    </form>
+  </div>
+  <div class="card-footer">
+    <button type="submit" class="btn btn-primary btn-sm" (click)="valider(pdf, montant)">
+      <i class="fa fa-dot-circle-o"></i> Valider
+    </button>
+    &nbsp;&nbsp;&nbsp;
+    <button type="reset" class="btn btn-danger btn-sm">
+      <i class="fa fa-ban"></i> Reset
+    </button>
+  </div>
+</div>

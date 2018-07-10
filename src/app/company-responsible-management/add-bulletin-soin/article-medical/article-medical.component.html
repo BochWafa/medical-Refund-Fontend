@@ -1,0 +1,80 @@
+
+<div class="col-md-12">
+  <div class="card border border-primary">
+    <div class="card-header bg-dark">
+      <strong class="card-title text-light">
+        Article Médical
+
+        <button type="button" class="btn btn-danger float-right mt-1"  (click)="deleteArticle()"  *ngIf="!update">
+          <i class="fa fa-remove" style="color:white"></i></button>
+
+        <button type="button" class="btn btn-danger float-right mt-1" (click)="openAlert()"  *ngIf="update">
+          <i class="fa fa-remove" style="color:white"></i> &nbsp;Supprimer</button>
+      </strong>
+    </div>
+    <div class="card-body">
+
+
+
+
+
+      <div class="row form-group">
+        <div class="col col-md-3">
+          <label class=" form-control-label">Libellé</label>
+        </div>
+        <div class="col-12 col-md-9">
+          <input type="text" id="libelle" name="libelle" placeholder="" class="form-control" min="0" [(ngModel)]="libelle" >
+        </div>
+      </div>
+
+
+      <div class="row form-group">
+        <div class="col col-md-3">
+          <label class=" form-control-label">Description</label>
+        </div>
+        <div class="col-12 col-md-9">
+          <textarea id="description" name="description" placeholder="" class="form-control" min="0" [(ngModel)]="description"></textarea>
+        </div>
+      </div>
+
+      <div class="row form-group">
+        <div class="col col-md-3">
+          <label class=" form-control-label">Prix (Dinar)</label>
+        </div>
+        <div class="col-12 col-md-9">
+          <input type="number"  name="" placeholder="" class="form-control" min="0" [(ngModel)]="prix">
+        </div>
+      </div>
+
+      <div class="row form-group">
+        <div class="col col-md-3">
+          <label class=" form-control-label">Quantité</label>
+        </div>
+        <div class="col-12 col-md-9">
+          <input type="number"  name="" placeholder="" class="form-control" min="0" [(ngModel)]="quantite">
+        </div>
+      </div>
+
+      <div class="row form-group" >
+        <div class="col col-md-3">
+          <label class="form-control-label">PDF</label>
+        </div>
+        <div class="col-12 col-md-9" *ngIf="(updateFile && update) || !update">
+          <input type="file"  class="inputs" (change)="uploadFile(file)" #file>
+        </div>
+        <div class="col-12 col-md-9" *ngIf="!updateFile && update">
+          {{urlFichier}} &nbsp;&nbsp;&nbsp;
+          <button type="reset" class="btn btn-warning btn-sm" (click)="updateFile = true">
+            <i class="fa fa-clipboard"></i> &nbsp;
+            Modifier
+          </button>
+        </div>
+      </div>
+
+
+
+
+
+    </div>
+  </div>
+</div>

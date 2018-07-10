@@ -8,8 +8,6 @@ import {Router} from '@angular/router';
 })
 export class MenuComponent implements OnInit {
 
-   subMenu1Visibility = false;
-   subMenu2Visibility = false;
 
   constructor(private router: Router) { }
 
@@ -17,31 +15,20 @@ export class MenuComponent implements OnInit {
   }
 
 
-  openEmploye() {
-
-    this.subMenu2Visibility = false;
-
-    this.subMenu1Visibility = !this.subMenu1Visibility;
-
-  }
-
-  addEmploye() {
+  listEmploye() {
     this.router.navigateByUrl('/dashboard/(dashboard-content:list-assure)', { skipLocationChange: true });
+  }
+
+
+
+  listBulletin() {
+
+    this.router.navigateByUrl('/dashboard/(dashboard-content:add-bulletin)', { skipLocationChange: true });
+
 
   }
 
 
-  openHealthProfessional() {
-
-    this.subMenu1Visibility = false;
-
-    this.subMenu2Visibility = !this.subMenu2Visibility;
-
-  }
-
-  addProfessionalHealth() {
-    this.router.navigateByUrl('/dashboard/(dashboard-content:add-professional-health)', { skipLocationChange: true });
-  }
 
 
 

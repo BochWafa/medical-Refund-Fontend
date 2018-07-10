@@ -1,7 +1,7 @@
 <div *ngIf="mode === 1">
 <div class="card">
   <div class="card-header">
-    <strong>Assure</strong> Form
+    <strong>Ajout</strong> d'un assuré
   </div>
   <div class="card-body card-block">
     <form class="form-horizontal" [formGroup]="form" (ngSubmit)="add()">
@@ -11,9 +11,6 @@
         </div>
         <div class="col-12 col-md-9">
           <input type="number" id="cin"  name="cin" formControlName="cin" placeholder="Entrer Votre Cin..." class="form-control">
-         <div *ngIf="form.get('cin').pending">
-           <i class="fa fa-refresh fa-spin" style="font-size:24px"></i>&nbsp;&nbsp;&nbsp;Vérification de l'unicité...
-         </div>
           <div class="alert alert-danger" *ngIf="(form.get('cin').dirty || form.get('cin').touched) && form.get('cin').invalid">
           <div *ngIf="form.get('cin').errors.required">Le champ <strong>Cin</strong> est obligatoire</div>
           <div *ngIf="form.get('cin').errors.verifyCin">Le champ <strong>Cin</strong> doit être composé de 8 chiffres</div>
@@ -364,8 +361,6 @@
             <label>{{assure.salaire}}</label>
           </div>
         </div>
-
-
         <div class="row form-group">
           <div class="col col-md-3">
             <label for="nc" class=" form-control-label">Nom Du Conjoint: </label>
@@ -374,7 +369,6 @@
             <label>{{assure.nomConjoint }}</label>
           </div>
         </div>
-
         <div class="row form-group">
           <div class="col col-md-3">
             <label for="na" class=" form-control-label">Numéro d'affiliation Cnam: </label>
@@ -383,8 +377,6 @@
             <label>{{assure.numAffiliationCnam}}</label>
           </div>
         </div>
-
-
         <div class="row form-group">
           <div class="col col-md-3">
             <label for="filiere" class=" form-control-label">Filière CNAM: </label>
@@ -393,8 +385,6 @@
             <label>{{assure.filiereCnam}}</label>
           </div>
         </div>
-
-
         <div class="row form-group">
           <div class="col col-md-3">
             <label for="filegat" class=" form-control-label">Fiche D'Affiliation CNAM: </label>
@@ -403,8 +393,6 @@
             <label><a><i class="fa fa-download"></i> Download</a></label>
           </div>
         </div>
-
-
         <div class="row form-group">
           <div class="col col-md-3">
             <label for="role" class=" form-control-label">Rôle: </label>
@@ -413,7 +401,6 @@
             <label>{{assure.role}}</label>
           </div>
         </div>
-
       <button (click)="mode = 1" class="btn btn-success"><i class="fas fa-user-plus"></i>&nbsp;&nbsp;Ajouter un Assuré</button>
 
     </div>
