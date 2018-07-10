@@ -49,7 +49,6 @@ export class ListBulletinSoinComponent implements OnInit {
       (res: string) => {
 
         this.bulletins = this.bulletins.filter((b) => b.id !== id);
-        console.log(this.bulletins);
       },
       (e) => console.log(e)
 

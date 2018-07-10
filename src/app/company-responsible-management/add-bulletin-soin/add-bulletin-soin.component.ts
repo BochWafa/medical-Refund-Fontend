@@ -20,6 +20,11 @@ export class AddBulletinSoinComponent implements OnInit {
    @ViewChild('as', {read: ViewContainerRef}) as;
 
 
+   pdfFile;
+
+   // ngModel
+   montant;
+   pdf;
 
 
 
@@ -43,11 +48,14 @@ export class AddBulletinSoinComponent implements OnInit {
     cr.instance.update = false;
     this.articles.push(cr);
 
+
+
   }
 
 
 
-  valider(pdf, montant) {
+
+  valider(pdf) {
 
 
   this.bulletinSoinService.sendBulletinPDF(pdf.files[0]).subscribe(
@@ -55,7 +63,7 @@ export class AddBulletinSoinComponent implements OnInit {
     (urlFile: string) => {
 
 
-      const bulletin = new BulletinSoin(urlFile, montant.value, 'etat', true);
+      const bulletin = new BulletinSoin(urlFile, this.montant, 'etat', true);
 
 
       this.bulletinSoinService.sendArticlesPDF(this.generateArticleFiles()).subscribe(
@@ -93,7 +101,7 @@ export class AddBulletinSoinComponent implements OnInit {
     const files = new Array();
 
     for (const amc of this.articles) {
-      files.push(amc.instance.pdf);
+      files.push(amc.instance.pdfFile);
     }
 
     return files;
@@ -103,7 +111,7 @@ export class AddBulletinSoinComponent implements OnInit {
     const articlesMedical = new Array<ArticleMedical>();
     for (const amc of this.articles) {
 
-      const am: ArticleMedical = new ArticleMedical(amc.instance.pdf.name, amc.instance.libelle, amc.instance.description,
+      const am: ArticleMedical = new ArticleMedical(amc.instance.pdfFile.name, amc.instance.libelle, amc.instance.description,
         amc.instance.prix, amc.instance.quantite, true);
 
       articlesMedical.push(am);
@@ -111,6 +119,68 @@ export class AddBulletinSoinComponent implements OnInit {
 
     return articlesMedical;
   }
+
+
+
+
+
+  // Validation From
+
+  validForm() {
+
+    if (this.motantValid() && this.PDFValid() && this.articlesValid()) {
+      return true;
+    } else {
+      return false;
+    }
+
+  }
+
+  articlesValid() {
+    let ok = true;
+
+    for (const am of this.articles) {
+      ok =  ok && am.instance.validForm();
+    }
+    return ok;
+  }
+
+  PDFValid() {
+
+    if (this.pdf !== undefined) {
+      const fileExtension = this.pdf.split('.').pop();
+      if (fileExtension.toUpperCase() === 'PDF') {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+
+  }
+
+  motantValid(): boolean {
+
+    if (this.montant !== null && this.montant >= 0 && this.montant <= 999) {
+      return true;
+    } else {
+      return false;
+    }
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -3,7 +3,7 @@
     <strong>Nouveau bulletin de soin</strong>
   </div>
   <div class="card-body card-block">
-    <form action="" method="post" class="form-horizontal">
+    <form action="" method="post" class="form-horizontal" #addBulletinForm>
       <div class="row form-group">
         <div class="col col-md-3">
           <label class=" form-control-label">Cin de l'assuré</label>
@@ -33,7 +33,7 @@
           <label for="name" class=" form-control-label">Nom</label>
         </div>
         <div class="col-12 col-md-9">
-          <input type="text" id="name" name="name" placeholder="" class="form-control" disabled>
+          <input type="text" id="name" name="name"  class="form-control" disabled>
         </div>
       </div>
 
@@ -44,7 +44,7 @@
           <label for="prenom" class=" form-control-label">Prénom</label>
         </div>
         <div class="col-12 col-md-9">
-          <input type="email" id="prenom" name="prenom" placeholder="" class="form-control" disabled>
+          <input type="email" id="prenom" name="prenom"  class="form-control" disabled>
         </div>
       </div>
 
@@ -56,7 +56,10 @@
           <label class="form-control-label">Ficher PDF</label>
         </div>
         <div class="col-12 col-md-9">
-          <input type="file" id="filegat" name="filegat" class="inputs" #pdf>
+          <input type="file"  name="file" class="inputs"  #PDF="ngModel" [(ngModel)]="pdf"  #file>
+          <div class="alert alert-danger" [hidden]="PDF.pristine || PDFValid()">
+            <h6>Le fichier doit avoir l'extension PDF </h6>
+          </div>
         </div>
       </div>
 
@@ -68,7 +71,11 @@
           <label class=" form-control-label">Montant à remboursé (Dinar)</label>
         </div>
         <div class="col-12 col-md-9">
-          <input type="number" id="montant" name="montant" placeholder="" class="form-control" min="0" #montant>
+          <input type="number" id="montant" name="montant"
+                 class="form-control" min="0" max="999" #montantNumber="ngModel" [(ngModel)]="montant"  name="montant">
+          <div class="alert alert-danger" [hidden]="montantNumber.pristine || motantValid()">
+            <h6>Le montant doit être un nombre entre 0 et 999 </h6>
+          </div>
         </div>
       </div>
 
@@ -94,7 +101,7 @@
     </form>
   </div>
   <div class="card-footer">
-    <button type="submit" class="btn btn-primary btn-sm" (click)="valider(pdf, montant)">
+    <button type="submit" class="btn btn-primary btn-sm" (click)="valider(file)" [disabled]="!validForm()">
       <i class="fa fa-dot-circle-o"></i> Valider
     </button>
     &nbsp;&nbsp;&nbsp;

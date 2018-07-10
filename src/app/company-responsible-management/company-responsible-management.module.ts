@@ -10,7 +10,7 @@ import { ArticleMedicalComponent } from './add-bulletin-soin/article-medical/art
 import {FormsModule} from '@angular/forms';
 import { UpdateBulletinSoinComponent } from './update-bulletin-soin/update-bulletin-soin.component';
 import { ShowBulletinComponent } from './show-bulletin/show-bulletin.component';
-import {MatDialogModule} from '@angular/material';
+import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
 
 
 
@@ -18,11 +18,12 @@ import {MatDialogModule} from '@angular/material';
   imports: [
     CommonModule,
     HttpClientModule,
-    FormsModule,
-    MatDialogModule
+    FormsModule
   ],
   declarations: [AddEmployeComponent, ListEmployeComponent, AddBulletinSoinComponent, ListBulletinSoinComponent, ArticleMedicalComponent,
-    UpdateBulletinSoinComponent, ShowBulletinComponent]
+    UpdateBulletinSoinComponent, ShowBulletinComponent, ConfirmDialogComponent],
+
+  entryComponents: [ConfirmDialogComponent]
 
 })
 export class CompanyResponsibleManagementModule { }

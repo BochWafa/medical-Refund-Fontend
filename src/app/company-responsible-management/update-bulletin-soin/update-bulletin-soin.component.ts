@@ -13,6 +13,7 @@ import {BulletinSoin} from '../../entities/bulletin-soin';
 import {ArticleMedicalComponent} from '../add-bulletin-soin/article-medical/article-medical.component';
 import {ArticleMedical} from '../../entities/article-medical';
 import {el} from '@angular/platform-browser/testing/src/browser_util';
+import {AppComponent} from '../../app.component';
 
 @Component({
   selector: 'app-update-bulletin-soin',
@@ -30,6 +31,8 @@ export class UpdateBulletinSoinComponent implements OnInit {
   showArticles = false;
   @ViewChild('as', {read: ViewContainerRef}) as;
 
+  // ngModel
+  pdf;
   montant = 0;
 
 
@@ -64,6 +67,8 @@ export class UpdateBulletinSoinComponent implements OnInit {
     cr.instance.articles = this.articles;
     cr.instance.update = false;
     this.articles.push(cr);
+
+
   }
 
 
@@ -185,10 +190,9 @@ addArticles() {
 
     const files = new Array();
 
-    console.log(this.articles);
     for (const amc of this.articles) {
       if ((amc.instance.update && amc.instance.updateFile) || !amc.instance.update) {
-      files.push(amc.instance.pdf);
+      files.push(amc.instance.pdfFile);
       }
     }
 
@@ -203,7 +207,7 @@ addArticles() {
 
       if (!amc.instance.update) {
 
-        const am: ArticleMedical = new ArticleMedical(amc.instance.pdf.name, amc.instance.libelle, amc.instance.description,
+        const am: ArticleMedical = new ArticleMedical(amc.instance.pdfFile.name, amc.instance.libelle, amc.instance.description,
           amc.instance.prix, amc.instance.quantite, true);
 
         articlesMedical.push(am);
@@ -218,7 +222,7 @@ addArticles() {
             (e) => console.log(e)
           );
 
-        const am: ArticleMedical = new ArticleMedical(amc.instance.pdf.name, amc.instance.libelle, amc.instance.description,
+        const am: ArticleMedical = new ArticleMedical(amc.instance.pdfFile.name, amc.instance.libelle, amc.instance.description,
           amc.instance.prix, amc.instance.quantite, true);
 
         am.bulletinSoins = amAncien.bulletinSoins;
@@ -285,6 +289,75 @@ addArticles() {
 
 
     return change;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // Validation From
+
+  validForm() {
+
+    if (this.motantValid() && this.PDFValid() && this.articlesValid()) {
+      return true;
+    } else {
+      return false;
+    }
+
+  }
+
+  articlesValid() {
+    let ok = true;
+
+    for (const am of this.articles) {
+      ok =  ok && am.instance.validForm();
+    }
+    return ok;
+  }
+
+  PDFValid() {
+
+    if (this.pdf !== undefined) {
+      const fileExtension = this.pdf.split('.').pop();
+      if (fileExtension.toUpperCase() === 'PDF') {
+        return true;
+      } else {
+        return false;
+      }
+
+    } else if (!this.updatePDF) {
+        return true;
+    } else {
+      return false;
+    }
+
+  }
+
+  motantValid(): boolean {
+
+    if (this.montant !== null && this.montant >= 0 && this.montant <= 999) {
+      return true;
+    } else {
+      return false;
+    }
+
   }
 
 

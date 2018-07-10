@@ -57,7 +57,10 @@
           </button>
         </div>
         <div class="col-12 col-md-9" [hidden]="!updatePDF">
-          <input type="file"  class="inputs"  #pdf >
+          <input type="file"  class="inputs"  #pdfFile  #PDF="ngModel" [(ngModel)]="pdf" name="pdf">
+          <div class="alert alert-danger" [hidden]="PDF.pristine || PDFValid()">
+            <h6>Le fichier doit avoir l'extension PDF </h6>
+          </div>
         </div>
       </div>
 
@@ -69,7 +72,10 @@
           <label class=" form-control-label">Montant à remboursé (Dinar)</label>
         </div>
         <div class="col-12 col-md-9">
-          <input type="number" id="montant" name="montant"  class="form-control" min="0"  [(ngModel)]="montant">
+          <input type="number" id="montant" name="montant"  class="form-control" min="0"  #montantNumber [(ngModel)]="montant">
+          <div class="alert alert-danger" [hidden]="montantNumber.pristine || motantValid()">
+            <h6>Le montant doit être un nombre entre 0 et 999 </h6>
+          </div>
         </div>
       </div>
 
@@ -104,7 +110,7 @@
     </form>
   </div>
   <div class="card-footer">
-    <button type="submit" class="btn btn-primary btn-sm" (click)="valider(pdf.files[0])">
+    <button type="submit" class="btn btn-primary btn-sm" (click)="valider(pdfFile.files[0])" [disabled]="!validForm()">
       <i class="fa fa-dot-circle-o"></i> Valider
     </button>
     &nbsp;&nbsp;&nbsp;
@@ -117,4 +123,4 @@
 
 
 
-<div #dialogDiv></div>
+<div #dialog></div>
