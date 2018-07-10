@@ -12,8 +12,9 @@ import { NotfoundComponent } from './notfound/notfound.component';
 import { HomeComponent } from './home/home.component';
 import {AppRoutingModule} from './app-routing/app-routing.module';
 import {CompanyResponsibleManagementModule} from './company-responsible-management/company-responsible-management.module';
-import {EmployesService} from './employes.service';
-import { AddEmployeComponent } from './company-responsible-management/add-employe/add-employe.component';
+import {AssuresService} from './assures.service';
+import { AddAssureComponent } from './company-responsible-management/add-assure/add-assure.component';
+import { ConsultAssureComponent } from './company-responsible-management/consult-assure/consult-assure.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,7 @@ import { AddEmployeComponent } from './company-responsible-management/add-employ
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [EmployesService],
+  providers: [AssuresService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

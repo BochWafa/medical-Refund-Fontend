@@ -1,15 +1,25 @@
 import { NgModule } from '@angular/core';
-import { AddEmployeComponent } from './add-employe/add-employe.component';
+import { AddAssureComponent } from './add-assure/add-assure.component';
 import { AddProfessionalHealthComponent } from './add-professional-health/add-professional-health.component';
 import {HttpClientModule} from '@angular/common/http';
-import {ListEmployeComponent} from './list-employe/list-employe.component';
+import {ListAssureComponent} from './list-assure/list-assure.component';
 import {CommonModule} from '@angular/common';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {EditAssureComponent} from './edit-assure/edit-assure.component';
+import {ConsultAssureComponent} from './consult-assure/consult-assure.component';
 
 @NgModule({
   imports: [
     HttpClientModule,
-    CommonModule
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
-  declarations: [AddEmployeComponent, AddProfessionalHealthComponent, ListEmployeComponent]
+  declarations: [AddAssureComponent,
+    AddProfessionalHealthComponent,
+    ListAssureComponent,
+    EditAssureComponent,
+    ConsultAssureComponent
+  ]
 })
 export class CompanyResponsibleManagementModule { }

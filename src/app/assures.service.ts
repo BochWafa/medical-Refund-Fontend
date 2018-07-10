@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import {Http} from '@angular/http';
 import {HttpClient} from '@angular/common/http';
+import {Assure} from './assure';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EmployesService {
+export class AssuresService {
 url = 'http://localhost:8080/employe';
   constructor(private http: HttpClient) { }
 
@@ -14,5 +15,14 @@ getAll() {
 }
 delete(id: number) {
    return this.http.delete(this.url + '/delete/' + id);
+}
+add(assure) {
+    return this.http.post(this.url + '/create', assure);
+}
+getAssure(id: number) {
+  return this.http.get(this.url + '/get/' + id);
+}
+update(id: number, a: Assure) {
+    return this.http.put(this.url + '/update/' + id, a );
 }
 }
