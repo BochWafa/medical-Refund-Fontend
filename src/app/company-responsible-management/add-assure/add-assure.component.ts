@@ -63,7 +63,10 @@ verifyDateNaissance(control: AbstractControl): ValidationErrors | null {
 
    return {verifyNaissance: null};
 }
-
+onChangeMode() {
+  this.form.reset();
+  this.mode = 1;
+}
 add() {
 this.assure.cin = this.form.value.cin;
   this.assure.cin = this.form.value.cin;
