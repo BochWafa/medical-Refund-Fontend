@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ComponentFactory,
   ComponentFactoryResolver,
@@ -7,13 +8,17 @@ import {
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {BulletinSoinService} from '../services/bulletin-soin.service';
 import {BulletinSoin} from '../../entities/bulletin-soin';
 import {ArticleMedicalComponent} from '../add-bulletin-soin/article-medical/article-medical.component';
 import {ArticleMedical} from '../../entities/article-medical';
-import {el} from '@angular/platform-browser/testing/src/browser_util';
-import {AppComponent} from '../../app.component';
+import * as $ from 'jquery';
+import {Assure} from '../../assure';
+import {AssuresService} from '../../assures.service';
+import {InfoDialogComponent} from '../dialogs/info-dialog/info-dialog.component';
+import {DivDialogService} from '../dialogs/div-dialog.service';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-update-bulletin-soin',
@@ -21,23 +26,38 @@ import {AppComponent} from '../../app.component';
   styleUrls: ['./update-bulletin-soin.component.css'],
   entryComponents: [ArticleMedicalComponent]
 })
-export class UpdateBulletinSoinComponent implements OnInit {
+export class UpdateBulletinSoinComponent implements OnInit, AfterViewInit {
 
-  id: number;
+  cin;
+  numMatricule;
+  nom;
+  prenom;
+  assure: Assure;
+
   bulletinSoin: BulletinSoin;
   updatePDF = false;
 
   articles: Array<ComponentRef<ArticleMedicalComponent>> = new Array<ComponentRef<ArticleMedicalComponent>>();
-  showArticles = false;
+
+
   @ViewChild('as', {read: ViewContainerRef}) as;
+  detector: Subject<boolean> = new Subject<boolean>();
 
   // ngModel
   pdf;
-  montant = 0;
+  montant;
+  numBulletin;
+  montantPharmacie;
+  dateSoin;
 
 
 
-  constructor(private route: ActivatedRoute, private service: BulletinSoinService, private resolver: ComponentFactoryResolver) {
+  articlesChange = false;
+
+
+  constructor(private route: ActivatedRoute, private service: BulletinSoinService,
+                        private resolver: ComponentFactoryResolver, private assureService: AssuresService,
+                            private router: Router, private dialogService: DivDialogService) {
   }
 
   ngOnInit() {
@@ -47,6 +67,13 @@ export class UpdateBulletinSoinComponent implements OnInit {
         (bs: BulletinSoin) => {
           this.bulletinSoin = bs;
           this.montant = bs.montantRembourse;
+          this.numBulletin = bs.numBulletin;
+          this.montantPharmacie = bs.montantPharmacie;
+          this.dateSoin = bs.dateSoin.toString();
+          this.getAssureByBulletinId(id);
+
+          setTimeout(() => this.detector.next(true), 100);
+
           },
         (e) => console.log(e)
       );
@@ -55,6 +82,30 @@ export class UpdateBulletinSoinComponent implements OnInit {
 
 
   }
+
+
+  ngAfterViewInit() {
+    this.detector.subscribe(
+      (v) => this.addArticles()
+    );
+  }
+
+
+
+getAssureByBulletinId(id: number) {
+    this.assureService.getAssureByBulletinId(id).subscribe(
+      (a: Assure) => {
+        if ( a !== null) {
+          this.numMatricule = a.numMatricule;
+          this.nom = a.nom;
+          this.prenom = a.prenom;
+          this.cin = a.cin;
+          this.assure = a;
+        }
+      },
+      (e) => console.log(e)
+    );
+}
 
 
 
@@ -75,38 +126,121 @@ export class UpdateBulletinSoinComponent implements OnInit {
 addArticles() {
   const  factory: ComponentFactory<ArticleMedicalComponent> = this.resolver.resolveComponentFactory(ArticleMedicalComponent);
 
-  for (const a of this.bulletinSoin.articleMedicals) {
-    const cr: ComponentRef<ArticleMedicalComponent> = this.as.createComponent(factory);
-    cr.instance.ref = cr;
-    cr.instance.articles = this.articles;
-    cr.instance.update = true;
-    cr.instance.id = a.id;
-    cr.instance.libelle = a.libelle;
-    cr.instance.description = a.description;
-    cr.instance.prix = a.prix;
-    cr.instance.quantite = a.quantite;
-    cr.instance.urlFichier = a.urlFichier;
-    this.articles.push(cr);
-  }
+
+    for (const a of this.bulletinSoin.articleMedicals) {
+      const cr: ComponentRef<ArticleMedicalComponent> = this.as.createComponent(factory);
+      cr.instance.ref = cr;
+      cr.instance.articles = this.articles;
+      cr.instance.update = true;
+      cr.instance.id = a.id;
+      cr.instance.libelle = a.libelle;
+      cr.instance.description = a.description;
+      cr.instance.prix = a.prix;
+      cr.instance.quantite = a.quantite;
+      cr.instance.urlFichier = a.urlFichier;
+      cr.instance.bulletinArticles = this.bulletinSoin.articleMedicals;
+      cr.instance.bulletinArticle = a;
+      this.articles.push(cr);
+
+      cr.instance.sender.subscribe(
+        (v) => {
+          this.articlesChange = true;
+        }
+      );
+
+    }
+
 }
 
-  showArticle() {
-    this.showArticles = true;
-    this.addArticles();
+
+
+
+
+  sendBulletin(bulletin: BulletinSoin, filesnames) {
+
+
+    if (this.articles.length > 0) {
+      bulletin.articleMedicals = this.generateArticles();
+
+
+      for (let i = 0; i < filesnames.length; i++) {
+
+        for (let j = 0; j < bulletin.articleMedicals.length; j++) {
+          if (bulletin.articleMedicals[j].urlFichier === '') {
+            bulletin.articleMedicals[j].urlFichier = filesnames[i];
+            break;
+          }
+        }
+
+      }
+
+
+      for (const art of bulletin.articleMedicals) {
+        art.id = undefined;
+      }
+
+    }
+
+    this.service.addBulletinSoin(bulletin).subscribe(
+      (result: string) => {
+        if (result === 'ok') {
+          this.succes();
+        }
+      },
+      (e) => console.log(e)
+    );
+
+
   }
+
+
+  sendBulletinWitoutFiles(bulletin: BulletinSoin) {
+
+
+
+      if (this.articles.length > 0) {
+
+
+        bulletin.articleMedicals = this.generateArticles();
+
+
+
+        if (this.articlesChange) {
+          for (const art of bulletin.articleMedicals) {
+            art.id = undefined;
+          }
+        }
+
+      }
+
+
+      this.service.addBulletinSoin(bulletin).subscribe(
+        (result: string) => {
+          if (result === 'ok') {
+            this.succes();
+          }
+        },
+        (e) => console.log(e)
+      );
+
+
+    }
 
 
 
   valider(pdf) {
 
 
-    const bulletin = new BulletinSoin(this.bulletinSoin.urlBulletin, this.montant, this.bulletinSoin.etat, this.bulletinSoin.active);
+    const bulletin = new BulletinSoin(this.numBulletin, this.bulletinSoin.urlBulletin, this.montant, this.montantPharmacie,
+                                          new Date(this.dateSoin), this.bulletinSoin.etat, this.bulletinSoin.active, this.assure);
     bulletin.resultat = this.bulletinSoin.resultat;
     bulletin.dateValidation = this.bulletinSoin.dateValidation;
     bulletin.dateAffiliation = this.bulletinSoin.dateAffiliation;
     bulletin.articleMedicals = this.bulletinSoin.articleMedicals;
     bulletin.bordereaux = this.bulletinSoin.bordereaux;
-    bulletin.assures = this.bulletinSoin.assures;
+
+
+
 
     if (this.updatePDF) {
 
@@ -116,25 +250,26 @@ addArticles() {
       );
 
       this.service.sendBulletinPDF(pdf).subscribe(
-        (urlFile: string) => {
+        (fileName: string) => {
 
-          bulletin.urlBulletin = urlFile;
+          bulletin.urlBulletin = fileName;
 
-          this.service.sendArticlesPDF(this.generateArticleFiles()).subscribe(
-            (res: string) => {
+          const files = this.generateArticleFiles();
 
+          if (files.length > 0) {
+            this.service.sendArticlesPDF(this.generateArticleFiles()).subscribe(
+              (filesnames: Array<string>) => {
 
-              bulletin.articleMedicals = this.generateArticles();
-              this.service.addBulletinSoin(bulletin).subscribe(
-                (result: string) => {
-                },
-                (e) => console.log(e)
-              );
+                this.sendBulletin(bulletin, filesnames);
 
-            },
-            (e) => console.log(e)
-          );
+              },
+              (e) => console.log(e)
+            );
+          } else {
 
+          this.sendBulletinWitoutFiles(bulletin);
+
+          }
 
         },
         (e) => console.log(e)
@@ -147,39 +282,61 @@ addArticles() {
     } else {
 
 
+      console.log(this.detectBulletinSoinChange());
+      if ((this.detectBulletinSoinChange() || this.articlesChange) ||
+        (this.articles.length > this.bulletinSoin.articleMedicals.length)) {  // changement ou (+) articles c'est tout
 
-
-      if (this.bulletinSoin.montantRembourse !== this.montant) {
         this.service.deleteById(this.bulletinSoin.id).subscribe(
           (res) => console.log(res),
           (e) => console.log(e)
         );
+
       } else {
         bulletin.id = this.bulletinSoin.id;
       }
 
 
+
       const files = this.generateArticleFiles();
+
       if (files.length > 0) {
+
       this.service.sendArticlesPDF(files).subscribe(
-        (res: string) => {
+        (filesnames: Array<string>) => {
+
+          this.sendBulletin(bulletin, filesnames);
         },
         (e) => console.log(e)
       );
+
+
+
+      } else {
+        this.sendBulletinWitoutFiles(bulletin);
       }
 
 
-      bulletin.articleMedicals = this.generateArticles();
 
-      this.service.addBulletinSoin(bulletin).subscribe(
-        (result: string) => {
-        },
-        (e) => console.log(e)
-      );
 
     }
 
 
+
+
+  }
+
+
+  succes() {
+
+    const factory: ComponentFactory<InfoDialogComponent> = this.resolver.resolveComponentFactory(InfoDialogComponent);
+    const infoDialog: ComponentRef<InfoDialogComponent> = this.dialogService.divDialog.createComponent(factory);
+    infoDialog.instance.title = 'Message de confirmation';
+    infoDialog.instance.message = 'L\'opération a été effectué avec succés';
+    infoDialog.instance.sender.subscribe((v) => {
+        infoDialog.destroy();
+        this.router.navigateByUrl('/dashboard/(dashboard-content:list-bulletin)', {skipLocationChange: true});
+      }
+    );
 
 
   }
@@ -203,11 +360,12 @@ addArticles() {
   generateArticles(): Array<ArticleMedical> {
 
     const articlesMedical = new Array<ArticleMedical>();
+
     for (const amc of this.articles) {
 
       if (!amc.instance.update) {
 
-        const am: ArticleMedical = new ArticleMedical(amc.instance.pdfFile.name, amc.instance.libelle, amc.instance.description,
+        const am: ArticleMedical = new ArticleMedical('', amc.instance.libelle, amc.instance.description,
           amc.instance.prix, amc.instance.quantite, true);
 
         articlesMedical.push(am);
@@ -216,51 +374,42 @@ addArticles() {
 
         const amAncien: ArticleMedical =
           this.bulletinSoin.articleMedicals.filter( amm => amm.id === amc.instance.id)[0];
-
-          this.service.deleteArticleById(amAncien.id).subscribe(
-            (res) => {},
-            (e) => console.log(e)
-          );
-
-        const am: ArticleMedical = new ArticleMedical(amc.instance.pdfFile.name, amc.instance.libelle, amc.instance.description,
+          const am: ArticleMedical = new ArticleMedical('', amc.instance.libelle, amc.instance.description,
           amc.instance.prix, amc.instance.quantite, true);
 
         am.bulletinSoins = amAncien.bulletinSoins;
 
         articlesMedical.push(am);
 
+        this.articlesChange = true;
+
       } else {
 
-        const amAncien: ArticleMedical =
+
+
+          const amAncien: ArticleMedical =
           this.bulletinSoin.articleMedicals.filter( amm => amm.id === amc.instance.id)[0];
 
 
-        const am: ArticleMedical = new ArticleMedical(amAncien.urlFichier, amc.instance.libelle, amc.instance.description,
-          amc.instance.prix, amc.instance.quantite, true);
 
-        am.bulletinSoins = amAncien.bulletinSoins;
+          const am: ArticleMedical = new ArticleMedical(amAncien.urlFichier, amc.instance.libelle, amc.instance.description,
+            amc.instance.prix, amc.instance.quantite, true);
 
-        if (this.detectArticleChange(amAncien, am)) {
-          this.service.deleteArticleById(amAncien.id).subscribe(
-            (res) => {},
-            (e) => console.log(e)
-          );
+          am.bulletinSoins = amAncien.bulletinSoins;
 
 
-        } else
-
-          if (!this.detectBulletinSoinChange()) {
-          am.id = amAncien.id;
+          if (this.detectArticleChange(amAncien, am)) {  // change
+            this.articlesChange = true;
           }
 
-          if (amc.instance.updateDeleted) {
+          if (amc.instance.updateDeleted) { // deleted
             am.active = false;
           }
 
 
+          articlesMedical.push(am);
 
 
-        articlesMedical.push(am);
       }
 
 
@@ -273,13 +422,16 @@ addArticles() {
 
   detectBulletinSoinChange() {
 
-  return  this.bulletinSoin.montantRembourse !== this.montant;
+  return  this.bulletinSoin.montantRembourse !== this.montant || this.bulletinSoin.montantPharmacie !== this.montantPharmacie
+     || this.numBulletin !== this.bulletinSoin.numBulletin || new Date(this.dateSoin) !== new Date(this.dateSoin);
 
   }
 
   detectArticleChange(a1: ArticleMedical, a2: ArticleMedical) {
 
     let change = false;
+
+
 
     if (a1.libelle !== a2.libelle || a1.description !== a2.description
                     || a1.prix !== a2.prix || a1.quantite !== a2.quantite) {
@@ -353,8 +505,69 @@ addArticles() {
   motantValid(): boolean {
 
     if (this.montant !== null && this.montant >= 0 && this.montant <= 999) {
+      $('#montant').removeClass('border border-danger');
       return true;
     } else {
+
+      if (this.montant !== null && this.montant !== undefined && !this.montant.pristine) {
+        $('#montant').addClass('border border-danger');
+      }
+
+
+      return false;
+    }
+
+  }
+
+
+  motantPharmacieValid(): boolean {
+
+    if (this.montantPharmacie !== null && this.montantPharmacie >= 0 && this.montantPharmacie <= 999) {
+      $('#montantPharmacie').removeClass('border border-danger');
+      return true;
+    } else {
+
+      if (this.montantPharmacie !== null && this.montantPharmacie !== undefined && !this.montantPharmacie.pristine) {
+        $('#montantPharmacie').addClass('border border-danger');
+      }
+
+
+      return false;
+    }
+
+  }
+
+
+  numBulletinValid(): boolean {
+    if (this.numBulletin !== null && this.numBulletin >= 0 && this.numBulletin.toString().length === 8) {
+      $('#numBulletin').removeClass('border border-danger');
+      return true;
+    } else {
+
+      if (this.numBulletin !== undefined && !this.numBulletin.pristine) {
+        $('#numBulletin').addClass('border border-danger');
+      }
+
+
+      return false;
+    }
+
+  }
+
+
+
+  dateSoinValid(): boolean {
+
+
+
+    if (this.dateSoin != null && new Date(this.dateSoin).getTime() <= new Date().getTime()) {
+      $('#dateSoin').removeClass('border border-danger');
+      return true;
+    } else {
+
+      if (this.dateSoin !== undefined && !this.dateSoin.pristine) {
+        $('#dateSoin').addClass('border border-danger');
+      }
       return false;
     }
 

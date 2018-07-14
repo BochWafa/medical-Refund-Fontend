@@ -1,53 +1,67 @@
-<div class="card" >
+<div class="card">
   <div class="card-header">
     <strong>Nouveau bulletin de soin</strong>
   </div>
   <div class="card-body card-block">
-    <form action="" method="post" class="form-horizontal" #addBulletinForm>
+    <form action="" method="post" class="form-horizontal">
       <div class="row form-group">
         <div class="col col-md-3">
           <label class=" form-control-label">Cin de l'assuré</label>
         </div>
         <div class="col-12 col-md-9">
-          <select name="cin" id="cin" class="form-control">
-            <option value="0"></option>
-            <option value="1">Option #1</option>
-            <option value="2">Option #2</option>
-            <option value="3">Option #3</option>
+          <select name="cin" id="cin" class="form-control" [(ngModel)]="cin" (change)="getAssure()">
+            <option value="0">Sélectionner un employé</option>
+            <option *ngFor="let a of assures" [value]="a.cin">{{a.cin}}</option>
           </select>
         </div>
       </div>
 
-      <div class="row form-group" *ngIf="infoAssureVisibility">
+      <div [hidden]="hiddenForm()">
+      <div class="row form-group">
         <div class="col col-md-3">
           <label for="mat" class=" form-control-label">Numéro de matricule</label>
         </div>
         <div class="col-12 col-md-9">
-          <input type="text" id="mat" name="mat" placeholder="" class="form-control" disabled>
+          <input type="text" id="mat" name="mat" [value]="numMatricule" class="form-control" disabled>
         </div>
       </div>
 
 
-      <div class="row form-group" *ngIf="infoAssureVisibility">
+      <div class="row form-group">
         <div class="col col-md-3">
           <label for="name" class=" form-control-label">Nom</label>
         </div>
         <div class="col-12 col-md-9">
-          <input type="text" id="name" name="name"  class="form-control" disabled>
+          <input type="text" id="name" name="name" [value]="nom"  class="form-control" disabled>
         </div>
       </div>
 
 
 
-      <div class="row form-group" *ngIf="infoAssureVisibility">
+      <div class="row form-group">
         <div class="col col-md-3">
           <label for="prenom" class=" form-control-label">Prénom</label>
         </div>
         <div class="col-12 col-md-9">
-          <input type="email" id="prenom" name="prenom"  class="form-control" disabled>
+          <input type="email" id="prenom" name="prenom"  [value]="prenom" class="form-control" disabled>
         </div>
       </div>
 
+
+
+        <div class="row form-group">
+          <div class="col col-md-3">
+            <label class=" form-control-label">Numéro Bulletin</label>
+          </div>
+          <div class="col-12 col-md-9" >
+            <input type="number" name="montant"
+                   class="form-control" #numBulletinSoin="ngModel"
+                   [(ngModel)]="numBulletin"  name="numBulletin" id="numBulletin">
+            <div class="alert alert-danger" [hidden]="numBulletinSoin.pristine || numBulletinValid()">
+              <h6>Le numéro de bulletin doit être composé de 8 chiffres </h6>
+            </div>
+          </div>
+        </div>
 
 
 
@@ -70,14 +84,46 @@
         <div class="col col-md-3">
           <label class=" form-control-label">Montant à remboursé (Dinar)</label>
         </div>
-        <div class="col-12 col-md-9">
-          <input type="number" id="montant" name="montant"
-                 class="form-control" min="0" max="999" #montantNumber="ngModel" [(ngModel)]="montant"  name="montant">
+        <div class="col-12 col-md-9" >
+          <input type="number" name="montant"
+                 class="form-control" min="0" max="999" #montantNumber="ngModel"
+                 [(ngModel)]="montant"  name="montant" id="montant">
           <div class="alert alert-danger" [hidden]="montantNumber.pristine || motantValid()">
             <h6>Le montant doit être un nombre entre 0 et 999 </h6>
           </div>
         </div>
       </div>
+
+
+        <div class="row form-group">
+          <div class="col col-md-3">
+            <label class=" form-control-label">Montant pharmacie (Dinard)</label>
+          </div>
+          <div class="col-12 col-md-9" >
+            <input type="number" name="montant"
+                   class="form-control" min="0" max="999" #montantPharmacieB="ngModel"
+                   [(ngModel)]="montantPharmacie"  name="montantPharmacie" id="montantPharmacie">
+            <div class="alert alert-danger" [hidden]="montantPharmacieB.pristine || motantPharmacieValid()">
+              <h6>Le montant doit être un nombre entre 0 et 999 </h6>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="row form-group">
+          <div class="col col-md-3">
+            <label class=" form-control-label">Date de soin</label>
+          </div>
+          <div class="col-12 col-md-9" >
+            <input type="date" name="dateSoin"
+                   class="form-control"  #dateSoinB="ngModel"
+                   [(ngModel)]="dateSoin"  name="dateSoin" id="dateSoin">
+            <div class="alert alert-danger" [hidden]="dateSoinB.pristine || dateSoinValid()">
+              <h6>La date doit être inférieure à la date d'aujourd'hui </h6>
+            </div>
+          </div>
+        </div>
 
 
 <div #as></div>
@@ -94,7 +140,7 @@
 
 
 
-
+</div>
 
 
 
@@ -109,4 +155,5 @@
       <i class="fa fa-ban"></i> Reset
     </button>
   </div>
+
 </div>

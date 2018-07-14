@@ -15,7 +15,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
 
     document.title = 'Cynapsys | Dashboard';
-    this.router.navigateByUrl('/dashboard/(dashboard-content:list-bulletin)', { skipLocationChange: true });
+    this.router.navigateByUrl('/dashboard/(dashboard-content:list-assure)', { skipLocationChange: true });
 
   }
 

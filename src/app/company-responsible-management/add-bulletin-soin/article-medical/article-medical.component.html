@@ -50,7 +50,7 @@
           <label class=" form-control-label">Prix (Dinar)</label>
         </div>
         <div class="col-12 col-md-9">
-          <input type="number"  name="" placeholder="" class="form-control" min="0"
+          <input type="number"  name="prix" id="prix" class="form-control" min="0"
                 #prixA="ngModel" [(ngModel)]="prix">
           <div class="alert alert-danger" [hidden]="prixA.pristine || prixValid()">
             <h6>Le prix doit être entre 0 et 999 </h6>
@@ -63,7 +63,7 @@
           <label class=" form-control-label">Quantité</label>
         </div>
         <div class="col-12 col-md-9">
-          <input type="number"  name="quantite" placeholder="" class="form-control" min="0" max="20"
+          <input type="number"  name="quantite" id="quantite" class="form-control" min="0" max="20"
                 #quantiteA="ngModel" [(ngModel)]="quantite">
           <div class="alert alert-danger" [hidden]="quantiteA.pristine || quantiteValid()">
             <h6>La quantité doit être entre 0 et 10 </h6>
@@ -82,7 +82,8 @@
           </div>
         </div>
         <div class="col-12 col-md-9" *ngIf="!updateFile && update">
-          {{urlFichier}} &nbsp;&nbsp;&nbsp;
+          <a target="_blank" href="http://localhost:8080/bulletin/downloadArticleFile/{{urlFichier}}">
+            <i class="fa fa-download"></i>Télecharger</a>&nbsp;&nbsp;&nbsp;
           <button type="reset" class="btn btn-warning btn-sm" (click)="updateFile = true">
             <i class="fa fa-clipboard"></i> &nbsp;
             Modifier

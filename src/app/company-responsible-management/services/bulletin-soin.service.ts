@@ -14,7 +14,6 @@ export class BulletinSoinService {
   private URL_GET_ALL_BULLETIN = 'http://localhost:8080/bulletin/all';
   private URL_GET_BULLETIN_BY_ID = 'http://localhost:8080/bulletin/';
   private URL_DELETE_BULLETIN = 'http://localhost:8080/bulletin/delete/';
-  private URL_DELETE_ARTICLE = 'http://localhost:8080/bulletin/delete/article/';
 
 
   constructor(private http: HttpClient) { }
@@ -28,7 +27,7 @@ export class BulletinSoinService {
     for (const f of files) {
       formData.append('files', f, f.name);
     }
-    return this.http.post(this.URL_ADD_ARTICLES_PDF, formData, {responseType: 'text'});
+    return this.http.post(this.URL_ADD_ARTICLES_PDF, formData);
   }
 
 
@@ -72,10 +71,6 @@ deleteById(id: number) {
     return this.http.delete(this.URL_DELETE_BULLETIN + id, {responseType: 'text'});
 }
 
-  deleteArticleById(id: number) {
-
-    return this.http.delete(this.URL_DELETE_ARTICLE + id, {responseType: 'text'});
-  }
 
 
 }

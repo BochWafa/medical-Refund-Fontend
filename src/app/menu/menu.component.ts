@@ -16,14 +16,14 @@ export class MenuComponent implements OnInit {
 
 
   listEmploye() {
-    this.router.navigateByUrl('/dashboard/(dashboard-content:list-employe)', { skipLocationChange: true });
+    this.router.navigateByUrl('/dashboard/(dashboard-content:list-assure)', { skipLocationChange: true });
   }
 
 
 
   listBulletin() {
 
-    this.router.navigateByUrl('/dashboard/(dashboard-content:add-bulletin)', { skipLocationChange: true });
+    this.router.navigateByUrl('/dashboard/(dashboard-content:list-bulletin)', {skipLocationChange: true});
 
 
   }

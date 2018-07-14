@@ -1,7 +1,9 @@
 import {Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, OnInit} from '@angular/core';
 import {ConfirmDialogComponent} from '../../dialogs/confirm-dialog/confirm-dialog.component';
 import {DivDialogService} from '../../dialogs/div-dialog.service';
-
+import * as $ from 'jquery';
+import {Subject} from 'rxjs';
+import {ArticleMedical} from '../../../entities/article-medical';
 
 @Component({
   selector: 'app-article-medical',
@@ -35,6 +37,13 @@ export class ArticleMedicalComponent implements OnInit {
 
 
   confirmDialog: ComponentRef<ConfirmDialogComponent>;
+
+
+  sender: Subject<boolean> = new Subject<boolean>();
+
+
+  bulletinArticles: Array<ArticleMedical>;
+  bulletinArticle: ArticleMedical;
 
 
   constructor(private resolver: ComponentFactoryResolver, private confirmDialogService: DivDialogService) { }
@@ -76,7 +85,15 @@ export class ArticleMedicalComponent implements OnInit {
 
     this.updateDeleted = true;
 
+    const index1 = this.articles.indexOf(this.ref);
+    this.articles.splice(index1, 1);
+
+    const index2 = this.bulletinArticles.indexOf(this.bulletinArticle);
+    this.bulletinArticles.splice(index2, 1);
+
+    this.sender.next(true);
     this.ref.destroy();
+
   }
 
 
@@ -103,8 +120,12 @@ export class ArticleMedicalComponent implements OnInit {
 
   libelleValid() {
     if (this.libelle != null && this.libelle.length >= 4 && this.libelle.length <= 40) {
+      $('#libelle').removeClass('border border-danger');
       return true;
     } else {
+      if (this.libelle !== null && this.libelle !== undefined && !this.libelle.pristine) {
+        $('#libelle').addClass('border border-danger');
+      }
       return false;
     }
   }
@@ -112,16 +133,24 @@ export class ArticleMedicalComponent implements OnInit {
 prixValid() {
 
   if (this.prix != null && this.prix >= 0 && this.prix <= 999) {
+    $('#prix').removeClass('border border-danger');
     return true;
   } else {
+    if (this.prix !== null && this.prix !== undefined && !this.prix.pristine) {
+      $('#prix').addClass('border border-danger');
+    }
     return false;
   }
 }
 
 quantiteValid() {
       if (this.quantite != null && this.quantite >= 0 && this.quantite <= 20) {
+        $('#quantite').removeClass('border border-danger');
         return true;
       } else {
+        if (this.quantite !== null && this.quantite !== undefined && !this.quantite.pristine) {
+          $('#quantite').addClass('border border-danger');
+        }
         return false;
       }
   }
@@ -130,8 +159,12 @@ quantiteValid() {
 
   descritionValid() {
     if (this.description != null && this.description.length >= 5 && this.description.length <= 255) {
+      $('#description').removeClass('border border-danger');
       return true;
     } else {
+      if (this.description !== null && this.description !== undefined && !this.description.pristine) {
+        $('#description').addClass('border border-danger');
+      }
       return false;
     }
   }
