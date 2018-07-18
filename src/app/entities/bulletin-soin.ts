@@ -9,7 +9,7 @@ export class BulletinSoin {
    numBulletin: number;
    montantRembourse: number;
    montantPharmacie: number;
-   etat: number;
+   etat: string;
    resultat: string;
    dateValidation: string;
    dateAffiliation: string;

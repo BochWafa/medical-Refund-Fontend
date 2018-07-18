@@ -14,6 +14,8 @@ export class BulletinSoinService {
   private URL_GET_ALL_BULLETIN = 'http://localhost:8080/bulletin/all';
   private URL_GET_BULLETIN_BY_ID = 'http://localhost:8080/bulletin/';
   private URL_DELETE_BULLETIN = 'http://localhost:8080/bulletin/delete/';
+  private URL_VALID_BULLETIN = 'http://localhost:8080/bulletin/validationBulletin/';
+  private URL_GET_BY_BORDEREAU_ID = 'http://localhost:8080/bulletin/byBordereauId/';
 
 
   constructor(private http: HttpClient) { }
@@ -69,6 +71,16 @@ export class BulletinSoinService {
 deleteById(id: number) {
 
     return this.http.delete(this.URL_DELETE_BULLETIN + id, {responseType: 'text'});
+}
+
+
+validBulletin(id: number) {
+    return this.http.get(this.URL_VALID_BULLETIN + id, {responseType: 'text'});
+}
+
+
+getBulletinsByBordereauId(id: number) {
+    return this.http.get<Array<BulletinSoin>>(this.URL_GET_BY_BORDEREAU_ID + id);
 }
 
 

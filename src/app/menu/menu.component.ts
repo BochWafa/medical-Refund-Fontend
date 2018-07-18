@@ -29,8 +29,22 @@ export class MenuComponent implements OnInit {
   }
 
 
+  validerBulletin() {
+    this.router.navigateByUrl('/dashboard/(dashboard-content:valid-bulletin)', {skipLocationChange: true});
+  }
 
 
+  bordoreauList() {
+    this.router.navigateByUrl('/dashboard/(dashboard-content:bordereau-list)', {skipLocationChange: true});
+  }
+
+  bordoreauHistorique() {
+    this.router.navigateByUrl('/dashboard/(dashboard-content:bordereau-historique)', {skipLocationChange: true});
+  }
+
+  parametres() {
+    this.router.navigateByUrl('/dashboard/(dashboard-content:parametres)', {skipLocationChange: true});
+  }
 
 
 

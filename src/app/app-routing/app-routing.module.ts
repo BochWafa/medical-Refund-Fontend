@@ -11,6 +11,10 @@ import {AddBulletinSoinComponent} from '../company-responsible-management/add-bu
 import {ListBulletinSoinComponent} from '../company-responsible-management/list-bulletin-soin/list-bulletin-soin.component';
 import {UpdateBulletinSoinComponent} from '../company-responsible-management/update-bulletin-soin/update-bulletin-soin.component';
 import {ShowBulletinComponent} from '../company-responsible-management/show-bulletin/show-bulletin.component';
+import {BordereauListComponent} from '../company-responsible-management/bordoreau-list/bordereau-list.component';
+import {ParametresGestionnaireComponent} from '../company-responsible-management/parametres-gestionnaire/parametres-gestionnaire.component';
+import {ValidationBulletinComponent} from '../company-responsible-management/validation-bulletin/validation-bulletin.component';
+import {BordereauHistoriqueComponent} from '../company-responsible-management/bordereau-historique/bordereau-historique.component';
 const routes: Routes = [
   {path: 'accueil', component: HomeComponent},
   {path: 'dashboard', component: DashboardComponent, children: [
@@ -21,7 +25,11 @@ const routes: Routes = [
       {path: 'list-bulletin', component: ListBulletinSoinComponent, outlet: 'dashboard-content'},
       {path: 'update-bulletin/:id', component: UpdateBulletinSoinComponent, outlet: 'dashboard-content'},
       {path: 'add-bulletin', component: AddBulletinSoinComponent, outlet: 'dashboard-content'},
-      {path: 'show-bulletin/:id', component: ShowBulletinComponent, outlet: 'dashboard-content'}
+      {path: 'show-bulletin/:id', component: ShowBulletinComponent, outlet: 'dashboard-content'},
+      {path: 'valid-bulletin', component: ValidationBulletinComponent, outlet: 'dashboard-content'},
+      {path: 'bordereau-list', component: BordereauListComponent, outlet: 'dashboard-content'},
+      {path: 'bordereau-historique', component: BordereauHistoriqueComponent, outlet: 'dashboard-content'},
+      {path: 'parametres', component: ParametresGestionnaireComponent, outlet: 'dashboard-content'}
 
     ]},
   {path: '', redirectTo: 'accueil', pathMatch: 'full'},

@@ -10,7 +10,7 @@
         </div>
         <div class="col-12 col-md-9">
           <select name="cin" id="cin" class="form-control" [(ngModel)]="cin" (change)="getAssure()">
-            <option value="0">Sélectionner un employé</option>
+            <option value="0" selected="selected">Sélectionner un employé</option>
             <option *ngFor="let a of assures" [value]="a.cin">{{a.cin}}</option>
           </select>
         </div>

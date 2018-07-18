@@ -13,6 +13,12 @@ import { UpdateBulletinSoinComponent } from './update-bulletin-soin/update-bulle
 import { ShowBulletinComponent } from './show-bulletin/show-bulletin.component';
 import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
 import { InfoDialogComponent } from './dialogs/info-dialog/info-dialog.component';
+import { BordereauListComponent } from './bordoreau-list/bordereau-list.component';
+import { ParametresGestionnaireComponent } from './parametres-gestionnaire/parametres-gestionnaire.component';
+import { DateEnvoiComponent } from './parametres-gestionnaire/date-envoi/date-envoi.component';
+import { ValidationBulletinComponent } from './validation-bulletin/validation-bulletin.component';
+import { BordereauHistoriqueComponent } from './bordereau-historique/bordereau-historique.component';
+import { BordereauElementComponent } from './bordereau-historique/bordereau-element/bordereau-element.component';
 
 
 
@@ -24,7 +30,7 @@ import { InfoDialogComponent } from './dialogs/info-dialog/info-dialog.component
     ReactiveFormsModule
   ],
 
-  entryComponents: [ConfirmDialogComponent, InfoDialogComponent],
+  entryComponents: [ConfirmDialogComponent, InfoDialogComponent, DateEnvoiComponent, BordereauElementComponent],
 
   declarations: [
     AddAssureComponent,
@@ -32,7 +38,9 @@ import { InfoDialogComponent } from './dialogs/info-dialog/info-dialog.component
     EditAssureComponent,
     ConsultAssureComponent,
     AddBulletinSoinComponent, ListBulletinSoinComponent, ArticleMedicalComponent,
-    UpdateBulletinSoinComponent, ShowBulletinComponent, ConfirmDialogComponent, InfoDialogComponent
+    UpdateBulletinSoinComponent, ShowBulletinComponent, ConfirmDialogComponent, InfoDialogComponent,
+    BordereauListComponent, ParametresGestionnaireComponent, DateEnvoiComponent, ValidationBulletinComponent,
+    BordereauHistoriqueComponent, BordereauElementComponent
   ]
 
 

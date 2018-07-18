@@ -1,0 +1,45 @@
+<form action="" method="post" class="form-horizontal">
+
+
+  <div class="row form-inline">
+    <div class="col-12 col-md-2">
+      <label class=" form-control-label">Jour</label>
+    </div>
+    <div class="col-md-2">
+      <select  class="form-control" [(ngModel)]="day" name="day">
+        <option *ngFor="let n of days" [value]="n" >{{n}}</option>
+      </select>
+    </div>
+
+
+
+    <div class="col-md-2">
+      <label class=" form-control-label">Temps</label>
+    </div>
+    <div class="col">
+      <select  class="form-control" [(ngModel)]="hour" name="hour">
+        <ng-container *ngFor="let n of hours">
+          <option *ngIf="n < 10" [value]="n" >0{{n}}</option>
+          <option *ngIf="n >= 10" [value]="n" >{{n}}</option>
+        </ng-container>
+      </select>
+    :
+      <select  class="form-control"  [(ngModel)]="minute" name="minute">
+        <ng-container *ngFor="let n of minutes">
+          <option *ngIf="n < 10" [value]="n" >0{{n}}</option>
+          <option *ngIf="n >= 10" [value]="n" >{{n}}</option>
+        </ng-container>
+      </select>
+      <button type="button" class="btn btn-danger float-right mt-1"  (click)="delete()"  *ngIf="!update">
+        <i class="fa fa-remove" style="color:white"></i></button>
+    </div>
+
+
+
+
+  </div>
+
+
+
+
+</form>

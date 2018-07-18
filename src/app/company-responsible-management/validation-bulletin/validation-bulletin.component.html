@@ -1,4 +1,4 @@
-<button (click)="goAddBulletinSoin()" class="btn btn-success"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Ajouter un bulletin de soin</button>
+<h1 class="display-5 my-3">Bulletins de soin chez GAT</h1>
 <br>
 <br>
 <div class="table-responsive m-b-40">
@@ -12,7 +12,6 @@
       <th>Validtion</th>
       <th></th>
       <th></th>
-      <th></th>
     </tr>
     </thead>
     <tbody>
@@ -22,17 +21,15 @@
         <i class="fa fa-download"></i>Télecharger</a></td>
       <td>{{b.dateAffiliation | date:'dd/MM/yyyy'}}</td>
       <td>{{b.dateSoin | date:'dd/MM/yyyy'}}</td>
-      <td *ngIf="b.dateValidation !== null">{{b.dateValidation | date:'dd/MM/yyyy'}}</td>
+      <td *ngIf="b.dateValidation !== null">{{b.dateValidation}}</td>
       <td *ngIf="b.dateValidation == null" class="notValid">Non validé</td>
 
       <td>
-        <button (click)="onInfo(b.id)"class="clickable" data-toggle="tooltip" title="Détails"><i class="fa fa-file-text"></i></button>
+        <button (click)="onInfo(b.id)"  class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" title="Détails"><i class="fa fa-file-text"></i></button>
       </td>
+
       <td>
-        <button (click)="onEdit(b.id)"class="clickable" data-toggle="tooltip" title="Modifier"><i class="fas fa-edit"></i></button>
-      </td>
-      <td>
-        <button (click)="onDelete(b.id)"class="clickable" data-toggle="tooltip" title="Supprimer"><i class="fas fa-trash-alt"></i></button>
+        <button (click)="onValid(b.id)" class="btn btn-outline-success btn-sm" data-toggle="tooltip" title="Valider"><i class="fa fa-check-circle"></i></button>
       </td>
     </tr>
     </tbody>

@@ -1,7 +1,11 @@
-<button (click)="goAddBulletinSoin()" class="btn btn-success"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Ajouter un bulletin de soin</button>
+<h5 (click)="changeState()" class="clickable">Bordereau Envoyé le  &nbsp;&nbsp;{{dateEnvoi | date:'dd/MM/yyyy'}}
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <i *ngIf="!affiche" class="fa fa-chevron-right"></i>     <i *ngIf="affiche" class="fa fa-chevron-down"></i>
+</h5>
+
 <br>
-<br>
-<div class="table-responsive m-b-40">
+
+<div class="table-responsive m-b-40" [hidden]="!affiche">
   <table class="table table-borderless table-data3">
     <thead>
     <tr>
@@ -10,8 +14,6 @@
       <th>Date Affiliation</th>
       <th>Date Soin</th>
       <th>Validtion</th>
-      <th></th>
-      <th></th>
       <th></th>
     </tr>
     </thead>
@@ -28,12 +30,7 @@
       <td>
         <button (click)="onInfo(b.id)"class="clickable" data-toggle="tooltip" title="Détails"><i class="fa fa-file-text"></i></button>
       </td>
-      <td>
-        <button (click)="onEdit(b.id)"class="clickable" data-toggle="tooltip" title="Modifier"><i class="fas fa-edit"></i></button>
-      </td>
-      <td>
-        <button (click)="onDelete(b.id)"class="clickable" data-toggle="tooltip" title="Supprimer"><i class="fas fa-trash-alt"></i></button>
-      </td>
+
     </tr>
     </tbody>
   </table>

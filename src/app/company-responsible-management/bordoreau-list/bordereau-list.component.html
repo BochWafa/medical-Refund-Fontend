@@ -1,0 +1,33 @@
+<h1 class="display-5 my-3">Bordereau</h1>
+
+<br>
+
+<div class="table-responsive m-b-40">
+  <table class="table table-borderless table-data3">
+    <thead>
+    <tr>
+      <th>Matricule</th>
+      <th>CIN</th>
+      <th>Nom</th>
+      <th>Prénom</th>
+      <th>Montant (Dinar)</th>
+      <th>Piéce jointe</th>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-container *ngFor="let assure of assures">
+      <ng-container *ngFor="let bulletin of assure.bulletinSoins">
+    <tr *ngIf="bulletin.etat === 'En cours'">
+      <td>{{assure.numMatricule}}</td>
+      <td>{{assure.cin}}</td>
+      <td>{{assure.nom}}</td>
+      <td>{{assure.prenom}}</td>
+      <td>{{bulletin.montantRembourse}}</td>
+      <td><a target="_blank" href="http://localhost:8080/bulletin/downloadBulletinFile/{{bulletin.urlBulletin}}">
+        <i class="fa fa-download"></i>Télecharger</a></td>
+    </tr>
+        </ng-container>
+      </ng-container>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,34 @@
+<div class="card">
+  <div class="card-header">
+    <strong>Paramétres</strong>
+  </div>
+
+
+  <div class="card-body card-block">
+
+    <h4 class="pb-2 display-5">Les dates d'envoi des bordoreaux &nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-outline-secondary btn-sm offset-md-3" (click)="setDefaultDates()">Mettre par défaut</button></h4>
+    <br>
+    <br>
+
+    <div #container></div>
+
+    <br>
+    <br>
+
+    <div class="row" style="text-align: center" >
+      <div class="col-12">
+        <button type="button" class="btn btn-warning" *ngIf="datesRef.length < 4" (click)="addDate(1,0,0)">
+          <i class="fa fa-plus-square"></i>&nbsp; Ajouter une date d'envoi</button>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="card-footer">
+    <button type="submit" class="btn btn-primary btn-sm" (click)="valider()" [disabled]="!validForm()">
+      <i class="fa fa-dot-circle-o"></i> Valider
+    </button>
+
+  </div>
+
+</div>
