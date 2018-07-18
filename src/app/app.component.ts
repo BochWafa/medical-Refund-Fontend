@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {DivDialogService} from './company-responsible-management/dialogs/div-dialog.service';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

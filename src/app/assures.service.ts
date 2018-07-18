@@ -6,16 +6,17 @@ import {Assure} from './assure';
   providedIn: 'root'
 })
 export class AssuresService {
-url = 'http://localhost:8080/employe';
+url = 'http://localhost:8080/assure';
   constructor(private http: HttpClient) { }
-
+  addAssure(a: Assure) {
+    return this.http.post(this.url + '/create', a);
+  }
 getAll() {
     return this.http.get(this.url + '/all');
 }
 
-
-delete(id: number) {
-   return this.http.delete(this.url + '/delete/' + id);
+delete(cin: number) {
+  return this.http.delete(this.url + '/delete/' + cin);
 }
 
 
@@ -23,11 +24,14 @@ delete(id: number) {
 add(assure) {
     return this.http.post(this.url + '/create', assure);
 }
-
-
-getAssure(id: number) {
-  return this.http.get(this.url + '/get/' + id);
+getHistory(cin: number) {
+  return this.http.get(this.url + '/history/' + cin);
 }
+getAssure(cin: number) {
+  return this.http.get(this.url + '/get/' + cin);
+}
+
+
 
 getAssureByCIN(cin: number) {
     return this.http.get<Assure>(this.url + '/getByCIN/' + cin);

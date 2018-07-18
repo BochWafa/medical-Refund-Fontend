@@ -2,11 +2,12 @@
   <div class="card-header">
     <strong><i class="fas fa-user"></i>
 
-      &nbsp;&nbsp;&nbsp;Consultation </strong> des coordonnées de l'assuré
+      &nbsp;&nbsp;&nbsp;Consultation </strong> des coordonnées du {{role}}
   </div>
   <div class="card-body card-block">
 
 
+<div *ngIf="assure !== undefined">
 
     <div class="row form-group">
       <div class="col col-md-3">
@@ -16,6 +17,15 @@
         <label>{{assure.cin}}</label>
       </div>
     </div>
+
+    <div class="row form-group">
+        <div class="col col-md-3">
+          <label class=" form-control-label">Date Cin: </label>
+        </div>
+        <div class="col-12 col-md-9">
+          <label>{{assure.dateCin}}</label>
+        </div>
+      </div>
 
     <div class="row form-group">
       <div class="col col-md-3">
@@ -36,8 +46,7 @@
       </div>
     </div>
 
-
-    <div class="row form-group">
+ <div class="row form-group">
       <div class="col col-md-3">
         <label class=" form-control-label">Prénom: </label>
       </div>
@@ -45,6 +54,15 @@
         <label>{{assure.prenom}}</label>
       </div>
     </div>
+
+  <div class="row form-group">
+        <div class="col col-md-3">
+          <label class=" form-control-label">Sexe: </label>
+        </div>
+        <div class="col-12 col-md-9">
+          <label>{{assure.sexe}}</label>
+        </div>
+      </div>
 
     <div class="row form-group">
       <div class="col col-md-3">
@@ -74,6 +92,42 @@
         <label>{{assure.adresse}}</label>
       </div>
     </div>
+
+    <div class="row form-group">
+        <div class="col col-md-3">Date de dernière Modification:</div>
+        <div class="col-12 col-md-9">
+          <label>{{assure.dateDerniereModif}}</label>
+        </div>
+      </div>
+
+      <div class="row form-group">
+          <div class="col col-md-3">Date d'inscription':</div>
+          <div class="col-12 col-md-9">
+            <label>{{assure.dateInscription}}</label>
+          </div>
+        </div>
+
+      <div class="row form-group">
+          <div class="col col-md-3">
+            <label class=" form-control-label">Role: </label>
+          </div>
+          <div class="col-12 col-md-9">
+            <label>{{role}}</label>
+          </div>
+        </div>
+
+
+<div *ngIf="role === 'Assuré'">
+
+
+    <div class="row form-group">
+        <div class="col col-md-3">
+          <label class=" form-control-label">Poste: </label>
+        </div>
+        <div class="col-12 col-md-9">
+          <label>{{assure.poste}}</label>
+        </div>
+      </div>
 
     <div class="row form-group">
       <div class="col col-md-3">
@@ -152,16 +206,9 @@
     </div>
 
 
-    <div class="row form-group">
-      <div class="col col-md-3">
-        <label class=" form-control-label">Rôle: </label>
-      </div>
-      <div class="col-12 col-md-9">
-        <label>{{assure.role}}</label>
-      </div>
-    </div>
 
 
   </div>
-
+</div>
+</div>
 </div>

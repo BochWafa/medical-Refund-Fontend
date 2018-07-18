@@ -3,6 +3,11 @@ import {Assure} from '../../assure';
 import {ActivatedRoute} from '@angular/router';
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {AssuresService} from '../../assures.service';
+import { AdminsService } from '../../admins.service';
+import { GestionnairesService } from '../../gestionnaires.service';
+import { User } from '../../user';
+import { Admin } from '../../Admin';
+import { Gestionnaire } from '../../Gestionnaire';
 
 @Component({
   selector: 'app-edit-assure',
@@ -10,84 +15,156 @@ import {AssuresService} from '../../assures.service';
   styleUrls: ['./edit-assure.component.css']
 })
 export class EditAssureComponent implements OnInit {
-mode: number = 1;
-id: number;
-assure: Assure = new Assure();
+mode = 1;
+cin: number;
+role: string;
+user: any;
 date: Date;
 tab: string[];
-  form = new FormGroup({
-    cin: new FormControl(this.assure.cin ,
-      [Validators.required ,
-        this.verifyCin
-      ] ),
-    numMatricule: new FormControl(this.assure.numMatricule, Validators.required),
-    nom: new FormControl(this.assure.nom, Validators.required),
-    prenom: new FormControl(this.assure.prenom, Validators.required),
-    situationFamiliale: new FormControl(this.assure.situationFamiliale, Validators.required),
-    nomConjoint: new FormControl(),
-    adresse: new FormControl(this.assure.adresse, Validators.required),
-    email: new FormControl(this.assure.email, [Validators.required,
-      Validators.email]),
-    filiereCnam: new FormControl(this.assure.filiereCnam, Validators.required),
-    numAffiliationCnam: new FormControl(this.assure.numAffiliationCnam, Validators.required),
-    urlFichierAffiliation: new FormControl(),
-    dateNaissance: new FormControl(this.assure.dateNaissance,  Validators.required),
-    password: new FormControl(this.assure.password, [Validators.required ,
-      Validators.minLength(4), this.verifyPassword
-    ]),
-    salaire: new FormControl(this.assure.salaire, Validators.required),
-    role: new FormControl(this.assure.role, Validators.required),
-    nbrPersonneEnCharge: new FormControl(this.assure.nbrPersonneEnCharge, Validators.required),
-    nationnalite: new FormControl(this.assure.nationnalite, Validators.required)
-  });
-  verifyCin(control: AbstractControl): ValidationErrors | null {
-    console.log(control.value);
-    if (control.value !== null && control.value.toString().length !== 8) { return {verifyCin: true}; }
-    return null;
+form = new FormGroup({
+  cin: new FormControl('', [Validators.required, this.verifyCin] ),
+  dateCin: new FormControl('', Validators.required ),
+  numMatricule: new FormControl('', [Validators.required, this.verifyPositif]),
+  nom: new FormControl('', Validators.required),
+  prenom: new FormControl('', Validators.required),
+  sexe: new FormControl('', Validators.required),
+  email: new FormControl('', [Validators.required, Validators.email]),
+  adresse: new FormControl('', Validators.required),
+  dateNaissance: new FormControl('',  Validators.required),
+  password: new FormControl('', [Validators.required , Validators.minLength(4), this.verifyPassword]),
+  role: new FormControl(null, Validators.required),
+
+  poste: new FormControl(),
+  situationFamiliale: new FormControl(),
+  nomConjoint: new FormControl(),
+  filiereCnam: new FormControl(),
+  numAffiliationCnam: new FormControl(),
+  urlFichierAffiliation: new FormControl(),
+  salaire: new FormControl(),
+  dateAffiliation: new FormControl(),
+  nbrPersonneEnCharge: new FormControl(),
+  nationnalite: new FormControl()
+});
+testButton() {
+  let test = true;
+  console.log(this.form);
+  if ((this.form.get('role').value === 'Admin' || this.form.get('role').value === 'Gestionnaire') && this.form.valid)  {
+    return false;
+  } else if ( this.form.get('role').value === 'Assuré' && this.form.valid) {
+    if (this.form.get('poste').value !== null &&
+           this.form.get('nationnalite').value !== null &&
+           this.form.get('situationFamiliale').value !== null &&
+           this.form.get('salaire').value !== null &&
+           this.form.get('numAffiliationCnam').value !== null &&
+           this.form.get('filiereCnam').value !== null ) {
+            if (this.form.get('situationFamiliale').value === 'Célibataire' ||
+            (this.form.get('situationFamiliale').value === 'Marié' && (this.form.get('nomConjoint').value !== '' && this.form.get('nomConjoint').value !== null)) ||
+            (this.form.get('situationFamiliale').value === 'MariéEnfant' && (this.form.get('nomConjoint').value !== '' && this.form.get('nomConjoint').value !== null) &&
+             this.form.get('nbrPersonneEnCharge').value !== null)) {
+              test = false; }
+           }
   }
-
-  verifyPassword(control: AbstractControl): ValidationErrors | null {
-    if (control.value === null ) { return null; }
-    if ( !(/\d/.test(control.value.toString()))) {
-      return {verifyPassword: true};
-    }
-    return null;
-  }
-
-  verifyDateNaissance(control: AbstractControl): ValidationErrors | null {
-
-    return {verifyNaissance: null};
-  }
-
-  update() {
-    this.es.update(this.id, this.assure).subscribe((response: Assure) => {
-      console.log('okkkkkkkkkkkkk');
-        this.mode = 2;
-      },
-      error => { console.log('errror: ' + error); });
-  }
-
-
-constructor(private  activatedRoute: ActivatedRoute, private es: AssuresService) {
-
+  return test;
 }
-  ngOnInit() {
-    this.id = this.activatedRoute.snapshot.params['id'];
-    this.es.getAssure(this.id).subscribe( (response: Assure) => {
-      this.assure = response;
-    }, error => {console.log(error); });
+verifyUnicityCin(cin: number) {
+  if (cin) {
+   this.ads.getAdmin(cin).subscribe((response: Admin) => {
+    if (response) {
+      return false;
+    }
+  }, error => {console.log('error' + error); });
+  this.es.getAssure(cin).subscribe((response: Assure) => {
+    if (response) {
+        return false;
+    }
+  });
+  this.gs.getGestionnaire(cin).subscribe((response: Gestionnaire) => {
+    if (response) {
+        return false;
+    }
+  }); }
+  return true;
+}
+verifyPositif(n: AbstractControl): ValidationErrors | null {
+  if (n.value !== null &&  n.value <= 0) {
+    return {verifyPositif: true}; }
+  return null;
+}
+
+verifyCin(control: AbstractControl): ValidationErrors | null {
+if (control.value ) {
+ console.log(control);
+  if (control.value <= 0 || control.value.toString().length !== 8) {
+  return {verifyCin: true}; }
+ }
+return  null;
+}
+verifyPassword(control: AbstractControl): ValidationErrors | null {
+  console.log('password: ' + control.value);
+  if (control.value.length === 0 ) { return null; }
+    if ( !(/^([0-9]+[a-zA-Z]+|[a-zA-Z]+[0-9]+)[0-9a-zA-Z]*$/.test(control.value.toString()))) {
+    return {verifyPassword: true};
+  }
+  return null;
+}
+
+verifyDateNaissance(control: AbstractControl): ValidationErrors | null {
+   return {verifyNaissance: null};
+}
+
+onChangeMode() {
+  this.mode = 1;
+}
+
+updateUser() {
+    if (this.role === 'Assuré') {
+      this.es.update(this.cin, this.user).subscribe(() => {
+        console.log('okkkkkkkkkkkkk');
+          this.mode = 2;
+        },
+        error => { console.log('errror: ' + error); });
+
+      } else if (this.role === 'Admin') {
+      this.ads.update(this.cin, this.user).subscribe(() => {
+         console.log('OKK');
+          this.mode = 2;
+        },
+        error => { console.log('errror: ' + error); });
+
+      } else if (this.role === 'Gestionnaire') {
+      this.gs.update(this.cin, this.user).subscribe(() => {
+        console.log('okkkkkkkkkkkkk');
+          this.mode = 2;
+        },
+        error => { console.log('errror: ' + error); });
+    }
   }
 
 
+constructor(private  activatedRoute: ActivatedRoute,
+ private es: AssuresService,
+ private ads: AdminsService,
+ private gs: GestionnairesService) {
+this.cin = this.activatedRoute.snapshot.params['cin'];
+this.role = this.activatedRoute.snapshot.params['role'];
+if (this.role === 'Assuré') {
+this.es.getAssure(this.cin).subscribe((response: Assure) => {
+  this.user = new Assure();
+  this.user = response;
+});
+} else if (this.role === 'Admin') {
+  this.ads.getAdmin(this.cin).subscribe((response: Admin) => {
+    this.user = new Admin();
+    this.user = response;
+    console.log('user:' + this.user.sexe);
 
-
-
-
-
-
-
-
-
-
-
+  });
+} else if (this.role === 'Gestionnaire') {
+  this.gs.getGestionnaire(this.cin).subscribe((response: Gestionnaire) => {
+    this.user = new Gestionnaire();
+    this.user = response;
+  });
+}
+}
+  ngOnInit() {}
 }

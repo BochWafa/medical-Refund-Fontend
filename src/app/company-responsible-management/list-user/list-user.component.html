@@ -1,0 +1,44 @@
+<button (click)="goAddEmploye()" class="btn btn-success"><i class="fas fa-user-plus"></i>&nbsp;&nbsp;Ajouter un utilisateur</button>
+<br>
+<br>
+<div class="table-responsive m-b-40">
+  <table class="table table-borderless table-data3">
+    <thead>
+    <tr>
+      <th>Cin</th>
+      <th>Nom</th>
+      <th>Prénom</th>
+      <th>Rôle</th>
+      <th>Date de Naissance</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+    </thead>
+    <tr *ngFor="let em of users">
+      <td>{{em.cin}}</td>
+      <td>{{em.nom}}</td>
+      <td>{{em.prenom}}</td>
+      <td id="roleUser">{{em.role}}</td>
+      <td>{{em.dateNaissance}}</td>
+      <td>
+        <button (click)="onInfoUser(em)" class="clickable"><i class="far fa-address-card"></i></button>
+      </td>
+      <td>
+        <button (click)="onEditUser(em)" class="clickable"><i class="fas fa-edit"></i></button>
+      </td>
+      <td>
+        <button (click)="onDeleteUser(em)" class="clickable"><i class="fas fa-trash-alt"></i></button>
+      </td>
+      <td><button (click)="onHistoryUser(em)" class="clickable">
+        <i class="fa fa-history" aria-hidden="true"></i>
+      </button>
+      </td>
+    </tr>
+  </table>
+
+  <br>
+</div>
+
+

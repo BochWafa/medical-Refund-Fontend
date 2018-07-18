@@ -1,3 +1,6 @@
 .notValid{
   color: red;
 }
+.table.table-borderless.table-data3 {
+  width: 900px;
+}

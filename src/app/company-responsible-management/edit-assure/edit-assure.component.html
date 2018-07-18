@@ -1,251 +1,305 @@
-<div *ngIf="mode === 1 ">
-<div class="card">
-  <div class="card-header">
-    <strong>Modification </strong> des coordonnées de l'assuré
-  </div>
-  <div class="card-body card-block">
-    <form class="form-horizontal" [formGroup]="form" (ngSubmit)="update()">
-      <div class="row form-group">
-        <div class="col col-md-3">
-          <label for="cin" class=" form-control-label">Cin</label>
-        </div>
-        <div class="col-12 col-md-9">
-          <input type="number" id="cin"  name="cin" formControlName="cin" placeholder="Entrer Votre Cin..." class="form-control" [(ngModel)]="assure.cin">
-          <div class="alert alert-danger" *ngIf="(form.get('cin').dirty || form.get('cin').touched) && form.get('cin').invalid">
-            <div *ngIf="form.get('cin').errors.required">Le champ <strong>Cin</strong> est obligatoire</div>
-            <div *ngIf="form.get('cin').errors.verifyCin">Le champ <strong>Cin</strong> doit être composé de 8 chiffres</div>
+<div *ngIf="mode === 1 && user !== undefined ">
+  <div class="card">
+    <div class="bg-light card-header">
+      <strong><i class="fas fa-user-plus"></i>&nbsp;&nbsp;&nbsp;Modification des coordonnées</strong> de l'utilisateur
+    </div>
+    <div class="card-body card-block">
+      <form class="form-horizontal" [formGroup]="form" (ngSubmit)="updateUser()">
+
+        <div class="row form-group">
+          <div class="col col-md-3">
+            <label for="cin" class=" form-control-label">Cin</label>
           </div>
-        </div>
-      </div>
+          <div class="col-12 col-md-9">
+            <input type="number" id="cin"  name="cin" formControlName="cin" placeholder="Entrer Votre Cin..." class="form-control" [(ngModel)]="user.cin" disabled>
+            <div class="alert alert-danger" *ngIf="(form.get('cin').dirty || form.get('cin').touched) && form.get('cin').invalid ">
+              <div *ngIf="form.get('cin').errors.required">Le champ <strong>Cin</strong> est obligatoire</div>
+              <div *ngIf="form.get('cin').errors.verifyCin && form.get('cin').dirty">Le champ <strong>Cin</strong> doit être composé de 8 chiffres</div>
 
-      <div class="row form-group">
-        <div class="col col-md-3">
-          <label for="mat" class=" form-control-label">Numéro de matricule</label>
+            </div>
         </div>
-        <div class="col-12 col-md-9">
-          <input type="number" id="mat" name="mat" formControlName="numMatricule" placeholder="Entrer Votre N° De Matriculation..." class="form-control" [(ngModel)]="assure.numMatricule">
-          <div class="alert alert-danger" *ngIf="(form.get('numMatricule').touched || form.get('numMatricule').dirty) && form.get('numMatricule').invalid">
-            <div *ngIf="form.get('numMatricule').errors.required">Le champ <strong>Numéro de matricule</strong> est obligatoire</div>
+        </div>
+
+
+
+        <div class="row form-group">
+          <div class="col col-md-3">
+            <label for="dateCin" class=" form-control-label">Date Cin</label>
           </div>
-        </div>
-      </div>
-
-
-      <div class="row form-group">
-        <div class="col col-md-3">
-          <label for="nom" class=" form-control-label">Nom</label>
-        </div>
-        <div class="col-12 col-md-9">
-          <input type="text" id="nom" name="nom" formControlName="nom" placeholder="Entrer Votre Nom..." class="form-control" [(ngModel)]="assure.nom">
-          <div class="alert alert-danger" *ngIf="form.get('nom').touched && form.get('nom').invalid">
-            Le champ <strong>Nom</strong> est obligatoire
-          </div>
-        </div>
-      </div>
-
-
-      <div class="row form-group">
-        <div class="col col-md-3">
-          <label for="prenom" class=" form-control-label">Prénom</label>
-        </div>
-        <div class="col-12 col-md-9">
-          <input type="text" id="prenom" name="prenom" formControlName="prenom" placeholder="Entrer Votre Prénom..." class="form-control" [(ngModel)]="assure.prenom">
-          <div class="alert alert-danger" *ngIf="form.get('prenom').touched && form.get('prenom').invalid">
-            Le champ <strong>Prénom</strong> est obligatoire
+          <div class="col-12 col-md-9">
+            <input type="date" id="dateCin"  name="dateCin" formControlName="dateCin" placeholder="Entrer La date de Votre Cin..." class="form-control" [(ngModel)]="user.dateCin">
+            <div class="alert alert-danger" *ngIf="(form.get('dateCin').dirty || form.get('dateCin').touched) && form.get('dateCin').invalid">
+              <div *ngIf="form.get('dateCin').errors.required">Le champ <strong>Date Cin</strong> est obligatoire</div>
+            </div>
           </div>
         </div>
 
-      </div>
 
-      <div class="row form-group">
-        <div class="col col-md-3">
-          <label for="email" class=" form-control-label">Email</label>
-        </div>
-        <div class="col-12 col-md-9">
-          <input type="email" id="email" name="email" formControlName="email" placeholder="Entrer Votre Email..." class="form-control" [(ngModel)]="assure.email">
-          <div class="alert alert-danger" *ngIf="(form.get('email').touched || form.get('email').dirty) && form.get('email').invalid ">
-            <div *ngIf="form.get('email').errors.required">Le champ <strong>Email</strong> est obligatoire</div>
-            <div *ngIf="form.get('email').errors.email">Entrer un <strong>email</strong> valide.</div>
+        <div class="row form-group">
+          <div class="col col-md-3">
+            <label for="mat" class=" form-control-label">Numéro de matricule</label>
+          </div>
+          <div class="col-12 col-md-9">
+            <input type="number" id="mat" name="mat" formControlName="numMatricule" placeholder="Entrer Votre N° De Matriculation..." class="form-control" [(ngModel)]="user.numMatricule">
+            <div class="alert alert-danger" *ngIf="(form.get('numMatricule').touched || form.get('numMatricule').dirty) && form.get('numMatricule').invalid">
+              <div *ngIf="form.get('numMatricule').errors.required">Le champ <strong>Numéro de matricule</strong> est obligatoire</div>
+              <div *ngIf="form.get('numMatricule').errors.verifyPositif && form.get('numMatricule').dirty">Entrer un <strong>Numéro de matricule</strong> valide</div>
+            </div>
           </div>
         </div>
 
-      </div>
 
-      <div class="row form-group">
-        <div class="col col-md-3">
-          <label for="pw" class=" form-control-label">Mot de passe</label>
-        </div>
-        <div class="col-12 col-md-9">
-          <input type="password" id="pw" formControlName="password" name="pw" placeholder="Entrer Votre Mot De Passe..." class="form-control" [(ngModel)]="assure.password">
-          <div class="alert alert-danger" *ngIf="(form.get('password').touched || form.get('password').dirty) && form.get('password').invalid">
-            <div *ngIf="form.get('password').errors.required">Le champ <strong>Mot de passe</strong> est obligatoire</div>
-            <div *ngIf="form.get('password').errors.verifyPassword">Le champs <strong>Mot de passe</strong> doit contenir des chiffres.</div>
-            <div *ngIf="form.get('password').errors.minlength">Le champs <strong>Mot de passe </strong> doit être composé de 4 caractères</div>
+        <div class="row form-group">
+          <div class="col col-md-3">
+            <label for="nom" class=" form-control-label">Nom</label>
+          </div>
+          <div class="col-12 col-md-9">
+            <input type="text" id="nom" name="nom" formControlName="nom" placeholder="Entrer Votre Nom..." class="form-control" [(ngModel)]="user.nom">
+            <div class="alert alert-danger" *ngIf="(form.get('nom').touched || form.get('nom').dirty ) && form.get('nom').invalid">
+                    Le champ <strong>Nom</strong> est obligatoire
+            </div>
           </div>
         </div>
-      </div>
 
 
-
-      <div class="row form-group">
-        <div class="col col-md-3">
-          <label for="dn" class=" form-control-label">Date de naissance</label>
-        </div>
-        <div class="col-12 col-md-9">
-          <input type="date" id="dn" name="dn" formControlName="dateNaissance"  placeholder="Entrer Votre Date De Naissance..." class="form-control" [(ngModel)]="assure.dateNaissance">
-          <div class="alert alert-danger" *ngIf="(form.get('dateNaissance').touched || form.get('dateNaissance').dirty) && form.get('dateNaissance').invalid">
-            <div *ngIf="form.get('dateNaissance').errors.required"> Le champ <strong>Date de naissance </strong> est obligatoire.</div>
-            <div *ngIf="form.get('dateNaissance').errors.verifyDateNaissance"> Veuillez entrer une date inférieur à celle d'aujourd'hui</div>
+        <div class="row form-group">
+          <div class="col col-md-3">
+            <label for="prenom" class=" form-control-label">Prénom</label>
+          </div>
+          <div class="col-12 col-md-9">
+            <input type="text" id="prenom" name="prenom" formControlName="prenom" placeholder="Entrer Votre Prénom..." class="form-control" [(ngModel)]="user.prenom">
+            <div class="alert alert-danger" *ngIf="(form.get('prenom').touched || form.get('prenom').dirty)&& form.get('prenom').invalid">
+              Le champ <strong>Prénom</strong> est obligatoire
+            </div>
           </div>
         </div>
-      </div>
 
 
-      <div class="row form-group">
-        <div class="col col-md-3">
-          <label for="address" class=" form-control-label">Adresse</label>
-        </div>
-        <div class="col-12 col-md-9">
-          <input type="text" id="address" name="address" formControlName="adresse" placeholder="Entrer Votre Adresse..." class="form-control" [(ngModel)]="assure.adresse">
-          <div class="alert alert-danger" *ngIf="form.get('adresse').invalid && ( form.get('adresse').touched || form.get('adresse').dirty) ">
-            <div *ngIf="form.get('adresse').errors.required">Le champ <strong>Adresse</strong> est obligatoire</div>
+        <div class="row form-group">
+          <div class="col col-md-3">
+            <label for="role" class=" form-control-label">Sexe</label>
+          </div>
+          <div class="col-12 col-md-9">
+            <select name="sexe" id="sexe" class="form-control" formControlName="sexe" [(ngModel)]="user.sexe">
+              <option selected="user.sexe === 'Femme'" value="Femme">Femme</option>
+              <option selected="user.sexe === 'Homme'" value="Homme">Homme</option>
+            </select>
+            <div class="alert alert-danger" *ngIf="(form.get('sexe').dirty || form.get('sexe').touched) && form.get('sexe').invalid">
+             Le champ <strong>Sexe</strong> est obligatoire
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="row form-group">
-        <div class="col col-md-3">
-          <label for="npc" class=" form-control-label">Nombre De Personne En Charge</label>
-        </div>
-        <div class="col-12 col-md-9">
-          <input type="number" id="npc" formControlName="nbrPersonneEnCharge" name="npc" placeholder="Entrer Le Nombre De Personne En Charge..." class="form-control" [(ngModel)]="assure.nbrPersonneEnCharge">
-          <div class="alert alert-danger" *ngIf="form.get('nbrPersonneEnCharge').invalid && ( form.get('nbrPersonneEnCharge').touched || form.get('nbrPersonneEnCharge').dirty) ">
-            <div *ngIf="form.get('nbrPersonneEnCharge').errors.required">Le champ <strong>Nombre de personne</strong> est obligatoire</div>
+        <div class="row form-group">
+          <div class="col col-md-3">
+            <label for="address" class=" form-control-label">Adresse</label>
+          </div>
+          <div class="col-12 col-md-9">
+            <input type="text" id="address" name="address" formControlName="adresse" placeholder="Entrer Votre Adresse..." class="form-control"[(ngModel)]="user.adresse">
+            <div class="alert alert-danger" *ngIf="form.get('adresse').invalid && ( form.get('adresse').touched || form.get('adresse').dirty) ">
+              Le champ <strong>Adresse</strong> est obligatoire
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="row form-group">
-        <div class="col col-md-3">
-          <label for="nat" class=" form-control-label">Nationnalité</label>
-        </div>
-        <div class="col-12 col-md-9">
-          <input type="text" id="nat" formControlName="nationnalite" name="nat" placeholder="Enter Votre Nationnalité..." class="form-control" [(ngModel)]="assure.nationnalite">
-          <div class="alert alert-danger" *ngIf="form.get('nationnalite').invalid && ( form.get('nationnalite').touched || form.get('nationnalite').dirty) ">
-            <div *ngIf="form.get('nationnalite').errors.required">Le champ <strong>Nationnalité</strong> est obligatoire</div>
+        <div class="row form-group">
+          <div class="col col-md-3">
+            <label for="email" class=" form-control-label">Email</label>
+          </div>
+          <div class="col-12 col-md-9">
+            <input type="email" id="email" name="email" formControlName="email" placeholder="Entrer Votre Email..." class="form-control" [(ngModel)]="user.email">
+            <div class="alert alert-danger" *ngIf="(form.get('email').touched || form.get('email').dirty) && form.get('email').invalid ">
+              <div *ngIf="form.get('email').errors.required">Le champ <strong>Email</strong> est obligatoire</div>
+              <div *ngIf="form.get('email').errors.email">Entrer un <strong>email</strong> valide.</div>
+            </div>
           </div>
         </div>
-      </div>
 
-
-      <div class="row form-group">
-        <div class="col col-md-3">
-          <label for="sf" class=" form-control-label">Situation familiale</label>
-        </div>
-        <div class="col-12 col-md-9">
-          <select name="sf" id="sf" class="form-control" formControlName="situationFamiliale" [(ngModel)]="assure.situationFamiliale">
-            <option value="Marié">Marié</option>
-            <option value="Célibataire">Célibataire</option>
-            <option value="MariéEnfant">Marié avec enfant(s)</option>
-          </select>
-          <div class="alert alert-danger" *ngIf="form.get('situationFamiliale').invalid && ( form.get('situationFamiliale').touched || form.get('situationFamiliale').dirty) ">
-            <div *ngIf="form.get('situationFamiliale').errors.required">Le champ <strong>Situation Familiale</strong> est obligatoire</div>
+        <div class="row form-group">
+          <div class="col col-md-3">
+            <label for="dn" class=" form-control-label">Date de naissance</label>
+          </div>
+          <div class="col-12 col-md-9">
+            <input type="date" id="dn" name="dn" formControlName="dateNaissance"  placeholder="Entrer Votre Date De Naissance..." class="form-control" [(ngModel)]="user.dateNaissance">
+            <div class="alert alert-danger" *ngIf="(form.get('dateNaissance').touched || form.get('dateNaissance').dirty) && form.get('dateNaissance').invalid">
+              <div *ngIf="form.get('dateNaissance').errors.required"> Le champ <strong>Date de naissance </strong> est obligatoire.</div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="row form-group">
-        <div class="col col-md-3">
-          <label for="salaire" class=" form-control-label">Salaire</label>
-        </div>
-        <div class="col-12 col-md-9">
-          <input type="number" id="salaire" formControlName="salaire" name="salaire" placeholder="Enter Salaire..." class="form-control" [(ngModel)]="assure.salaire">
-          <div class="alert alert-danger" *ngIf="form.get('salaire').invalid && ( form.get('salaire').touched || form.get('salaire').dirty) ">
-            <div *ngIf="form.get('salaire').errors.required">Le champ <strong>Salaire</strong> est obligatoire</div>
+        <div class="row form-group">
+          <div class="col col-md-3">
+            <label for="pw" class=" form-control-label">Mot de passe</label>
+          </div>
+          <div class="col-12 col-md-9">
+            <input type="password" id="pw" formControlName="password" name="pw" placeholder="Entrer Votre Mot De Passe..." class="form-control" [(ngModel)]="user.password">
+            <div class="alert alert-danger" *ngIf="(form.get('password').touched || form.get('password').dirty) && form.get('password').invalid">
+              <div *ngIf="form.get('password').errors.required">Le champ <strong>Mot de passe</strong> est obligatoire</div>
+              <div *ngIf="form.get('password').errors.verifyPassword">Le champs <strong>Mot de passe</strong> doit contenir des chiffres et des alphabets.</div>
+              <div *ngIf="form.get('password').errors.minlength">Le champs <strong>Mot de passe </strong> doit être composé de 4 caractères</div>
+            </div>
           </div>
         </div>
-      </div>
 
-
-      <div class="row form-group">
-        <div class="col col-md-3">
-          <label for="nc" class=" form-control-label">Nom Du Conjoint</label>
-        </div>
-        <div class="col-12 col-md-9">
-          <input type="text" id="nc" name="nc" formControlName="nomConjoint" placeholder="Enter Le Nom De Votre Conjoint..." class="form-control" [(ngModel)]="assure.nomConjoint">
-        </div>
-      </div>
-
-      <div class="row form-group">
-        <div class="col col-md-3">
-          <label for="na" class=" form-control-label">Numéro d'affiliation Cnam</label>
-        </div>
-        <div class="col-12 col-md-9">
-          <input type="number" id="na" formControlName="numAffiliationCnam" name="na" placeholder="Enter Votre Numéro d'Affiliation Cnam..." class="form-control" [(ngModel)]="assure.numAffiliationCnam">
-          <div class="alert alert-danger" *ngIf="form.get('numAffiliationCnam').invalid && ( form.get('numAffiliationCnam').touched || form.get('numAffiliationCnam').dirty) ">
-            <div *ngIf="form.get('numAffiliationCnam').errors.required">Le champ <strong>Numéro d'affiliation Cnam</strong> est obligatoire</div>
+        <div class="row form-group">
+          <div class="col col-md-3">
+            <label for="role" class=" form-control-label">Rôle</label>
+          </div>
+          <div class="col-12 col-md-9">
+            <select name="role" id="role" class="form-control" formControlName="role" [(ngModel)]="role" disabled>
+              <option value="Admin" selected="role === 'Admin'" >Administrateur</option>
+              <option value="Gestionnaire" selected="role ==='Gestionnaire'" >Gestionnaire</option>
+              <option value="Assuré" selected="role ==='Assuré'">Assuré</option>
+            </select>
+            <div class="alert alert-danger" *ngIf="form.get('role').invalid && ( form.get('role').touched || form.get('role').dirty) ">
+              <div *ngIf="form.get('role').errors.required">Le champ <strong> Rôle </strong> est obligatoire</div>
+            </div>
           </div>
         </div>
-      </div>
 
 
-      <div class="row form-group">
-        <div class="col col-md-3">
-          <label for="filiere" class=" form-control-label">Filière CNAM</label>
-        </div>
-        <div class="col-12 col-md-9">
-          <select name="filiere" id="filiere" class="form-control" formControlName="filiereCnam" [(ngModel)]="assure.filiereCnam">
-            <option value="Publique" >Publique</option>
-            <option value="Privé">Privé</option>
-            <option value="Remboursement">Remboursement</option>
-          </select>
-          <div class="alert alert-danger" *ngIf="form.get('filiereCnam').invalid && ( form.get('filiereCnam').touched || form.get('filiereCnam').dirty) ">
-            <div *ngIf="form.get('filiereCnam').errors.required">Le champ <strong>Filière Cnam</strong> est obligatoire</div>
+
+        <div *ngIf="form.get('role').value === 'Assuré'">
+
+            <div class="row form-group"  >
+              <div class="col col-md-3">
+                <label for="poste" class=" form-control-label">Poste</label>
+              </div>
+              <div class="col-12 col-md-9">
+                <select name="poste" id="poste" class="form-control" formControlName="poste" [(ngModel)]="user.poste">
+                  <option value="PDG" selected="user.poste === 'PDG'">PDG</option>
+                  <option value="ChefProjet" selected="user.poste === 'ChefProjet'">A</option>
+                  <option value="Développeur" selected="user.poste === 'Développeur'">B</option>
+                  <option value="Commerciale" selected="user.poste === 'Commerciale'">C</option>
+                </select>
+                    <div class="alert alert-danger" *ngIf="form.get('poste').touched && form.get('poste').pristine">
+                        Le champ <strong>Poste</strong> est obligatoire
+                    </div>
+
+              </div>
+            </div>
+
+
+            <div class="row form-group">
+              <div class="col col-md-3">
+                <label for="nat" class=" form-control-label">Nationnalité</label>
+              </div>
+              <div class="col-12 col-md-9">
+                <input type="text" id="nat" formControlName="nationnalite" name="nat" placeholder="Enter Votre Nationnalité..." class="form-control" [(ngModel)]="user.nationnalite">
+                <div class="alert alert-danger" *ngIf="form.get('nationnalite').touched && form.get('nationnalite').pristine">
+                    Le champ <strong>Nationnalité</strong> est obligatoire
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row form-group">
+              <div class="col col-md-3">
+                <label for="sf" class=" form-control-label">Situation familiale</label>
+              </div>
+              <div class="col-12 col-md-9">
+                <select name="sf" id="sf" class="form-control" formControlName="situationFamiliale" [(ngModel)]="user.situationFamiliale">
+                  <option value="Marié" selected="user.situationFamiliale === 'Marié'">Marié</option>
+                  <option value="Célibataire" selected="user.situationFamiliale === 'Célibataire'">Célibataire</option>
+                  <option value="MariéEnfant" selected="user.situationFamiliale === 'MariéEnfant'">Marié avec enfant(s)</option>
+                </select>
+                <div class="alert alert-danger" *ngIf="form.get('situationFamiliale').touched && form.get('situationFamiliale').pristine">
+                    Le champ <strong>Situation Familiale</strong> est obligatoire
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row form-group" *ngIf="form.get('situationFamiliale').value === 'Marié' || form.get('situationFamiliale').value === 'MariéEnfant'">
+              <div class="col col-md-3">
+                <label for="nc" class=" form-control-label">Nom Du Conjoint</label>
+              </div>
+              <div class="col-12 col-md-9">
+                <input type="text" id="nc" name="nc" formControlName="nomConjoint" placeholder="Enter Le Nom De Votre Conjoint..." class="form-control" [(ngModel)]="user.nomConjoint">
+                <div class="alert alert-danger" *ngIf="form.get('nomConjoint').touched && form.get('nomConjoint').pristine">
+                    Le champ <strong>Nom du conjoint</strong> est obligatoire
+                </div>
+            </div>
+            </div>
+
+            <div class="row form-group" *ngIf="form.get('situationFamiliale').value === 'MariéEnfant'">
+              <div class="col col-md-3">
+                <label for="npc" class=" form-control-label">Nombre D'Enfants En Charge</label>
+              </div>
+              <div class="col-12 col-md-9">
+                <input type="number" id="npc" formControlName="nbrPersonneEnCharge" name="npc" placeholder="Entrer Le Nombre De Personne En Charge..." class="form-control" [(ngModel)]="user.nbrPersonneEnCharge">
+
+                <div class="alert alert-danger" *ngIf="form.get('nbrPersonneEnCharge').touched && form.get('nbrPersonneEnCharge').pristine">
+                    Le champ <strong>Nombre de personne(s) en charge</strong> est obligatoire
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row form-group">
+              <div class="col col-md-3">
+                <label for="salaire" class=" form-control-label">Salaire</label>
+              </div>
+              <div class="col-12 col-md-9">
+                <input type="number" id="salaire" formControlName="salaire" name="salaire" placeholder="Enter Salaire..." class="form-control" [(ngModel)]="user.salaire">
+                <div class="alert alert-danger" *ngIf="form.get('salaire').touched && form.get('salaire').pristine">
+                    Le champ <strong>Salaire</strong> est obligatoire
+                </div>
+              </div>
+            </div>
+
+            <div class="row form-group">
+              <div class="col col-md-3">
+                <label for="na" class=" form-control-label">Numéro d'affiliation Cnam</label>
+              </div>
+              <div class="col-12 col-md-9">
+                <input type="number" id="na" formControlName="numAffiliationCnam" name="na" placeholder="Enter Votre numéro d'affiliation CNAM.." class="form-control" [(ngModel)]="user.numAffiliationCnam">
+                <div class="alert alert-danger" *ngIf="form.get('numAffiliationCnam').touched && form.get('numAffiliationCnam').pristine">
+                    Le champ <strong>Numéro d'affiliation Cnam</strong> est obligatoire
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row form-group">
+              <div class="col col-md-3">
+                <label for="filiere" class=" form-control-label">Filière CNAM</label>
+              </div>
+              <div class="col-12 col-md-9">
+                <select name="filiere" id="filiere" class="form-control" formControlName="filiereCnam" [(ngModel)]="user.filiereCnam">
+                  <option value="Publique" selected="user.filiereCnam === 'Publique'">Publique</option>
+                  <option value="Privé" selected="user.filiereCnam === 'Privé'">Privé</option>
+                  <option value="Remboursement" selected="user.filiereCnam === 'Remboursement'">Remboursement</option>
+                </select>
+                <div class="alert alert-danger" *ngIf="form.get('filiereCnam').touched && form.get('filiereCnam').pristine">
+                    Le champ <strong>Filière Cnam</strong> est obligatoire
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row form-group">
+              <div class="col col-md-3">
+                <label for="filegat" class=" form-control-label">Fiche D'Affiliation CNAM</label>
+              </div>
+              <div class="col-12 col-md-9">
+                <input type="file" id="filegat" name="filegat" class="form-control-file" formControlName="urlFichierAffiliation">
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
 
 
-      <div class="row form-group">
-        <div class="col col-md-3">
-          <label for="filegat" class=" form-control-label">Fiche D'Affiliation CNAM</label>
-        </div>
-        <div class="col-12 col-md-9">
-          <input type="file" id="filegat" name="filegat" class="form-control-file" formControlName="urlFichierAffiliation" >
-        </div>
-      </div>
-
-
-      <div class="row form-group">
-        <div class="col col-md-3">
-          <label for="role" class=" form-control-label">Rôle</label>
-        </div>
-        <div class="col-12 col-md-9">
-          <select name="role" id="role" class="form-control" formControlName="role" [(ngModel)]="assure.role">
-            <option value="PDG">PDG</option>
-            <option value="ChefProjet">Chef de projet</option>
-            <option value="Développeur" >Développeur</option>
-            <option value="Commerciale" >Commerciale</option>
-
-          </select>
-          <div class="alert alert-danger" *ngIf="form.get('role').invalid && ( form.get('role').touched || form.get('role').dirty) ">
-            <div *ngIf="form.get('role').errors.required">Le champ <strong> Rôle </strong> est obligatoire</div>
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary btn-sm" [disabled]="testButton()">
+              <i class="fa fa-dot-circle-o"></i> Valider
+            </button>
+            &nbsp;&nbsp;&nbsp;
+            <button type="reset" class="btn btn-danger btn-sm">
+              <i class="fa fa-ban"></i> Reset
+            </button>
           </div>
-        </div>
-      </div>
-
-      <div class="card-footer">
-        <button type="submit" class="btn btn-primary btn-sm" [disabled]="!form.valid">
-          <i class="fa fa-dot-circle-o"></i>  Valider le(s) modification(s)
-        </button>
-        &nbsp;&nbsp;&nbsp;
-        <button type="reset" class="btn btn-danger btn-sm">
-          <i class="fa fa-ban"></i> Reset
-        </button>
-      </div>
-
-    </form>
-  </div>
+      </form>
+    </div>
 </div>
 </div>
 <div *ngIf="mode === 2">
@@ -262,7 +316,7 @@
           <label for="cin" class=" form-control-label">Cin: </label>
         </div>
         <div class="col-12 col-md-9">
-          <label>{{assure.cin}}</label>
+          <label>{{user.cin}}</label>
         </div>
       </div>
 
@@ -271,7 +325,7 @@
           <label for="mat" class=" form-control-label">Numéro de matricule: </label>
         </div>
         <div class="col-12 col-md-9">
-          <label>{{assure.numMatricule}}</label>
+          <label>{{user.numMatricule}}</label>
         </div>
       </div>
 
@@ -281,7 +335,7 @@
           <label for="nom" class=" form-control-label">Nom: </label>
         </div>
         <div class="col-12 col-md-9">
-          <label>{{assure.nom}}</label>
+          <label>{{user.nom}}</label>
         </div>
       </div>
 
@@ -291,7 +345,7 @@
           <label for="prenom" class=" form-control-label">Prénom: </label>
         </div>
         <div class="col-12 col-md-9">
-          <label>{{assure.prenom}}</label>
+          <label>{{user.prenom}}</label>
         </div>
       </div>
 
@@ -300,7 +354,7 @@
           <label for="email" class=" form-control-label">Email: </label>
         </div>
         <div class="col-12 col-md-9">
-          <label>{{assure.email}}</label>
+          <label>{{user.email}}</label>
         </div>
       </div>
 
@@ -310,7 +364,7 @@
           <label for="dn" class=" form-control-label">Date de naissance: </label>
         </div>
         <div class="col-12 col-md-9">
-          <label>{{assure.dateNaissance}}</label>
+          <label>{{user.dateNaissance}}</label>
         </div>
       </div>
 
@@ -320,7 +374,7 @@
           <label for="address" class=" form-control-label">Adresse: </label>
         </div>
         <div class="col-12 col-md-9">
-          <label>{{assure.adresse}}</label>
+          <label>{{user.adresse}}</label>
         </div>
       </div>
 
@@ -329,7 +383,7 @@
           <label for="npc" class=" form-control-label">Nombre De Personne En Charge: </label>
         </div>
         <div class="col-12 col-md-9">
-          <label>{{assure.nbrPersonneEnCharge}}</label>
+          <label>{{user.nbrPersonneEnCharge}}</label>
         </div>
       </div>
 
@@ -338,7 +392,7 @@
           <label for="nat" class=" form-control-label">Nationnalité: &nbsp;&nbsp;&nbsp;&nbsp;</label>
         </div>
         <div class="col-12 col-md-9">
-          <label>{{assure.nationnalite}}</label>
+          <label>{{user.nationnalite}}</label>
         </div>
       </div>
 
@@ -348,7 +402,7 @@
           <label for="sf" class=" form-control-label">Situation familiale: </label>
         </div>
         <div class="col-12 col-md-9">
-          <label>{{assure.situationFamiliale}}</label>
+          <label>{{user.situationFamiliale}}</label>
         </div>
       </div>
 
@@ -357,7 +411,7 @@
           <label for="salaire" class=" form-control-label">Salaire: </label>
         </div>
         <div class="col-12 col-md-9">
-          <label>{{assure.salaire}}</label>
+          <label>{{user.salaire}}</label>
         </div>
       </div>
 
@@ -367,7 +421,7 @@
           <label for="nc" class=" form-control-label">Nom Du Conjoint: </label>
         </div>
         <div class="col-12 col-md-9">
-          <label>{{assure.nomConjoint }}</label>
+          <label>{{user.nomConjoint }}</label>
         </div>
       </div>
 
@@ -376,7 +430,7 @@
           <label for="na" class=" form-control-label">Numéro d'affiliation Cnam: </label>
         </div>
         <div class="col-12 col-md-9">
-          <label>{{assure.numAffiliationCnam}}</label>
+          <label>{{user.numAffiliationCnam}}</label>
         </div>
       </div>
 
@@ -386,7 +440,7 @@
           <label for="filiere" class=" form-control-label">Filière CNAM: </label>
         </div>
         <div class="col-12 col-md-9">
-          <label>{{assure.filiereCnam}}</label>
+          <label>{{user.filiereCnam}}</label>
         </div>
       </div>
 
@@ -406,7 +460,7 @@
           <label for="role" class=" form-control-label">Rôle: </label>
         </div>
         <div class="col-12 col-md-9">
-          <label>{{assure.role}}</label>
+          <label>{{user.role}}</label>
         </div>
       </div>
 
