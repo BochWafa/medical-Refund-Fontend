@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {BulletinSoin} from '../../entities/bulletin-soin';
 import {BulletinSoinService} from '../services/bulletin-soin.service';
+import {Assure} from '../../assure';
+import {AssuresService} from '../../assures.service';
 
 @Component({
   selector: 'app-list-bulletin-soin',
@@ -12,19 +14,48 @@ export class ListBulletinSoinComponent implements OnInit {
 
 
   bulletins: Array<BulletinSoin>;
+  assures: Array<any>;
 
-  constructor(private router: Router, private bulletinSoinService: BulletinSoinService) { }
+  constructor(private router: Router, private bulletinSoinService: BulletinSoinService, private assureService: AssuresService) { }
 
   ngOnInit() {
 
     this.bulletinSoinService.getAllBulletins().subscribe(
-      (result: Array<BulletinSoin>) => this.bulletins = result,
+      (result: Array<BulletinSoin>) => {
+        this.bulletins = result;
+      },
+      (e) => console.log(e)
+
+    );
+
+    this.assureService.getAll().subscribe(
+      (result: Array<any>) => {
+        this.assures = result;
+      },
       (e) => console.log(e)
     );
 
   }
 
 
+
+  findAssureCinByBulletinId(id: number) {
+
+    if (this.assures !== null && this.assures !== undefined) {
+      for (const a of this.assures) {
+
+        for (const b of a.bulletinSoins) {
+
+          if (b.id === id) {
+            return a.cin;
+          }
+
+        }
+      }
+    }
+
+    return null;
+  }
 
   goAddBulletinSoin() {
 
@@ -49,7 +80,6 @@ export class ListBulletinSoinComponent implements OnInit {
       (res: string) => {
 
         this.bulletins = this.bulletins.filter((b) => b.id !== id);
-        console.log(this.bulletins);
       },
       (e) => console.log(e)
 

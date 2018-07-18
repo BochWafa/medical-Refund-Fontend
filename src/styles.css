@@ -1,8 +1,16 @@
 .form-control.ng-touched.ng-invalid {
   border: 2px solid red;}
+
+
+
 .clickable{
   cursor: pointer;
 }
+<<<<<<< HEAD
 .card{
   width: 940px;
 }
+=======
+
+
+>>>>>>> b103967296e41e6e4bdd6aea93e416970a886653

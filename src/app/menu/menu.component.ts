@@ -23,7 +23,7 @@ export class MenuComponent implements OnInit {
 
   listBulletin() {
 
-    this.router.navigateByUrl('/dashboard/(dashboard-content:add-bulletin)', { skipLocationChange: true });
+    this.router.navigateByUrl('/dashboard/(dashboard-content:list-bulletin)', {skipLocationChange: true});
 
 
   }

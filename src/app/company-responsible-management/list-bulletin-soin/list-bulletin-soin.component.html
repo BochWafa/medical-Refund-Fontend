@@ -5,10 +5,11 @@
   <table class="table table-borderless table-data3">
     <thead>
     <tr>
-      <th>Assuré</th>
+      <th>CIN</th>
       <th>Piéce jointe</th>
-      <th>Date affiliation</th>
-      <th>Date de validtion</th>
+      <th>Date Affiliation</th>
+      <th>Date Soin</th>
+      <th>Validtion</th>
       <th></th>
       <th></th>
       <th></th>
@@ -16,20 +17,22 @@
     </thead>
     <tbody>
     <tr *ngFor="let b of bulletins">
-      <td>a</td>
-      <td>{{b.urlBulletin}}</td>
+      <td>{{findAssureCinByBulletinId(b.id)}}</td>
+      <td><a target="_blank" href="http://localhost:8080/bulletin/downloadBulletinFile/{{b.urlBulletin}}">
+        <i class="fa fa-download"></i>Télecharger</a></td>
       <td>{{b.dateAffiliation | date:'dd/MM/yyyy'}}</td>
+      <td>{{b.dateSoin | date:'dd/MM/yyyy'}}</td>
       <td *ngIf="b.dateValidation !== null">{{b.dateValidation}}</td>
-      <td *ngIf="b.dateValidation == null" class="notValid">n'est pas validé</td>
+      <td *ngIf="b.dateValidation == null" class="notValid">Non validé</td>
 
       <td>
-        <span (click)="onInfo(b.id)"class="clickable" data-toggle="tooltip" title="Détails"><i class="fa fa-file-text"></i></span>
+        <button (click)="onInfo(b.id)"class="clickable" data-toggle="tooltip" title="Détails"><i class="fa fa-file-text"></i></button>
       </td>
       <td>
-        <span (click)="onEdit(b.id)"class="clickable" data-toggle="tooltip" title="Modifier"><i class="fas fa-edit"></i></span>
+        <button (click)="onEdit(b.id)"class="clickable" data-toggle="tooltip" title="Modifier"><i class="fas fa-edit"></i></button>
       </td>
       <td>
-        <span (click)="onDelete(b.id)"class="clickable" data-toggle="tooltip" title="Supprimer"><i class="fas fa-trash-alt"></i></span>
+        <button (click)="onDelete(b.id)"class="clickable" data-toggle="tooltip" title="Supprimer"><i class="fas fa-trash-alt"></i></button>
       </td>
     </tr>
     </tbody>

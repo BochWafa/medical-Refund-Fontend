@@ -23,7 +23,11 @@
           <label class=" form-control-label">Libellé</label>
         </div>
         <div class="col-12 col-md-9">
-          <input type="text" id="libelle" name="libelle" placeholder="" class="form-control" min="0" [(ngModel)]="libelle" >
+          <input type="text" id="libelle" name="libelle" maxlength="40" class="form-control" min="0"
+                 [(ngModel)]="libelle" #libelleA="ngModel">
+          <div class="alert alert-danger" [hidden]="libelleA.pristine || libelleValid()">
+            <h6>Libellé doit être de longeur entre 4 et 20 caractéres </h6>
+          </div>
         </div>
       </div>
 
@@ -33,7 +37,11 @@
           <label class=" form-control-label">Description</label>
         </div>
         <div class="col-12 col-md-9">
-          <textarea id="description" name="description" placeholder="" class="form-control" min="0" [(ngModel)]="description"></textarea>
+          <textarea id="description" name="description" placeholder="" class="form-control" min="0"
+                 #descriptionA="ngModel"   [(ngModel)]="description"></textarea>
+          <div class="alert alert-danger" [hidden]="descriptionA.pristine || descritionValid()">
+            <h6>La description doit être de longeur entre 5 et 255 caractéres</h6>
+          </div>
         </div>
       </div>
 
@@ -42,7 +50,11 @@
           <label class=" form-control-label">Prix (Dinar)</label>
         </div>
         <div class="col-12 col-md-9">
-          <input type="number"  name="" placeholder="" class="form-control" min="0" [(ngModel)]="prix">
+          <input type="number"  name="prix" id="prix" class="form-control" min="0"
+                #prixA="ngModel" [(ngModel)]="prix">
+          <div class="alert alert-danger" [hidden]="prixA.pristine || prixValid()">
+            <h6>Le prix doit être entre 0 et 999 </h6>
+          </div>
         </div>
       </div>
 
@@ -51,7 +63,11 @@
           <label class=" form-control-label">Quantité</label>
         </div>
         <div class="col-12 col-md-9">
-          <input type="number"  name="" placeholder="" class="form-control" min="0" [(ngModel)]="quantite">
+          <input type="number"  name="quantite" id="quantite" class="form-control" min="0" max="20"
+                #quantiteA="ngModel" [(ngModel)]="quantite">
+          <div class="alert alert-danger" [hidden]="quantiteA.pristine || quantiteValid()">
+            <h6>La quantité doit être entre 0 et 10 </h6>
+          </div>
         </div>
       </div>
 
@@ -60,10 +76,14 @@
           <label class="form-control-label">PDF</label>
         </div>
         <div class="col-12 col-md-9" *ngIf="(updateFile && update) || !update">
-          <input type="file"  class="inputs" (change)="uploadFile(file)" #file>
+          <input type="file"  name="file" class="inputs"  #PDF="ngModel" [(ngModel)]="pdf"  #file (change)="uploadFile(file)">
+          <div class="alert alert-danger" [hidden]="PDF.pristine || PDFValid()">
+            <h6>Le fichier doit avoir l'extension PDF </h6>
+          </div>
         </div>
         <div class="col-12 col-md-9" *ngIf="!updateFile && update">
-          {{urlFichier}} &nbsp;&nbsp;&nbsp;
+          <a target="_blank" href="http://localhost:8080/bulletin/downloadArticleFile/{{urlFichier}}">
+            <i class="fa fa-download"></i>Télecharger</a>&nbsp;&nbsp;&nbsp;
           <button type="reset" class="btn btn-warning btn-sm" (click)="updateFile = true">
             <i class="fa fa-clipboard"></i> &nbsp;
             Modifier

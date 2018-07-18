@@ -1,4 +1,4 @@
-
+<div *ngIf="bulletinSoin !== null && bulletinSoin !== undefined">
 
       <h1 class="display-5 my-3">Bulletin de soin</h1>
 
@@ -11,24 +11,37 @@
             <table class="table table-top-countries">
               <tbody>
               <tr>
+                <td>Numéro bulletin de soin</td>
+                <td class="text-right">{{bulletinSoin.numBulletin}}</td>
+              </tr>
+              <tr>
                 <td>Montant à remboursé</td>
                 <td class="text-right">{{bulletinSoin.montantRembourse}} Dinard</td>
               </tr>
               <tr>
+                <td>Montant pharmacie</td>
+                <td class="text-right">{{bulletinSoin.montantPharmacie}} Dinard</td>
+              </tr>
+              <tr>
+                <td>Date de soin</td>
+                <td class="text-right">{{bulletinSoin.dateSoin | date:'dd/MM/yyyy'}}</td>
+              </tr>
+              <tr>
                 <td>Fichier PDF</td>
-                <td class="text-right">{{bulletinSoin.urlBulletin}}</td>
+                <td class="text-right"><a target="_blank" href="http://localhost:8080/bulletin/downloadBulletinFile/{{bulletinSoin.urlBulletin}}">
+                  <i class="fa fa-download"></i>Télecharger</a></td>
               </tr>
               <tr>
                 <td>Nom</td>
-                <td class="text-right">Nahdi</td>
+                <td class="text-right">{{findAssureNomByBulletinId(bulletinSoin.id)}}</td>
               </tr>
               <tr>
                 <td>Prénom</td>
-                <td class="text-right">Ghazi</td>
+                <td class="text-right">{{findAssurePrenomByBulletinId(bulletinSoin.id)}}</td>
               </tr>
               <tr>
                 <td>Matricule</td>
-                <td class="text-right">00000000</td>
+                <td class="text-right">{{findAssureMatriculeByBulletinId(bulletinSoin.id)}}</td>
               </tr>
               </tbody>
             </table>
@@ -39,6 +52,7 @@
 
       <br>
       <br>
+
 
       <div *ngFor="let article of bulletinSoin.articleMedicals ; let i = index" class="articles">
 
@@ -73,13 +87,14 @@
 
               <dl>
                 <dt>Fichier PDF</dt>
-                <dd>{{article.urlFichier}}</dd>
+                <dd> <a target="_blank" href="http://localhost:8080/bulletin/downloadArticleFile/{{article.urlFichier}}">
+                  <i class="fa fa-download"></i>Télecharger</a>&nbsp;&nbsp;</dd>
             </dl>
 
           </div>
         </div>
 
       </div>
-
+      </div>
 
 
