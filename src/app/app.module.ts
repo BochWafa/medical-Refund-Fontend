@@ -12,6 +12,10 @@ import { HomeComponent } from './home/home.component';
 import {AppRoutingModule} from './app-routing/app-routing.module';
 import {CompanyResponsibleManagementModule} from './company-responsible-management/company-responsible-management.module';
 import {AssuresService} from './assures.service';
+import {AdminsService} from './admins.service';
+import {UsersService} from './users.service';
+import {GestionnairesService} from './gestionnaires.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,9 +32,8 @@ import {AssuresService} from './assures.service';
     CompanyResponsibleManagementModule,
     RouterModule,
     AppRoutingModule,
-    HttpClientModule
-  ],
-  providers: [AssuresService],
+    HttpClientModule],
+  providers: [AssuresService, UsersService, GestionnairesService, AdminsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

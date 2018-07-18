@@ -16,7 +16,7 @@ export class MenuComponent implements OnInit {
 
 
   listEmploye() {
-    this.router.navigateByUrl('/dashboard/(dashboard-content:list-assure)', { skipLocationChange: true });
+    this.router.navigateByUrl('/dashboard/(dashboard-content:list-user)', { skipLocationChange: true });
   }
 
 

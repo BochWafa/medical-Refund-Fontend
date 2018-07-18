@@ -3,3 +3,6 @@
 .clickable{
   cursor: pointer;
 }
+.card{
+  width: 940px;
+}

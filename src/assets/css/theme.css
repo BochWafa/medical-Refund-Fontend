@@ -4249,7 +4249,7 @@ section {
 }
 
 .table-earning tbody td {
-  color: #808080;
+  color: black;
   padding: 12px 40px;
   white-space: nowrap;
 }
@@ -4260,7 +4260,7 @@ section {
 }
 
 .table-earning tbody tr:hover td {
-  color: #555;
+  color: #black;
   cursor: pointer;
 }
 
@@ -4337,7 +4337,7 @@ section {
 
 .table-style1 .table td {
   font-size: 14px;
-  color: #808080;
+  color: #black;
   border-top: none;
   border-bottom: 1px solid #f2f2f2;
   padding: 12px 6px;
@@ -4352,7 +4352,7 @@ section {
 .table-data thead tr td {
   font-size: 12px;
   font-weight: 600;
-  color: #808080;
+  color: black;
   text-transform: uppercase;
 }
 
@@ -4379,7 +4379,7 @@ section {
 
 .table-data__info h6 {
   font-size: 14px;
-  color: #808080;
+  color: black;
   text-transform: capitalize;
   font-weight: 400;
 }
@@ -4459,7 +4459,7 @@ section {
 }
 
 .table-top-campaign.table tr td:first-child {
-  color: #808080;
+  color: black;
 }
 
 .table-top-campaign.table tr td:last-child {
@@ -4537,7 +4537,7 @@ section {
 
 .table-data2.table tbody td {
   font-size: 14px;
-  color: #808080;
+  color: black;
   vertical-align: middle;
   padding: 25px 40px;
   padding-right: 10px;
@@ -4720,7 +4720,7 @@ section {
   border-bottom: 1px solid #f5f5f5;
   background: #fff;
   font-size: 14px;
-  color: #808080;
+  color: black;
   padding: 12px 40px;
   padding-right: 10px;
 }
