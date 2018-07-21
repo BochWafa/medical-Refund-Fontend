@@ -16,11 +16,16 @@ import {ParametresGestionnaireComponent} from '../company-responsible-management
 import {ValidationBulletinComponent} from '../company-responsible-management/validation-bulletin/validation-bulletin.component';
 import {BordereauHistoriqueComponent} from '../company-responsible-management/bordereau-historique/bordereau-historique.component';
 import { HistoryComponent } from '../company-responsible-management/history/history.component';
+import {LoginComponent} from '../login/login.component';
+import {AuthGuardService} from '../login/auth-guard.service';
+import {ConsutlerBulletinComponent} from '../employe/consutler-bulletin/consutler-bulletin.component';
+import {ReclamationComponent} from '../employe/reclamation/reclamation.component';
 
 
 const routes: Routes = [
   {path: 'accueil', component: HomeComponent},
-  {path: 'dashboard', component: DashboardComponent, children: [
+  {path: 'login', component: LoginComponent},
+  {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService], children: [
       {path: 'list-user', component: ListUserComponent, outlet: 'dashboard-content'},
       {path: 'add-assure', component: AddAssureComponent, outlet: 'dashboard-content'} ,
       {path: 'edit-user/:cin/:role', component: EditAssureComponent, outlet: 'dashboard-content'},
@@ -33,8 +38,11 @@ const routes: Routes = [
       {path: 'valid-bulletin', component: ValidationBulletinComponent, outlet: 'dashboard-content'},
       {path: 'bordereau-list', component: BordereauListComponent, outlet: 'dashboard-content'},
       {path: 'bordereau-historique', component: BordereauHistoriqueComponent, outlet: 'dashboard-content'},
-      {path: 'parametres', component: ParametresGestionnaireComponent, outlet: 'dashboard-content'}
+      {path: 'parametres', component: ParametresGestionnaireComponent, outlet: 'dashboard-content'},
 
+
+      {path: 'consulter', component: ConsutlerBulletinComponent, outlet: 'dashboard-content'},
+      {path: 'reclamation', component: ReclamationComponent, outlet: 'dashboard-content'}
     ]},
   {path: '', redirectTo: 'accueil', pathMatch: 'full'},
   {path: '**', component: NotfoundComponent}

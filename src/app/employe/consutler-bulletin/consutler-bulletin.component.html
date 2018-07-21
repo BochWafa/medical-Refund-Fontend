@@ -1,0 +1,37 @@
+<h1 class="display-5 my-3">Mes bulletins de soin</h1>
+<br>
+
+<div class="table-responsive m-b-40">
+  <table class="table table-borderless table-data3">
+    <thead>
+    <tr>
+      <th class="op">Piéce jointe</th>
+      <th class="op">Affiliation</th>
+      <th class="op">Date Soin</th>
+      <th class="op">Etat</th>
+      <th></th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let b of bulletins">
+      <td><a target="_blank" href="http://localhost:8080/bulletin/downloadBulletinFile/{{b.urlBulletin}}">
+        <i class="fa fa-download"></i>Télecharger</a></td>
+      <td>{{b.dateAffiliation | date:'dd/MM/yyyy'}}</td>
+      <td>{{b.dateSoin | date:'dd/MM/yyyy'}}</td>
+      <td *ngIf="b.etat === 'En cours'" style="color: red">{{b.etat}}</td>
+      <td *ngIf="b.etat === 'Chez GAT'" style="color: #ff8c00">{{b.etat}}</td>
+      <td *ngIf="b.etat === 'Remboursé'" style="color: #00b009">{{b.etat}}</td>
+
+
+
+
+      <td>
+        <button (click)="onInfo(b.id)"class="clickable" data-toggle="tooltip" title="Détails"><i class="fa fa-file-text"></i></button>
+      </td>
+
+
+    </tr>
+    </tbody>
+  </table>
+</div>

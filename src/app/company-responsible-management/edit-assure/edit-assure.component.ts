@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Assure} from '../../assure';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {AssuresService} from '../../assures.service';
 import { AdminsService } from '../../admins.service';
@@ -8,6 +8,7 @@ import { GestionnairesService } from '../../gestionnaires.service';
 import { User } from '../../user';
 import { Admin } from '../../Admin';
 import { Gestionnaire } from '../../Gestionnaire';
+import {AccessTokenService} from '../../access-token.service';
 
 @Component({
   selector: 'app-edit-assure',
@@ -65,25 +66,6 @@ testButton() {
            }
   }
   return test;
-}
-verifyUnicityCin(cin: number) {
-  if (cin) {
-   this.ads.getAdmin(cin).subscribe((response: Admin) => {
-    if (response) {
-      return false;
-    }
-  }, error => {console.log('error' + error); });
-  this.es.getAssure(cin).subscribe((response: Assure) => {
-    if (response) {
-        return false;
-    }
-  });
-  this.gs.getGestionnaire(cin).subscribe((response: Gestionnaire) => {
-    if (response) {
-        return false;
-    }
-  }); }
-  return true;
 }
 verifyPositif(n: AbstractControl): ValidationErrors | null {
   if (n.value !== null &&  n.value <= 0) {
@@ -144,27 +126,56 @@ updateUser() {
 constructor(private  activatedRoute: ActivatedRoute,
  private es: AssuresService,
  private ads: AdminsService,
- private gs: GestionnairesService) {
+ private gs: GestionnairesService, private accessTokenService: AccessTokenService, private router: Router) {
 this.cin = this.activatedRoute.snapshot.params['cin'];
 this.role = this.activatedRoute.snapshot.params['role'];
 if (this.role === 'Assuré') {
-this.es.getAssure(this.cin).subscribe((response: Assure) => {
-  this.user = new Assure();
-  this.user = response;
-});
-} else if (this.role === 'Admin') {
-  this.ads.getAdmin(this.cin).subscribe((response: Admin) => {
-    this.user = new Admin();
-    this.user = response;
-    console.log('user:' + this.user.sexe);
+  this.accessTokenService.getAccessToken().subscribe(
+    (ato: any) => {
+      this.es.getAssure(this.cin, ato.access_token).subscribe((response: Assure) => {
+        this.user = new Assure();
+        this.user = response;
+      });
+    },
+    (e) => console.log(e)
+  );
 
-  });
+} else if (this.role === 'Admin') {
+  this.accessTokenService.getAccessToken().subscribe(
+    (ato: any) => {
+      this.ads.getAdmin(this.cin, ato.access_token).subscribe((response: Admin) => {
+        this.user = new Admin();
+        this.user = response;
+        console.log('user:' + this.user.sexe);
+
+      });
+    },
+    (e) => console.log(e)
+  );
+
 } else if (this.role === 'Gestionnaire') {
-  this.gs.getGestionnaire(this.cin).subscribe((response: Gestionnaire) => {
-    this.user = new Gestionnaire();
-    this.user = response;
-  });
+  this.accessTokenService.getAccessToken().subscribe(
+    (ato: any) => {
+      this.gs.getGestionnaire(this.cin, ato.access_token).subscribe((response: Gestionnaire) => {
+        this.user = new Gestionnaire();
+        this.user = response;
+      });
+    },
+    (e) => console.log(e)
+  );
+
 }
 }
-  ngOnInit() {}
+  ngOnInit() {
+
+    const type = localStorage.getItem('type');
+
+    if (type === 'assure') {
+      this.router.navigateByUrl('/dashboard/(dashboard-content:consulter)');
+    } else if (type === 'gestionnaire') {
+      this.router.navigateByUrl('/dashboard/(dashboard-content:list-bulletin)');
+
+    }
+
+  }
 }

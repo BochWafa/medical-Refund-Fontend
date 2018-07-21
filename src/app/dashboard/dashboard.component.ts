@@ -1,6 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {DivDialogService} from '../company-responsible-management/dialogs/div-dialog.service';
 
 @Component({
   selector: 'app-accueil',
@@ -10,12 +8,11 @@ import {DivDialogService} from '../company-responsible-management/dialogs/div-di
 export class DashboardComponent implements OnInit {
 
 
-  constructor(private router: Router) { }
+  constructor() { }
 
   ngOnInit() {
 
     document.title = 'Cynapsys | Dashboard';
-    this.router.navigateByUrl('/dashboard/(dashboard-content:list-assure)', { skipLocationChange: true });
 
   }
 

@@ -120,11 +120,11 @@ export class ArticleMedicalComponent implements OnInit {
 
   libelleValid() {
     if (this.libelle != null && this.libelle.length >= 4 && this.libelle.length <= 40) {
-      $('#libelle').removeClass('border border-danger');
+      $('#libelle').removeClass('is-invalid');
       return true;
     } else {
       if (this.libelle !== null && this.libelle !== undefined && !this.libelle.pristine) {
-        $('#libelle').addClass('border border-danger');
+        $('#libelle').addClass('is-invalid');
       }
       return false;
     }
@@ -133,11 +133,11 @@ export class ArticleMedicalComponent implements OnInit {
 prixValid() {
 
   if (this.prix != null && this.prix >= 0 && this.prix <= 999) {
-    $('#prix').removeClass('border border-danger');
+    $('#prix').removeClass('is-invalid');
     return true;
   } else {
     if (this.prix !== null && this.prix !== undefined && !this.prix.pristine) {
-      $('#prix').addClass('border border-danger');
+      $('#prix').addClass('is-invalid');
     }
     return false;
   }
@@ -145,11 +145,11 @@ prixValid() {
 
 quantiteValid() {
       if (this.quantite != null && this.quantite >= 0 && this.quantite <= 20) {
-        $('#quantite').removeClass('border border-danger');
+        $('#quantite').removeClass('is-invalid');
         return true;
       } else {
         if (this.quantite !== null && this.quantite !== undefined && !this.quantite.pristine) {
-          $('#quantite').addClass('border border-danger');
+          $('#quantite').addClass('is-invalid');
         }
         return false;
       }
@@ -159,11 +159,11 @@ quantiteValid() {
 
   descritionValid() {
     if (this.description != null && this.description.length >= 5 && this.description.length <= 255) {
-      $('#description').removeClass('border border-danger');
+      $('#description').removeClass('is-invalid');
       return true;
     } else {
       if (this.description !== null && this.description !== undefined && !this.description.pristine) {
-        $('#description').addClass('border border-danger');
+        $('#description').addClass('is-invalid');
       }
       return false;
     }

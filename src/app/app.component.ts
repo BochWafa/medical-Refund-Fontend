@@ -1,5 +1,6 @@
 import {Component, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {DivDialogService} from './company-responsible-management/dialogs/div-dialog.service';
+import {AccessTokenService} from './access-token.service';
 
 
 @Component({
@@ -15,8 +16,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.divDialogService.divDialog = this.dialog;
-  }
 
-
-
+    }
 }

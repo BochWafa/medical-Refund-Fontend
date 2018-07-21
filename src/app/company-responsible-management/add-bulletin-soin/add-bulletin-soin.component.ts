@@ -10,6 +10,7 @@ import {Router} from '@angular/router';
 import {convertRuleOptions} from 'tslint/lib/configuration';
 import {InfoDialogComponent} from '../dialogs/info-dialog/info-dialog.component';
 import {DivDialogService} from '../dialogs/div-dialog.service';
+import {AccessTokenService} from '../../access-token.service';
 
 @Component({
   selector: 'app-add-bulletin-soin',
@@ -46,31 +47,67 @@ export class AddBulletinSoinComponent implements OnInit {
 
 
   constructor(private bulletinSoinService: BulletinSoinService, private resolver: ComponentFactoryResolver,
-              private assureService: AssuresService, private router: Router, private dialogService: DivDialogService) { }
+              private assureService: AssuresService, private router: Router, private dialogService: DivDialogService,
+                private accessTokenService: AccessTokenService) { }
 
   ngOnInit() {
 
-    this.assureService.getAll().subscribe(
-      (assures: Array<Assure>) => this.assures = assures,
+    const type = localStorage.getItem('type');
+
+       if (type === 'assure') {
+      this.router.navigateByUrl('/dashboard/(dashboard-content:consulter)');
+
+    }
+
+    this.accessTokenService.getAccessToken().subscribe(
+      (ato: any) => {
+        this.assureService.getAll(ato.access_token).subscribe(
+          (assures: Array<Assure>) => this.assures = assures,
+          (e) => console.log(e)
+        );
+      },
       (e) => console.log(e)
     );
+
 
   }
 
 
+
+  annuler() {
+    this.articles = new Array<ComponentRef<ArticleMedicalComponent>>();
+    this.as.clear();
+
+    this.montant = undefined;
+    this.montantPharmacie = undefined;
+    this.pdf = undefined;
+    this.numBulletin = undefined;
+    this.dateSoin = undefined;
+  }
+
+
+
+
+
   getAssure() {
-    this.assureService.getAssureByCIN(this.cin).subscribe(
-      (a: Assure) => {
-        if (a !== null) {
-          this.assure = a;
-          this.nom = a.nom;
-          this.prenom = a.prenom;
-          this.numMatricule = a.numMatricule;
-          console.log(this.assure);
-        }
+    this.accessTokenService.getAccessToken().subscribe(
+      (ato: any) => {
+        this.assureService.getAssureByCIN(this.cin, ato.access_token).subscribe(
+          (a: Assure) => {
+            if (a !== null) {
+              this.assure = a;
+              this.nom = a.nom;
+              this.prenom = a.prenom;
+              this.numMatricule = a.numMatricule;
+              console.log(this.assure);
+            }
+          },
+          (e) => console.log(e)
+        );
       },
       (e) => console.log(e)
     );
+
   }
 
   hiddenForm() {
@@ -101,40 +138,46 @@ export class AddBulletinSoinComponent implements OnInit {
 
   valider(pdf) {
 
+  this.accessTokenService.getAccessToken().subscribe(
+    (ato: any) => {
 
-  this.bulletinSoinService.sendBulletinPDF(pdf.files[0]).subscribe(
+      this.bulletinSoinService.sendBulletinPDF(pdf.files[0], ato.access_token).subscribe(
 
-    (fileName: string) => {
-
-
-      const bulletin = new BulletinSoin(this.numBulletin, fileName, this.montant, this.montantPharmacie,
-                                                        new Date(this.dateSoin), 'En cours', true, this.assure);
+        (fileName: string) => {
 
 
-      this.bulletinSoinService.sendArticlesPDF(this.generateArticleFiles()).subscribe(
-
-        (filesnames: Array<string>) => {
-
-          bulletin.articleMedicals = this.generateArticles();
+          const bulletin = new BulletinSoin(this.numBulletin, fileName, this.montant, this.montantPharmacie,
+            new Date(this.dateSoin), 'En cours', true, this.assure);
 
 
-          for (let i = 0; i < filesnames.length; i++) {
+          this.bulletinSoinService.sendArticlesPDF(this.generateArticleFiles(), ato.access_token).subscribe(
 
-            bulletin.articleMedicals[i].urlFichier = filesnames[i];
+            (filesnames: Array<string>) => {
 
-          }
+              bulletin.articleMedicals = this.generateArticles();
 
-          this.bulletinSoinService.addBulletinSoin(bulletin).subscribe(
 
-            (result: string) => {
+              for (let i = 0; i < filesnames.length; i++) {
 
-              if (result === 'ok') {
-                this.succes();
+                bulletin.articleMedicals[i].urlFichier = filesnames[i];
+
               }
+
+              this.bulletinSoinService.addBulletinSoin(bulletin, ato.access_token).subscribe(
+
+                (result: string) => {
+
+                  if (result === 'ok') {
+                    this.succes();
+                  }
+
+                },
+                (e) => console.log(e)
+
+              );
 
             },
             (e) => console.log(e)
-
           );
 
         },
@@ -146,7 +189,6 @@ export class AddBulletinSoinComponent implements OnInit {
     },
     (e) => console.log(e)
   );
-
 
   }
 
@@ -234,12 +276,12 @@ export class AddBulletinSoinComponent implements OnInit {
   motantValid(): boolean {
 
     if (this.montant !== null && this.montant >= 0 && this.montant <= 999) {
-      $('#montant').removeClass('border border-danger');
+      $('#montant').removeClass('is-invalid');
       return true;
     } else {
 
       if (this.montant !== null && this.montant !== undefined && !this.montant.pristine) {
-        $('#montant').addClass('border border-danger');
+        $('#montant').addClass('is-invalid');
       }
 
 
@@ -252,12 +294,12 @@ export class AddBulletinSoinComponent implements OnInit {
   motantPharmacieValid(): boolean {
 
     if (this.montantPharmacie !== null && this.montantPharmacie >= 0 && this.montantPharmacie <= 999) {
-      $('#montantPharmacie').removeClass('border border-danger');
+      $('#montantPharmacie').removeClass('is-invalid');
       return true;
     } else {
 
       if (this.montantPharmacie !== null && this.montantPharmacie !== undefined && !this.montantPharmacie.pristine) {
-        $('#montantPharmacie').addClass('border border-danger');
+        $('#montantPharmacie').addClass('is-invalid');
       }
 
 
@@ -269,12 +311,12 @@ export class AddBulletinSoinComponent implements OnInit {
 
   numBulletinValid(): boolean {
     if (this.numBulletin !== null && this.numBulletin >= 0 && this.numBulletin.toString().length === 8) {
-      $('#numBulletin').removeClass('border border-danger');
+      $('#numBulletin').removeClass('is-invalid');
       return true;
     } else {
 
       if (this.numBulletin !== undefined && !this.numBulletin.pristine) {
-        $('#numBulletin').addClass('border border-danger');
+        $('#numBulletin').addClass('is-invalid');
       }
 
 
@@ -290,12 +332,12 @@ export class AddBulletinSoinComponent implements OnInit {
 
 
     if (this.dateSoin != null && new Date(this.dateSoin).getTime() <= new Date().getTime()) {
-      $('#dateSoin').removeClass('border border-danger');
+      $('#dateSoin').removeClass('is-invalid');
       return true;
     } else {
 
       if (this.dateSoin !== undefined && !this.dateSoin.pristine) {
-        $('#dateSoin').addClass('border border-danger');
+        $('#dateSoin').addClass('is-invalid');
       }
       return false;
     }

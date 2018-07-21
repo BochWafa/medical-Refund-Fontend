@@ -8,6 +8,7 @@ import { AdminsService } from '../../admins.service';
 import { Admin } from '../../Admin';
 import { Gestionnaire } from '../../Gestionnaire';
 import { GestionnairesService } from '../../gestionnaires.service';
+import {AccessTokenService} from '../../access-token.service';
 @Component({
   selector: 'app-add-employe',
   templateUrl: './list-user.component.html',
@@ -22,45 +23,80 @@ g: Gestionnaire;
               private route: Router,
             private ass: AssuresService,
           private ads: AdminsService,
-        private gs: GestionnairesService) {}
+        private gs: GestionnairesService, private accessTokenService: AccessTokenService, private router: Router) {}
   ngOnInit() {
+
+    const type = localStorage.getItem('type');
+
+    if (type === 'assure') {
+      this.router.navigateByUrl('/dashboard/(dashboard-content:consulter)');
+    } else if (type === 'gestionnaire') {
+      this.router.navigateByUrl('/dashboard/(dashboard-content:list-bulletin)');
+
+    }
+
     this.users = new Array<User>();
-    this.us.getAll().subscribe( (response: Array<User>) => {
-      this.users = response;
-      console.log(this.users.length);
-    }, error1 => console.log(error1));
+    this.accessTokenService.getAccessToken().subscribe(
+      (ato: any) => {
+        this.us.getAll(ato.access_token).subscribe( (response: Array<User>) => {
+          this.users = response;
+          console.log(this.users.length);
+        }, error1 => console.log(error1));
+      },
+      (e) => console.log(e)
+    );
+
   }
   onDeleteUser(em: User) {
     if (em.role === 'Assuré') {
-        this.ass.getAssure(em.cin).subscribe ((response: Assure) => {
+      this.accessTokenService.getAccessToken().subscribe(
+        (ato: any) => {
+          this.ass.getAssure(em.cin, ato.access_token).subscribe ((response: Assure) => {
             this.a = response;
-            this.ass.delete(this.a.cin).subscribe (() => {
+            this.ass.delete(this.a.cin, ato.access_token).subscribe (() => {
               this.users.splice(
                 this.users.indexOf(em),
-                  1
+                1
               );
             }, error => {console.log(error); });
-            }, error => { console.log(error); });
+          }, error => { console.log(error); });
+        },
+        (e) => console.log(e)
+
+      );
+
     } else if (em.role === 'Admin') {
-        this.ads.getAdmin(em.cin).subscribe ((response: Admin) => {
+      this.accessTokenService.getAccessToken().subscribe(
+        (ato: any) => {
+          this.ads.getAdmin(em.cin, ato.access_token).subscribe ((response: Admin) => {
             this.ad = response;
-            this.ads.delete(this.ad.cin).subscribe (() => {
+            this.ads.delete(this.ad.cin, ato.access_token).subscribe (() => {
               this.users.splice(
                 this.users.indexOf(em),
-                  1
+                1
               );
             }, error => {console.log(error); });
-            }, error => { console.log(error); });
+          }, error => { console.log(error); });
+        },
+        (e) => console.log(e)
+      );
+
     } else if (em.role === 'Gestionnaire' ) {
-       this.gs.getGestionnaire(em.cin).subscribe ((response: Gestionnaire) => {
+      this.accessTokenService.getAccessToken().subscribe(
+        (ato: any) => {
+          this.gs.getGestionnaire(em.cin, ato.access_token).subscribe ((response: Gestionnaire) => {
             this.g = response;
-            this.gs.delete(this.a.cin).subscribe (() => {
+            this.gs.delete(this.a.cin, ato.access_token).subscribe (() => {
               this.users.splice(
                 this.users.indexOf(em),
-                  1
+                1
               );
             }, error => {console.log(error); });
-            }, error => { console.log(error); });
+          }, error => { console.log(error); });
+        },
+        (e) => console.log(e)
+      );
+
   }}
 onEditUser(em: User) {
 this.route.navigateByUrl('/dashboard/(dashboard-content:edit-user/' + em.cin + '/' + em.role + ')', {skipLocationChange: true});

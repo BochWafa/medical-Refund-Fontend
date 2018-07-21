@@ -5,6 +5,7 @@ import {stringify} from 'querystring';
 import {InfoDialogComponent} from '../dialogs/info-dialog/info-dialog.component';
 import {DivDialogService} from '../dialogs/div-dialog.service';
 import {Router} from '@angular/router';
+import {AccessTokenService} from '../../access-token.service';
 
 @Component({
   selector: 'app-parametres-gestionnaire',
@@ -18,35 +19,50 @@ export class ParametresGestionnaireComponent implements OnInit {
   datesRef: Array<ComponentRef<DateEnvoiComponent>> = new Array<ComponentRef<DateEnvoiComponent>>();
 
   constructor(private cfr: ComponentFactoryResolver, private paramService: ParametresService,
-              private dialogservice: DivDialogService, private router: Router) { }
+              private dialogservice: DivDialogService, private accessTokenService: AccessTokenService, private router: Router) { }
 
   ngOnInit() {
 
-this.paramService.getDates().subscribe(
+    const type = localStorage.getItem('type');
 
-  (dates: Array<string>) => {
+    if (type === 'assure') {
+      this.router.navigateByUrl('/dashboard/(dashboard-content:consulter)');
+    }
 
-    this.initDates(dates);
+    this.accessTokenService.getAccessToken().subscribe(
+      (ato: any) => {
+        this.paramService.getDates(ato.access_token).subscribe(
 
-  },
+          (dates: Array<string>) => {
 
-  (e) => console.log(e)
+            this.initDates(dates);
 
-);
+          },
+
+          (e) => console.log(e)
+
+        );
+      },
+      (e) => console.log(e)
+    );
+
 
   }
 
 
 
   setDefaultDates() {
-
-    this.paramService.setDefaultDates().subscribe(
-      (res) => {
-        this.succes();
+    this.accessTokenService.getAccessToken().subscribe(
+      (ato: any) => {
+        this.paramService.setDefaultDates(ato.access_token).subscribe(
+          (res) => {
+            this.succes();
+          },
+          (e) => console.log(e)
+        );
       },
       (e) => console.log(e)
     );
-
 
   }
 
@@ -78,15 +94,20 @@ succes() {
       dates.push(ref.instance.day + ';' + ref.instance.hour + ':' + ref.instance.minute);
 
     }
+      this.accessTokenService.getAccessToken().subscribe(
+        (ato: any) => {
+          this.paramService.updateDate(dates, ato.access_token).subscribe(
+            (res) => {
 
-    this.paramService.updateDate(dates).subscribe(
-      (res) => {
+              this.succes();
 
-        this.succes();
+            },
+            (e) => console.log(e)
+          );
+        },
+        (e) => console.log(e)
+      );
 
-      },
-      (e) => console.log(e)
-    );
 
     }
 

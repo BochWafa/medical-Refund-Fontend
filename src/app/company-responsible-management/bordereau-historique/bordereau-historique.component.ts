@@ -5,6 +5,8 @@ import {Bordereau} from '../../entities/bordereau';
 import {BordereauElementComponent} from './bordereau-element/bordereau-element.component';
 import {AssuresService} from '../../assures.service';
 import {BulletinSoin} from '../../entities/bulletin-soin';
+import {AccessTokenService} from '../../access-token.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-bordereau-historique',
@@ -14,7 +16,8 @@ import {BulletinSoin} from '../../entities/bulletin-soin';
 export class BordereauHistoriqueComponent implements OnInit {
 
   constructor(private resolver: ComponentFactoryResolver, private bulletinService: BulletinSoinService,
-               private bordereauService: BordereauService, private assureService: AssuresService) { }
+               private bordereauService: BordereauService, private assureService: AssuresService,
+              private accessTokenService: AccessTokenService, private router: Router) { }
 
    bordereaux: Array<Bordereau>;
    assures: Array<any>;
@@ -23,23 +26,39 @@ export class BordereauHistoriqueComponent implements OnInit {
 
   ngOnInit() {
 
-  this.bordereauService.getAll().subscribe(
-    (bordereaux: Array<Bordereau>) => {
-      this.bordereaux = bordereaux;
+    const type = localStorage.getItem('type');
 
-      this.afficheHistorique(bordereaux);
+   if (type === 'assure') {
+      this.router.navigateByUrl('/dashboard/(dashboard-content:consulter)');
+    }
 
-    },
-    (e) => console.log(e)
-  );
+    this.accessTokenService.getAccessToken().subscribe(
+      (ato: any) => {
+        this.bordereauService.getAll(ato.access_token).subscribe(
+          (bordereaux: Array<Bordereau>) => {
+            this.bordereaux = bordereaux;
+
+            this.afficheHistorique(bordereaux);
+
+          },
+          (e) => console.log(e)
+        );
+
+        this.assureService.getAll(ato.access_token).subscribe(
+          (result: Array<any>) => {
+            this.assures = result;
+          },
+          (e) => console.log(e)
+        );
 
 
-    this.assureService.getAll().subscribe(
-      (result: Array<any>) => {
-        this.assures = result;
+
       },
       (e) => console.log(e)
     );
+
+
+
 
 
 
@@ -54,15 +73,19 @@ export class BordereauHistoriqueComponent implements OnInit {
 
     for (const bordereau of bordereaux) {
 
-    this.bulletinService.getBulletinsByBordereauId(bordereau.id).subscribe(
-      (bulletins: Array<BulletinSoin>) => {
+      this.accessTokenService.getAccessToken().subscribe(
+        (ato: any) => {
+          this.bulletinService.getBulletinsByBordereauId(bordereau.id, ato.access_token).subscribe(
+            (bulletins: Array<BulletinSoin>) => {
 
-      this.addBordereauElement(bulletins, bordereau.dateEnvoi);
+              this.addBordereauElement(bulletins, bordereau.dateEnvoi);
 
-      },
-      (e) => console.log(e)
-    );
-
+            },
+            (e) => console.log(e)
+          );
+        },
+        (e) => console.log(e)
+      );
     }
 
 

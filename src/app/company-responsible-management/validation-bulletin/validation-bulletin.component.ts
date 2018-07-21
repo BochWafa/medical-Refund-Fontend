@@ -6,6 +6,7 @@ import {Router} from '@angular/router';
 import {DivDialogService} from '../dialogs/div-dialog.service';
 import {ConfirmDialogComponent} from '../dialogs/confirm-dialog/confirm-dialog.component';
 import {InfoDialogComponent} from '../dialogs/info-dialog/info-dialog.component';
+import {AccessTokenService} from '../../access-token.service';
 
 @Component({
   selector: 'app-validation-bulletin',
@@ -19,24 +20,36 @@ export class ValidationBulletinComponent implements OnInit {
 
   constructor(private router: Router, private bulletinSoinService: BulletinSoinService,
               private assureService: AssuresService, private dialogService: DivDialogService,
-              private resolver: ComponentFactoryResolver) { }
+              private resolver: ComponentFactoryResolver, private accessTokenService: AccessTokenService) { }
 
   ngOnInit() {
 
-    this.bulletinSoinService.getAllBulletins().subscribe(
-      (result: Array<BulletinSoin>) => {
-        this.bulletins = result.filter( b => b.etat === 'Chez GAT');
+    const type = localStorage.getItem('type');
+
+    if (type === 'assure') {
+      this.router.navigateByUrl('/dashboard/(dashboard-content:consulter)');
+    }
+
+    this.accessTokenService.getAccessToken().subscribe(
+      (ato: any) => {
+        this.bulletinSoinService.getAllBulletins(ato.access_token).subscribe(
+          (result: Array<BulletinSoin>) => {
+            this.bulletins = result.filter( b => b.etat === 'Chez GAT');
+          },
+          (e) => console.log(e)
+
+        );
+
+        this.assureService.getAll(ato.access_token).subscribe(
+          (result: Array<any>) => {
+            this.assures = result;
+          },
+          (e) => console.log(e)
+        );
       },
       (e) => console.log(e)
-
     );
 
-    this.assureService.getAll().subscribe(
-      (result: Array<any>) => {
-        this.assures = result;
-      },
-      (e) => console.log(e)
-    );
 
   }
 
@@ -80,27 +93,35 @@ export class ValidationBulletinComponent implements OnInit {
 
       cr.destroy();
 
-      this.bulletinSoinService.validBulletin(id).subscribe(
-        (res) => {
+      this.accessTokenService.getAccessToken().subscribe(
+        (ato: any) => {
+
+          this.bulletinSoinService.validBulletin(id, ato.access_token).subscribe(
+            (res) => {
 
 
 
-          const fact = this.resolver.resolveComponentFactory(InfoDialogComponent);
-          const crr: ComponentRef<InfoDialogComponent> = this.dialogService.divDialog.createComponent(fact);
-          crr.instance.title = 'Confirmation';
-          crr.instance.message = 'La validation du bulletin a été realisé avec succés';
-          crr.instance.sender.subscribe((vv) => {
-            crr.destroy();
-            this.ngOnInit();
+              const fact = this.resolver.resolveComponentFactory(InfoDialogComponent);
+              const crr: ComponentRef<InfoDialogComponent> = this.dialogService.divDialog.createComponent(fact);
+              crr.instance.title = 'Confirmation';
+              crr.instance.message = 'La validation du bulletin a été realisé avec succés';
+              crr.instance.sender.subscribe((vv) => {
+                crr.destroy();
+                this.ngOnInit();
 
 
 
-          });
+              });
 
+
+            },
+            (e) => console.log(e)
+          );
 
         },
         (e) => console.log(e)
       );
+
 
     });
 

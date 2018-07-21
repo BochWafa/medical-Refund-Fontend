@@ -4,6 +4,7 @@ import {BulletinSoin} from '../../entities/bulletin-soin';
 import {BulletinSoinService} from '../services/bulletin-soin.service';
 import {Assure} from '../../assure';
 import {AssuresService} from '../../assures.service';
+import {AccessTokenService} from '../../access-token.service';
 
 @Component({
   selector: 'app-list-bulletin-soin',
@@ -16,24 +17,39 @@ export class ListBulletinSoinComponent implements OnInit {
   bulletins: Array<BulletinSoin>;
   assures: Array<any>;
 
-  constructor(private router: Router, private bulletinSoinService: BulletinSoinService, private assureService: AssuresService) { }
+  constructor(private router: Router, private bulletinSoinService: BulletinSoinService, private assureService: AssuresService,
+              private accessTokenService: AccessTokenService) { }
 
   ngOnInit() {
 
-    this.bulletinSoinService.getAllBulletins().subscribe(
-      (result: Array<BulletinSoin>) => {
-        this.bulletins = result;
+    const type = localStorage.getItem('type');
+
+    if (type === 'assure') {
+      this.router.navigateByUrl('/dashboard/(dashboard-content:consulter)');
+    }
+
+    this.accessTokenService.getAccessToken().subscribe(
+      (ato: any) => {
+        this.bulletinSoinService.getAllBulletins(ato.access_token).subscribe(
+          (result: Array<BulletinSoin>) => {
+            this.bulletins = result;
+          },
+          (e) => console.log(e)
+        );
+
+        this.assureService.getAll(ato.access_token).subscribe(
+          (result: Array<any>) => {
+            this.assures = result;
+          },
+          (e) => console.log(e)
+        );
+
       },
       (e) => console.log(e)
-
     );
 
-    this.assureService.getAll().subscribe(
-      (result: Array<any>) => {
-        this.assures = result;
-      },
-      (e) => console.log(e)
-    );
+
+
 
   }
 
@@ -75,15 +91,21 @@ export class ListBulletinSoinComponent implements OnInit {
 
   onDelete(id) {
 
-    this.bulletinSoinService.deleteById(id).subscribe(
+    this.accessTokenService.getAccessToken().subscribe(
+      (ato: any) => {
+        this.bulletinSoinService.deleteById(id, ato.access_token).subscribe(
 
-      (res: string) => {
+          (res: string) => {
 
-        this.bulletins = this.bulletins.filter((b) => b.id !== id);
+            this.bulletins = this.bulletins.filter((b) => b.id !== id);
+          },
+          (e) => console.log(e)
+
+        );
       },
       (e) => console.log(e)
-
     );
+
 
   }
 

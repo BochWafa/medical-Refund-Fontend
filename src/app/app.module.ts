@@ -15,6 +15,9 @@ import {AssuresService} from './assures.service';
 import {AdminsService} from './admins.service';
 import {UsersService} from './users.service';
 import {GestionnairesService} from './gestionnaires.service';
+import { LoginComponent } from './login/login.component';
+import {FormsModule} from '@angular/forms';
+import {EmployeModule} from './employe/employe.module';
 
 @NgModule({
   declarations: [
@@ -24,12 +27,15 @@ import {GestionnairesService} from './gestionnaires.service';
     ContenuComponent,
     DashboardComponent,
     NotfoundComponent,
-    HomeComponent
+    HomeComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    FormsModule,
     CompanyResponsibleManagementModule,
+    EmployeModule,
     RouterModule,
     AppRoutingModule,
     HttpClientModule],

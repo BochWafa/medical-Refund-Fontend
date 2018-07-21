@@ -6,6 +6,8 @@
 <br>
 
 <div class="table-responsive m-b-40" [hidden]="!affiche">
+  <div *ngIf="bulletins.length === 0">Le bordereau est vide</div>
+  <ng-container *ngIf="bulletins.length > 0">
   <table class="table table-borderless table-data3">
     <thead>
     <tr>
@@ -13,7 +15,6 @@
       <th>Piéce jointe</th>
       <th>Date Affiliation</th>
       <th>Date Soin</th>
-      <th>Validtion</th>
       <th></th>
     </tr>
     </thead>
@@ -24,8 +25,7 @@
         <i class="fa fa-download"></i>Télecharger</a></td>
       <td>{{b.dateAffiliation | date:'dd/MM/yyyy'}}</td>
       <td>{{b.dateSoin | date:'dd/MM/yyyy'}}</td>
-      <td *ngIf="b.dateValidation !== null">{{b.dateValidation | date:'dd/MM/yyyy'}}</td>
-      <td *ngIf="b.dateValidation == null" class="notValid">Non validé</td>
+
 
       <td>
         <button (click)="onInfo(b.id)"class="clickable" data-toggle="tooltip" title="Détails"><i class="fa fa-file-text"></i></button>
@@ -34,4 +34,5 @@
     </tr>
     </tbody>
   </table>
+  </ng-container>
 </div>

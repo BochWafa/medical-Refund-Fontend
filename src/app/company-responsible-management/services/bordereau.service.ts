@@ -13,8 +13,8 @@ export class BordereauService {
 
 
 
-  getAll() {
-    return this.http.get<Array<Bordereau>>(this.URL_ALL);
+  getAll(access_token: string) {
+    return this.http.get<Array<Bordereau>>(this.URL_ALL + '?access_token=' + access_token);
   }
 
 }

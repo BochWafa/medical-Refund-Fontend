@@ -19,6 +19,7 @@ import {AssuresService} from '../../assures.service';
 import {InfoDialogComponent} from '../dialogs/info-dialog/info-dialog.component';
 import {DivDialogService} from '../dialogs/div-dialog.service';
 import {Subject} from 'rxjs';
+import {AccessTokenService} from '../../access-token.service';
 
 @Component({
   selector: 'app-update-bulletin-soin',
@@ -57,29 +58,43 @@ export class UpdateBulletinSoinComponent implements OnInit, AfterViewInit {
 
   constructor(private route: ActivatedRoute, private service: BulletinSoinService,
                         private resolver: ComponentFactoryResolver, private assureService: AssuresService,
-                            private router: Router, private dialogService: DivDialogService) {
+                            private router: Router, private dialogService: DivDialogService,
+              private accessTokenService: AccessTokenService) {
   }
 
   ngOnInit() {
-    this.route.params.subscribe( params => {
-     const id =  params['id'];
-      this.service.getBulletinById(id).subscribe(
-        (bs: BulletinSoin) => {
-          this.bulletinSoin = bs;
-          this.montant = bs.montantRembourse;
-          this.numBulletin = bs.numBulletin;
-          this.montantPharmacie = bs.montantPharmacie;
-          this.dateSoin = bs.dateSoin.toString();
-          this.getAssureByBulletinId(id);
 
-          setTimeout(() => this.detector.next(true), 100);
+    const type = localStorage.getItem('type');
 
-          },
-        (e) => console.log(e)
-      );
+    if (type === 'assure') {
+      this.router.navigateByUrl('/dashboard/(dashboard-content:consulter)');
     }
-    );
 
+    this.accessTokenService.getAccessToken().subscribe(
+      (ato: any) => {
+
+        this.route.params.subscribe( params => {
+            const id =  params['id'];
+            this.service.getBulletinById(id, ato.access_token).subscribe(
+              (bs: BulletinSoin) => {
+                this.bulletinSoin = bs;
+                this.montant = bs.montantRembourse;
+                this.numBulletin = bs.numBulletin;
+                this.montantPharmacie = bs.montantPharmacie;
+                this.dateSoin = bs.dateSoin.toString();
+                this.getAssureByBulletinId(id);
+
+                setTimeout(() => this.detector.next(true), 100);
+
+              },
+              (e) => console.log(e)
+            );
+          }
+        );
+
+      },
+      (e) => console.log(e)
+    );
 
   }
 
@@ -93,18 +108,25 @@ export class UpdateBulletinSoinComponent implements OnInit, AfterViewInit {
 
 
 getAssureByBulletinId(id: number) {
-    this.assureService.getAssureByBulletinId(id).subscribe(
-      (a: Assure) => {
-        if ( a !== null) {
-          this.numMatricule = a.numMatricule;
-          this.nom = a.nom;
-          this.prenom = a.prenom;
-          this.cin = a.cin;
-          this.assure = a;
-        }
+
+    this.accessTokenService.getAccessToken().subscribe(
+      (ato: any) => {
+        this.assureService.getAssureByBulletinId(id, ato.access_token).subscribe(
+          (a: Assure) => {
+            if ( a !== null) {
+              this.numMatricule = a.numMatricule;
+              this.nom = a.nom;
+              this.prenom = a.prenom;
+              this.cin = a.cin;
+              this.assure = a;
+            }
+          },
+          (e) => console.log(e)
+        );
       },
       (e) => console.log(e)
     );
+
 }
 
 
@@ -181,14 +203,20 @@ addArticles() {
 
     }
 
-    this.service.addBulletinSoin(bulletin).subscribe(
-      (result: string) => {
-        if (result === 'ok') {
-          this.succes();
-        }
+    this.accessTokenService.getAccessToken().subscribe(
+      (ato: any) => {
+        this.service.addBulletinSoin(bulletin, ato.acces_token).subscribe(
+          (result: string) => {
+            if (result === 'ok') {
+              this.succes();
+            }
+          },
+          (e) => console.log(e)
+        );
       },
       (e) => console.log(e)
     );
+
 
 
   }
@@ -214,14 +242,20 @@ addArticles() {
       }
 
 
-      this.service.addBulletinSoin(bulletin).subscribe(
-        (result: string) => {
-          if (result === 'ok') {
-            this.succes();
-          }
+      this.accessTokenService.getAccessToken().subscribe(
+        (ato: any) => {
+          this.service.addBulletinSoin(bulletin, ato.access_token).subscribe(
+            (result: string) => {
+              if (result === 'ok') {
+                this.succes();
+              }
+            },
+            (e) => console.log(e)
+          );
         },
         (e) => console.log(e)
       );
+
 
 
     }
@@ -230,98 +264,104 @@ addArticles() {
 
   valider(pdf) {
 
-
-    const bulletin = new BulletinSoin(this.numBulletin, this.bulletinSoin.urlBulletin, this.montant, this.montantPharmacie,
-                                          new Date(this.dateSoin), this.bulletinSoin.etat, this.bulletinSoin.active, this.assure);
-    bulletin.resultat = this.bulletinSoin.resultat;
-    bulletin.dateValidation = this.bulletinSoin.dateValidation;
-    bulletin.dateAffiliation = this.bulletinSoin.dateAffiliation;
-    bulletin.articleMedicals = this.bulletinSoin.articleMedicals;
-    bulletin.bordereaux = this.bulletinSoin.bordereaux;
+    this.accessTokenService.getAccessToken().subscribe(
+      (ato: any) => {
 
 
 
+        const bulletin = new BulletinSoin(this.numBulletin, this.bulletinSoin.urlBulletin, this.montant, this.montantPharmacie,
+          new Date(this.dateSoin), this.bulletinSoin.etat, this.bulletinSoin.active, this.assure);
+        bulletin.resultat = this.bulletinSoin.resultat;
+        bulletin.dateValidation = this.bulletinSoin.dateValidation;
+        bulletin.dateAffiliation = this.bulletinSoin.dateAffiliation;
+        bulletin.articleMedicals = this.bulletinSoin.articleMedicals;
+        bulletin.bordereaux = this.bulletinSoin.bordereaux;
 
-    if (this.updatePDF) {
 
-      this.service.deleteById(this.bulletinSoin.id).subscribe(
-        (res) => {},
-        (e) => console.log(e)
-      );
 
-      this.service.sendBulletinPDF(pdf).subscribe(
-        (fileName: string) => {
 
-          bulletin.urlBulletin = fileName;
+        if (this.updatePDF) {
+
+          this.service.deleteById(this.bulletinSoin.id, ato.access_token).subscribe(
+            (res) => {},
+            (e) => console.log(e)
+          );
+
+          this.service.sendBulletinPDF(pdf, ato.access_token).subscribe(
+            (fileName: string) => {
+
+              bulletin.urlBulletin = fileName;
+
+              const files = this.generateArticleFiles();
+
+              if (files.length > 0) {
+                this.service.sendArticlesPDF(this.generateArticleFiles(), ato.access_token).subscribe(
+                  (filesnames: Array<string>) => {
+
+                    this.sendBulletin(bulletin, filesnames);
+
+                  },
+                  (e) => console.log(e)
+                );
+              } else {
+
+                this.sendBulletinWitoutFiles(bulletin);
+
+              }
+
+            },
+            (e) => console.log(e)
+          );
+
+
+
+
+
+        } else {
+
+
+          console.log(this.detectBulletinSoinChange());
+          if ((this.detectBulletinSoinChange() || this.articlesChange) ||
+            (this.articles.length > this.bulletinSoin.articleMedicals.length)) {  // changement ou (+) articles c'est tout
+
+            this.service.deleteById(this.bulletinSoin.id, ato.access_token).subscribe(
+              (res) => console.log(res),
+              (e) => console.log(e)
+            );
+
+          } else {
+            bulletin.id = this.bulletinSoin.id;
+          }
+
+
 
           const files = this.generateArticleFiles();
 
           if (files.length > 0) {
-            this.service.sendArticlesPDF(this.generateArticleFiles()).subscribe(
+
+            this.service.sendArticlesPDF(files, ato.access_token).subscribe(
               (filesnames: Array<string>) => {
 
                 this.sendBulletin(bulletin, filesnames);
-
               },
               (e) => console.log(e)
             );
+
+
+
           } else {
-
-          this.sendBulletinWitoutFiles(bulletin);
-
+            this.sendBulletinWitoutFiles(bulletin);
           }
 
-        },
-        (e) => console.log(e)
-      );
 
 
 
+        }
 
 
-    } else {
-
-
-      console.log(this.detectBulletinSoinChange());
-      if ((this.detectBulletinSoinChange() || this.articlesChange) ||
-        (this.articles.length > this.bulletinSoin.articleMedicals.length)) {  // changement ou (+) articles c'est tout
-
-        this.service.deleteById(this.bulletinSoin.id).subscribe(
-          (res) => console.log(res),
-          (e) => console.log(e)
-        );
-
-      } else {
-        bulletin.id = this.bulletinSoin.id;
-      }
-
-
-
-      const files = this.generateArticleFiles();
-
-      if (files.length > 0) {
-
-      this.service.sendArticlesPDF(files).subscribe(
-        (filesnames: Array<string>) => {
-
-          this.sendBulletin(bulletin, filesnames);
-        },
-        (e) => console.log(e)
-      );
-
-
-
-      } else {
-        this.sendBulletinWitoutFiles(bulletin);
-      }
-
-
-
-
-    }
-
-
-
+      },
+      (e) => console.log(e)
+    );
 
   }
 
@@ -505,12 +545,12 @@ addArticles() {
   motantValid(): boolean {
 
     if (this.montant !== null && this.montant >= 0 && this.montant <= 999) {
-      $('#montant').removeClass('border border-danger');
+      $('#montant').removeClass('is-invalid');
       return true;
     } else {
 
       if (this.montant !== null && this.montant !== undefined && !this.montant.pristine) {
-        $('#montant').addClass('border border-danger');
+        $('#montant').addClass('is-invalid');
       }
 
 
@@ -523,12 +563,12 @@ addArticles() {
   motantPharmacieValid(): boolean {
 
     if (this.montantPharmacie !== null && this.montantPharmacie >= 0 && this.montantPharmacie <= 999) {
-      $('#montantPharmacie').removeClass('border border-danger');
+      $('#montantPharmacie').removeClass('is-invalid');
       return true;
     } else {
 
       if (this.montantPharmacie !== null && this.montantPharmacie !== undefined && !this.montantPharmacie.pristine) {
-        $('#montantPharmacie').addClass('border border-danger');
+        $('#montantPharmacie').addClass('is-invalid');
       }
 
 
@@ -540,12 +580,12 @@ addArticles() {
 
   numBulletinValid(): boolean {
     if (this.numBulletin !== null && this.numBulletin >= 0 && this.numBulletin.toString().length === 8) {
-      $('#numBulletin').removeClass('border border-danger');
+      $('#numBulletin').removeClass('is-invalid');
       return true;
     } else {
 
       if (this.numBulletin !== undefined && !this.numBulletin.pristine) {
-        $('#numBulletin').addClass('border border-danger');
+        $('#numBulletin').addClass('is-invalid');
       }
 
 
@@ -561,12 +601,12 @@ addArticles() {
 
 
     if (this.dateSoin != null && new Date(this.dateSoin).getTime() <= new Date().getTime()) {
-      $('#dateSoin').removeClass('border border-danger');
+      $('#dateSoin').removeClass('is-invalid');
       return true;
     } else {
 
       if (this.dateSoin !== undefined && !this.dateSoin.pristine) {
-        $('#dateSoin').addClass('border border-danger');
+        $('#dateSoin').addClass('is-invalid');
       }
       return false;
     }

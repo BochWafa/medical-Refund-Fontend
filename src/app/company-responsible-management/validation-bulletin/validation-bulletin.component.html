@@ -9,7 +9,6 @@
       <th>Piéce jointe</th>
       <th>Date Affiliation</th>
       <th>Date Soin</th>
-      <th>Validtion</th>
       <th></th>
       <th></th>
     </tr>
@@ -21,8 +20,7 @@
         <i class="fa fa-download"></i>Télecharger</a></td>
       <td>{{b.dateAffiliation | date:'dd/MM/yyyy'}}</td>
       <td>{{b.dateSoin | date:'dd/MM/yyyy'}}</td>
-      <td *ngIf="b.dateValidation !== null">{{b.dateValidation}}</td>
-      <td *ngIf="b.dateValidation == null" class="notValid">Non validé</td>
+
 
       <td>
         <button (click)="onInfo(b.id)"  class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" title="Détails"><i class="fa fa-file-text"></i></button>

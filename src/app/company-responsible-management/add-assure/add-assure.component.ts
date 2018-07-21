@@ -9,6 +9,7 @@ import { GestionnairesService } from '../../gestionnaires.service';
 import { AdminsService } from '../../admins.service';
 import { User } from '../../user';
 import { Router } from '@angular/router';
+import {AccessTokenService} from '../../access-token.service';
 
 @Component({
   selector: 'app-add-employe',
@@ -49,10 +50,29 @@ form = new FormGroup({
 faute = true;
 constructor(public es: AssuresService,
             public ads: AdminsService,
-            public gs: GestionnairesService) { }
+            public gs: GestionnairesService,
+            private accessTokenService: AccessTokenService, private router: Router) { }
+
+
+
 
 ngOnInit() {
+
+  const type = localStorage.getItem('type');
+
+  if(type === 'gestionnaire') {
+    this.router.navigateByUrl('/dashboard/(dashboard-content:list-bulletin)');
+  } else if (type === 'assure') {
+    this.router.navigateByUrl('/dashboard/(dashboard-content:consulter)');
+
   }
+
+
+  }
+
+
+
+
 testButton() {
   let test = true;
   console.log(this.form);
@@ -74,25 +94,7 @@ testButton() {
   }
   return test;
 }
-verifyUnicityCin(cin: number) {
-  if (cin) {
-   this.ads.getAdmin(cin).subscribe((response: Admin) => {
-    if (response) {
-      return false;
-    }
-  }, error => {console.log('error' + error); });
-  this.es.getAssure(cin).subscribe((response: Assure) => {
-    if (response) {
-        return false;
-    }
-  });
-  this.gs.getGestionnaire(cin).subscribe((response: Gestionnaire) => {
-    if (response) {
-        return false;
-    }
-  }); }
-  return true;
-}
+
 verifyPositif(n: AbstractControl): ValidationErrors | null {
   if (n.value !== null &&  n.value <= 0) {
     return {verifyPositif: true}; }
@@ -140,12 +142,18 @@ add() {
   this.assure.active = true;
   this.assure.dateInscription = new Date();
   this.assure.dateDerniereModif = new Date();
-this.ads.addAdmin(this.assure).subscribe((response: Admin) => {
-     console.log(response);
-     this.x.role = 'Admin';
-      this.mode = 2;
+this.accessTokenService.getAccessToken().subscribe(
+  (ato: any) => {
+    this.ads.addAdmin(this.assure, ato.access_token).subscribe((response: Admin) => {
+        console.log(response);
+        this.x.role = 'Admin';
+        this.mode = 2;
       },
-    error => { console.log(error); });
+      error => { console.log(error); });
+  },
+  (e) => console.log(e)
+);
+
 
   } else if (this.form.get('role').value === 'Gestionnaire') {
     this.assure = new Gestionnaire();
@@ -163,12 +171,19 @@ this.assure.password = this.form.value.password;
 this.assure.active = true;
 this.assure.dateInscription = new Date();
 this.assure.dateDerniereModif = new Date();
-this.gs.addGestionnaire(this.assure).subscribe((response: Gestionnaire) => {
-   console.log(response);
-   this.x.role = 'Gestionnaire';
-    this.mode = 2;
-    },
-  error => { console.log(error); });
+
+this.accessTokenService.getAccessToken().subscribe(
+  (ato: any) => {
+    this.gs.addGestionnaire(this.assure, ato.access_token).subscribe((response: Gestionnaire) => {
+        console.log(response);
+        this.x.role = 'Gestionnaire';
+        this.mode = 2;
+      },
+      error => { console.log(error); });
+  },
+  (e) => console.log(e)
+);
+
   } else if (this.form.get('role').value === 'Assuré') {
     this.assure = new Assure();
     this.assure.cin = this.form.value.cin;
@@ -192,12 +207,18 @@ this.gs.addGestionnaire(this.assure).subscribe((response: Gestionnaire) => {
     this.assure.dateDerniereModif = new Date();
     this.assure.nbrPersonneEnCharge = this.form.value.nbrPersonneEnCharge;
     this.assure.nationnalite = this.form.value.nationnalite;
-    this.es.add(this.assure).subscribe((response: Assure) => {
-      console.log(response);
-      this.x.role = 'Assuré';
-     this.mode = 2;
+    this.accessTokenService.getAccessToken().subscribe(
+      (ato: any) => {
+        this.es.add(this.assure, ato.access_token).subscribe((response: Assure) => {
+            console.log(response);
+            this.x.role = 'Assuré';
+            this.mode = 2;
+          },
+          error => { console.log(error); });
       },
-      error => { console.log(error); });
+      (e) => console.log(e)
+    );
+
   }
 
 }
