@@ -20,11 +20,16 @@ import {LoginComponent} from '../login/login.component';
 import {AuthGuardService} from '../login/auth-guard.service';
 import {ConsutlerBulletinComponent} from '../employe/consutler-bulletin/consutler-bulletin.component';
 import {ReclamationComponent} from '../employe/reclamation/reclamation.component';
+import {ForgotPasswordComponent} from '../forgot-password/forgot-password.component';
+import {ExcelComponent} from '../company-responsible-management/list-user/excel/excel.component';
 
 
 const routes: Routes = [
   {path: 'accueil', component: HomeComponent},
   {path: 'login', component: LoginComponent},
+  {path: 'recuperation-mot-de-passe', component: ForgotPasswordComponent},
+  {path: 'excel', component: ExcelComponent},
+
   {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService], children: [
       {path: 'list-user', component: ListUserComponent, outlet: 'dashboard-content'},
       {path: 'add-assure', component: AddAssureComponent, outlet: 'dashboard-content'} ,

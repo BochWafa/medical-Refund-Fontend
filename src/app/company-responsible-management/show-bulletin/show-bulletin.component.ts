@@ -4,6 +4,7 @@ import {BulletinSoinService} from '../services/bulletin-soin.service';
 import {BulletinSoin} from '../../entities/bulletin-soin';
 import {AssuresService} from '../../assures.service';
 import {AccessTokenService} from '../../access-token.service';
+import {HeaderService} from '../../header/header.service';
 
 @Component({
   selector: 'app-show-bulletin',
@@ -16,9 +17,11 @@ export class ShowBulletinComponent implements OnInit {
   assures: Array<any>;
 
   constructor(private route: ActivatedRoute, private service: BulletinSoinService, private assureService: AssuresService,
-              private accessTokenService: AccessTokenService, private router: Router) { }
+              private accessTokenService: AccessTokenService, private headerService: HeaderService) { }
 
   ngOnInit() {
+
+    setTimeout(() => this.headerService.showSearch = false, 200);
 
     this.accessTokenService.getAccessToken().subscribe(
       (ato: any) => {

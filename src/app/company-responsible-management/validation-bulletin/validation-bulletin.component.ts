@@ -7,6 +7,7 @@ import {DivDialogService} from '../dialogs/div-dialog.service';
 import {ConfirmDialogComponent} from '../dialogs/confirm-dialog/confirm-dialog.component';
 import {InfoDialogComponent} from '../dialogs/info-dialog/info-dialog.component';
 import {AccessTokenService} from '../../access-token.service';
+import {HeaderService} from '../../header/header.service';
 
 @Component({
   selector: 'app-validation-bulletin',
@@ -16,13 +17,51 @@ import {AccessTokenService} from '../../access-token.service';
 export class ValidationBulletinComponent implements OnInit {
 
   bulletins: Array<BulletinSoin>;
+  bulletinsCopy: Array<BulletinSoin>;
   assures: Array<any>;
 
   constructor(private router: Router, private bulletinSoinService: BulletinSoinService,
               private assureService: AssuresService, private dialogService: DivDialogService,
-              private resolver: ComponentFactoryResolver, private accessTokenService: AccessTokenService) { }
+              private resolver: ComponentFactoryResolver, private accessTokenService: AccessTokenService,
+              private headerService: HeaderService) { }
+
+
+
+
+  activateSearch() {
+    this.headerService.showSearch = true;
+    this.headerService.placeholder = 'Chercher par Numéro CIN...';
+    this.headerService.searchEvent.subscribe(
+      (v) => {
+
+        const value = this.headerService.searchText;
+
+        if (value !== '') {
+          this.bulletins = this.bulletins.filter( u => {
+
+            const cin =  this.findAssureCinByBulletinId(u.id) + '';
+
+            if (cin.startsWith(value)) {
+              return true;
+            } else {
+              return false;
+            }
+
+          });
+        } else {
+          this.bulletins = this.bulletinsCopy;
+        }
+
+      }
+    );
+  }
+
 
   ngOnInit() {
+
+
+    setTimeout(() => this.activateSearch(), 500);
+
 
     const type = localStorage.getItem('type');
 
@@ -35,6 +74,7 @@ export class ValidationBulletinComponent implements OnInit {
         this.bulletinSoinService.getAllBulletins(ato.access_token).subscribe(
           (result: Array<BulletinSoin>) => {
             this.bulletins = result.filter( b => b.etat === 'Chez GAT');
+            this.bulletinsCopy = this.bulletins;
           },
           (e) => console.log(e)
 

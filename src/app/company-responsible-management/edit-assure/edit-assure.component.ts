@@ -9,6 +9,7 @@ import { User } from '../../user';
 import { Admin } from '../../Admin';
 import { Gestionnaire } from '../../Gestionnaire';
 import {AccessTokenService} from '../../access-token.service';
+import {HeaderService} from '../../header/header.service';
 
 @Component({
   selector: 'app-edit-assure',
@@ -126,7 +127,7 @@ updateUser() {
 constructor(private  activatedRoute: ActivatedRoute,
  private es: AssuresService,
  private ads: AdminsService,
- private gs: GestionnairesService, private accessTokenService: AccessTokenService, private router: Router) {
+ private gs: GestionnairesService, private accessTokenService: AccessTokenService, private router: Router, private headerService: HeaderService) {
 this.cin = this.activatedRoute.snapshot.params['cin'];
 this.role = this.activatedRoute.snapshot.params['role'];
 if (this.role === 'Assuré') {
@@ -167,6 +168,8 @@ if (this.role === 'Assuré') {
 }
 }
   ngOnInit() {
+
+  setTimeout(() => this.headerService.showSearch = false, 200);
 
     const type = localStorage.getItem('type');
 

@@ -20,6 +20,7 @@ import { DateEnvoiComponent } from './parametres-gestionnaire/date-envoi/date-en
 import { ValidationBulletinComponent } from './validation-bulletin/validation-bulletin.component';
 import { BordereauHistoriqueComponent } from './bordereau-historique/bordereau-historique.component';
 import { BordereauElementComponent } from './bordereau-historique/bordereau-element/bordereau-element.component';
+import { ExcelComponent } from './list-user/excel/excel.component';
 
 
 
@@ -40,7 +41,7 @@ import { BordereauElementComponent } from './bordereau-historique/bordereau-elem
     AddBulletinSoinComponent, ListBulletinSoinComponent, ArticleMedicalComponent,
     UpdateBulletinSoinComponent, ShowBulletinComponent, ConfirmDialogComponent, InfoDialogComponent,
     BordereauListComponent, ParametresGestionnaireComponent, DateEnvoiComponent, ValidationBulletinComponent,
-    BordereauHistoriqueComponent, BordereauElementComponent, HistoryComponent, ListUserComponent
+    BordereauHistoriqueComponent, BordereauElementComponent, HistoryComponent, ListUserComponent, ExcelComponent
   ]
 
 

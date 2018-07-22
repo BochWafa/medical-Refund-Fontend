@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {AccessTokenService} from '../access-token.service';
 import {BulletinSoinService} from '../company-responsible-management/services/bulletin-soin.service';
+import {HeaderService} from './header.service';
 
 @Component({
   selector: 'app-header',
@@ -13,7 +14,8 @@ export class HeaderComponent implements OnInit {
   name;
   totale = -1;
 
-  constructor(private router: Router, private accessTokenService: AccessTokenService, private bulletinService: BulletinSoinService) { }
+  constructor(private router: Router, private accessTokenService: AccessTokenService,
+              private bulletinService: BulletinSoinService, public headerService: HeaderService) { }
 
   ngOnInit() {
 
@@ -61,6 +63,19 @@ export class HeaderComponent implements OnInit {
 
     this.router.navigateByUrl('/login');
   }
+
+
+
+
+
+
+  doSearch(value) {
+
+    this.headerService.searchText = value;
+    this.headerService.searchEvent.next(true);
+  }
+
+
 
 
 

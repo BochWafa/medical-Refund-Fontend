@@ -6,6 +6,7 @@ import {InfoDialogComponent} from '../dialogs/info-dialog/info-dialog.component'
 import {DivDialogService} from '../dialogs/div-dialog.service';
 import {Router} from '@angular/router';
 import {AccessTokenService} from '../../access-token.service';
+import {HeaderService} from '../../header/header.service';
 
 @Component({
   selector: 'app-parametres-gestionnaire',
@@ -19,9 +20,12 @@ export class ParametresGestionnaireComponent implements OnInit {
   datesRef: Array<ComponentRef<DateEnvoiComponent>> = new Array<ComponentRef<DateEnvoiComponent>>();
 
   constructor(private cfr: ComponentFactoryResolver, private paramService: ParametresService,
-              private dialogservice: DivDialogService, private accessTokenService: AccessTokenService, private router: Router) { }
+              private dialogservice: DivDialogService, private accessTokenService: AccessTokenService,
+              private router: Router, private headerService: HeaderService) { }
 
   ngOnInit() {
+
+    setTimeout(() => this.headerService.showSearch = false, 200);
 
     const type = localStorage.getItem('type');
 

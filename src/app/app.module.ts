@@ -18,6 +18,7 @@ import {GestionnairesService} from './gestionnaires.service';
 import { LoginComponent } from './login/login.component';
 import {FormsModule} from '@angular/forms';
 import {EmployeModule} from './employe/employe.module';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {EmployeModule} from './employe/employe.module';
     DashboardComponent,
     NotfoundComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     BrowserModule,

@@ -6,8 +6,9 @@
 
 
         <form class="form-header">
-          <input class="au-input au-input--xl" type="text" name="search" placeholder="" *ngIf="totale === -1" />
-          <button class="au-btn--submit" type="submit" *ngIf="totale === -1">
+          <input class="au-input au-input--xl" type="text" name="search" (change)="doSearch(search.value)"   (keyup)="doSearch(search.value)" #search
+                 [placeholder]="headerService.placeholder" *ngIf="totale === -1 && headerService.showSearch" />
+          <button class="au-btn--submit" type="submit" *ngIf="totale === -1 && headerService.showSearch">
             <i class="zmdi zmdi-search"></i>
           </button>
 

@@ -5,6 +5,7 @@ import {BulletinSoinService} from '../services/bulletin-soin.service';
 import {Assure} from '../../assure';
 import {AssuresService} from '../../assures.service';
 import {AccessTokenService} from '../../access-token.service';
+import {HeaderService} from '../../header/header.service';
 
 @Component({
   selector: 'app-list-bulletin-soin',
@@ -15,12 +16,56 @@ export class ListBulletinSoinComponent implements OnInit {
 
 
   bulletins: Array<BulletinSoin>;
+  bulletinsCopy: Array<BulletinSoin>;
   assures: Array<any>;
 
   constructor(private router: Router, private bulletinSoinService: BulletinSoinService, private assureService: AssuresService,
-              private accessTokenService: AccessTokenService) { }
+              private accessTokenService: AccessTokenService, private headerService: HeaderService) { }
+
+
+
+  activateSearch() {
+    this.headerService.showSearch = true;
+    this.headerService.placeholder = 'Chercher par Numéro CIN...';
+    this.headerService.searchEvent.subscribe(
+      (v) => {
+
+        const value = this.headerService.searchText;
+
+        if (value !== '') {
+          this.bulletins = this.bulletins.filter( u => {
+
+            const cin =  this.findAssureCinByBulletinId(u.id) + '';
+
+            if (cin.startsWith(value)) {
+              return true;
+            } else {
+              return false;
+            }
+
+          });
+        } else {
+          this.bulletins = this.bulletinsCopy;
+        }
+
+      }
+    );
+  }
+
+
+  excel() {
+
+    localStorage.setItem('excel', JSON.stringify(this.bulletins));
+    localStorage.setItem('excelType', 'soin');
+
+  }
+
 
   ngOnInit() {
+
+
+    setTimeout(() => this.activateSearch(), 500);
+
 
     const type = localStorage.getItem('type');
 
@@ -33,6 +78,7 @@ export class ListBulletinSoinComponent implements OnInit {
         this.bulletinSoinService.getAllBulletins(ato.access_token).subscribe(
           (result: Array<BulletinSoin>) => {
             this.bulletins = result;
+            this.bulletinsCopy = result;
           },
           (e) => console.log(e)
         );

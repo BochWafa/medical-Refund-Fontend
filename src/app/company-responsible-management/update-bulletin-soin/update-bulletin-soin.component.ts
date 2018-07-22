@@ -20,6 +20,7 @@ import {InfoDialogComponent} from '../dialogs/info-dialog/info-dialog.component'
 import {DivDialogService} from '../dialogs/div-dialog.service';
 import {Subject} from 'rxjs';
 import {AccessTokenService} from '../../access-token.service';
+import {HeaderService} from '../../header/header.service';
 
 @Component({
   selector: 'app-update-bulletin-soin',
@@ -59,10 +60,12 @@ export class UpdateBulletinSoinComponent implements OnInit, AfterViewInit {
   constructor(private route: ActivatedRoute, private service: BulletinSoinService,
                         private resolver: ComponentFactoryResolver, private assureService: AssuresService,
                             private router: Router, private dialogService: DivDialogService,
-              private accessTokenService: AccessTokenService) {
+              private accessTokenService: AccessTokenService, private headerService: HeaderService) {
   }
 
   ngOnInit() {
+
+    setTimeout(() => this.headerService.showSearch = false, 200);
 
     const type = localStorage.getItem('type');
 

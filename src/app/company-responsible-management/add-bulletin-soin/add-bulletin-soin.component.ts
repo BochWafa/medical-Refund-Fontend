@@ -11,6 +11,7 @@ import {convertRuleOptions} from 'tslint/lib/configuration';
 import {InfoDialogComponent} from '../dialogs/info-dialog/info-dialog.component';
 import {DivDialogService} from '../dialogs/div-dialog.service';
 import {AccessTokenService} from '../../access-token.service';
+import {HeaderService} from '../../header/header.service';
 
 @Component({
   selector: 'app-add-bulletin-soin',
@@ -48,9 +49,11 @@ export class AddBulletinSoinComponent implements OnInit {
 
   constructor(private bulletinSoinService: BulletinSoinService, private resolver: ComponentFactoryResolver,
               private assureService: AssuresService, private router: Router, private dialogService: DivDialogService,
-                private accessTokenService: AccessTokenService) { }
+                private accessTokenService: AccessTokenService, private headerService: HeaderService) { }
 
   ngOnInit() {
+
+    setTimeout(() => this.headerService.showSearch = false, 200);
 
     const type = localStorage.getItem('type');
 

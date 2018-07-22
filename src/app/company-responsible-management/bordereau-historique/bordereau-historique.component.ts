@@ -7,6 +7,7 @@ import {AssuresService} from '../../assures.service';
 import {BulletinSoin} from '../../entities/bulletin-soin';
 import {AccessTokenService} from '../../access-token.service';
 import {Router} from '@angular/router';
+import {HeaderService} from '../../header/header.service';
 
 @Component({
   selector: 'app-bordereau-historique',
@@ -17,7 +18,8 @@ export class BordereauHistoriqueComponent implements OnInit {
 
   constructor(private resolver: ComponentFactoryResolver, private bulletinService: BulletinSoinService,
                private bordereauService: BordereauService, private assureService: AssuresService,
-              private accessTokenService: AccessTokenService, private router: Router) { }
+              private accessTokenService: AccessTokenService, private router: Router,
+              private headerService: HeaderService) { }
 
    bordereaux: Array<Bordereau>;
    assures: Array<any>;
@@ -26,6 +28,7 @@ export class BordereauHistoriqueComponent implements OnInit {
 
   ngOnInit() {
 
+    setTimeout(() => this.headerService.showSearch = false, 200);
     const type = localStorage.getItem('type');
 
    if (type === 'assure') {

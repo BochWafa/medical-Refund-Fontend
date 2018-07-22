@@ -10,6 +10,7 @@ import { AdminsService } from '../../admins.service';
 import { User } from '../../user';
 import { Router } from '@angular/router';
 import {AccessTokenService} from '../../access-token.service';
+import {HeaderService} from '../../header/header.service';
 
 @Component({
   selector: 'app-add-employe',
@@ -51,12 +52,15 @@ faute = true;
 constructor(public es: AssuresService,
             public ads: AdminsService,
             public gs: GestionnairesService,
-            private accessTokenService: AccessTokenService, private router: Router) { }
+            private accessTokenService: AccessTokenService, private router: Router, private headerService: HeaderService) { }
 
 
 
 
 ngOnInit() {
+
+
+  setTimeout( () => this.headerService.showSearch = false, 200);
 
   const type = localStorage.getItem('type');
 

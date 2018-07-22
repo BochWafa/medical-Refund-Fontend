@@ -9,12 +9,19 @@ import { Admin } from '../../Admin';
 import { Gestionnaire } from '../../Gestionnaire';
 import { GestionnairesService } from '../../gestionnaires.service';
 import {AccessTokenService} from '../../access-token.service';
+import {HeaderService} from '../../header/header.service';
+
+import * as XLSX from 'xlsx';
+
+
 @Component({
   selector: 'app-add-employe',
   templateUrl: './list-user.component.html',
   styleUrls: ['./list-user.component.css']
 })
 export class ListUserComponent implements OnInit {
+
+usersCopy: Array<User>;
 users: Array<User>;
 a: Assure;
 ad: Admin;
@@ -23,8 +30,57 @@ g: Gestionnaire;
               private route: Router,
             private ass: AssuresService,
           private ads: AdminsService,
-        private gs: GestionnairesService, private accessTokenService: AccessTokenService, private router: Router) {}
+        private gs: GestionnairesService, private accessTokenService: AccessTokenService, private router: Router,
+              public headerService: HeaderService) {}
+
+
+
+  excel() {
+
+  localStorage.setItem('excel', JSON.stringify(this.users));
+    localStorage.setItem('excelType', 'user');
+
+
+  }
+
+
+  activateSearch() {
+    this.headerService.showSearch = true;
+    this.headerService.placeholder = 'Chercher par nom et prénom...';
+    this.headerService.searchEvent.subscribe(
+      (v) => {
+
+        const value = this.headerService.searchText;
+
+        if (value !== '') {
+          this.users = this.users.filter( u => {
+
+            const nomPrenom = u.nom + ' ' + u.prenom;
+            const prenomNom = u.prenom + ' ' + u.nom;
+
+              if (nomPrenom.toUpperCase().startsWith(value.toUpperCase()) || prenomNom.toUpperCase().startsWith(value.toUpperCase())) {
+                return true;
+              } else {
+                return false;
+              }
+
+          });
+        } else {
+          this.users = this.usersCopy;
+        }
+
+      }
+    );
+  }
+
+
+
+
   ngOnInit() {
+
+
+  setTimeout(() => this.activateSearch(), 500);
+
 
     const type = localStorage.getItem('type');
 
@@ -40,6 +96,7 @@ g: Gestionnaire;
       (ato: any) => {
         this.us.getAll(ato.access_token).subscribe( (response: Array<User>) => {
           this.users = response;
+          this.usersCopy = response;
           console.log(this.users.length);
         }, error1 => console.log(error1));
       },
