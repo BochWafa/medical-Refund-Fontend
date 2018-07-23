@@ -9,6 +9,9 @@
       <th class="op">Affiliation</th>
       <th class="op">Date Soin</th>
       <th class="op">Etat</th>
+      <th class="op">Montant</th>
+      <th class="op">Remboursement</th>
+
       <th></th>
 
     </tr>
@@ -24,6 +27,8 @@
       <td *ngIf="b.etat === 'Remboursé'" style="color: #00b009">{{b.etat}}</td>
 
 
+      <td>{{b.montantRembourse}} Dinar</td>
+      <td>{{b.remboursement}} Dinar</td>
 
 
       <td>

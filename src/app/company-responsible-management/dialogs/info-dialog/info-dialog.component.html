@@ -8,7 +8,8 @@
 
       </div>
       <div class="modal-body">
-        <p>
+        <div class="loader" *ngIf="!showMsg"></div>
+        <p *ngIf="showMsg">
           {{message}}
         </p>
       </div>

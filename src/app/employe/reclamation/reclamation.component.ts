@@ -50,15 +50,18 @@ export class ReclamationComponent implements OnInit {
 
     const email = new Email(this.objet, this.message, this.sender, this.destinationEmail);
 
+    const factory = this.resolver.resolveComponentFactory(InfoDialogComponent);
+    const dialog: ComponentRef<InfoDialogComponent> = this.dialogService.divDialog.createComponent(factory);
+    dialog.instance.title = 'Confirmation';
+    dialog.instance.showMsg = false;
+
     this.accessTokenService.getAccessToken().subscribe(
       (ato: any) => {
         this.employeService.sendEmail(email, ato.access_token).subscribe(
           (res) => {
 
-            const factory = this.resolver.resolveComponentFactory(InfoDialogComponent);
-            const dialog: ComponentRef<InfoDialogComponent> = this.dialogService.divDialog.createComponent(factory);
-            dialog.instance.title = 'Confirmation';
             dialog.instance.message = 'Votre email a été envoyé avec succés';
+            dialog.instance.showMsg = true;
             dialog.instance.sender.subscribe((v) => {
               dialog.destroy();
               this.annuler();

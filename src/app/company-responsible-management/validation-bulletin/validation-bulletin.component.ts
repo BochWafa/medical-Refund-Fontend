@@ -8,6 +8,7 @@ import {ConfirmDialogComponent} from '../dialogs/confirm-dialog/confirm-dialog.c
 import {InfoDialogComponent} from '../dialogs/info-dialog/info-dialog.component';
 import {AccessTokenService} from '../../access-token.service';
 import {HeaderService} from '../../header/header.service';
+import {RemboursementDialogComponent} from '../dialogs/remboursement-dialog/remboursement-dialog.component';
 
 @Component({
   selector: 'app-validation-bulletin',
@@ -124,39 +125,59 @@ export class ValidationBulletinComponent implements OnInit {
   onValid(id) {
 
 
-    const factory = this.resolver.resolveComponentFactory(ConfirmDialogComponent);
-    const cr: ComponentRef<ConfirmDialogComponent> = this.dialogService.divDialog.createComponent(factory);
-    cr.instance.title = 'Confirmer la Validation';
-    cr.instance.message = 'Voulez vous vraiment confirmer le bulletin de soin';
+    const factory = this.resolver.resolveComponentFactory(RemboursementDialogComponent);
+    const cr: ComponentRef<RemboursementDialogComponent> = this.dialogService.divDialog.createComponent(factory);
+    cr.instance.title = 'Validation du bulletin de soin';
     cr.instance.ref = cr;
     cr.instance.sender.subscribe((v) => {
 
-      cr.destroy();
 
       this.accessTokenService.getAccessToken().subscribe(
         (ato: any) => {
 
-          this.bulletinSoinService.validBulletin(id, ato.access_token).subscribe(
-            (res) => {
+          this.bulletinSoinService.sendBulletinPDF(cr.instance.PDF.files[0], ato.access_token).subscribe(
+
+            (filename: string) => {
+
+              const bulletin = this.bulletins.filter(b => b.id === id)[0];
+
+
+              bulletin.urlRemboursement = filename;
+              bulletin.remboursement = cr.instance.montant;
+              bulletin.resultat = cr.instance.resultat;
+
+
+              this.bulletinSoinService.validBulletin(bulletin, id, ato.access_token).subscribe(
+                (res) => {
 
 
 
-              const fact = this.resolver.resolveComponentFactory(InfoDialogComponent);
-              const crr: ComponentRef<InfoDialogComponent> = this.dialogService.divDialog.createComponent(fact);
-              crr.instance.title = 'Confirmation';
-              crr.instance.message = 'La validation du bulletin a été realisé avec succés';
-              crr.instance.sender.subscribe((vv) => {
-                crr.destroy();
-                this.ngOnInit();
+                  const fact = this.resolver.resolveComponentFactory(InfoDialogComponent);
+                  const crr: ComponentRef<InfoDialogComponent> = this.dialogService.divDialog.createComponent(fact);
+                  crr.instance.title = 'Confirmation';
+                  crr.instance.message = 'La validation du bulletin a été effectué avec succés';
+                  crr.instance.sender.subscribe((vv) => {
+                    crr.destroy();
+                    this.ngOnInit();
 
 
 
-              });
+                  });
+
+
+                },
+                (e) => console.log(e)
+              );
+
+
+
 
 
             },
             (e) => console.log(e)
           );
+
+
 
         },
         (e) => console.log(e)

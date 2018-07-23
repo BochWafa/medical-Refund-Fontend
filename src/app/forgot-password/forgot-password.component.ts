@@ -27,16 +27,16 @@ export class ForgotPasswordComponent implements OnInit {
 
     if (this.email.length > 2) {
 
+      const factory = this.resolver.resolveComponentFactory(InfoDialogComponent);
+      const dialog: ComponentRef<InfoDialogComponent> = this.dialogService.divDialog.createComponent(factory);
+      dialog.instance.title = 'Confirmation';
+      dialog.instance.showMsg = false;
 
       this.forgotService.recupererPasse(this.email).subscribe(
         (res) => {
 
-          const factory = this.resolver.resolveComponentFactory(InfoDialogComponent);
-          const dialog: ComponentRef<InfoDialogComponent> = this.dialogService.divDialog.createComponent(factory);
-
-
-          dialog.instance.title = 'Confirmation';
           dialog.instance.message = 'Un nouveau mot de passe vient d\'être envoyé à votre adresse email';
+          dialog.instance.showMsg = true;
 
           dialog.instance.sender.subscribe(
             (v) => {

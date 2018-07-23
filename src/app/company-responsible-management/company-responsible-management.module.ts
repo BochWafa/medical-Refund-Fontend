@@ -21,6 +21,7 @@ import { ValidationBulletinComponent } from './validation-bulletin/validation-bu
 import { BordereauHistoriqueComponent } from './bordereau-historique/bordereau-historique.component';
 import { BordereauElementComponent } from './bordereau-historique/bordereau-element/bordereau-element.component';
 import { ExcelComponent } from './list-user/excel/excel.component';
+import { RemboursementDialogComponent } from './dialogs/remboursement-dialog/remboursement-dialog.component';
 
 
 
@@ -32,7 +33,8 @@ import { ExcelComponent } from './list-user/excel/excel.component';
     ReactiveFormsModule,
   ],
 
-  entryComponents: [ConfirmDialogComponent, InfoDialogComponent, DateEnvoiComponent, BordereauElementComponent],
+  entryComponents: [ConfirmDialogComponent, InfoDialogComponent, DateEnvoiComponent, BordereauElementComponent,
+    RemboursementDialogComponent],
 
   declarations: [
     AddAssureComponent,
@@ -41,7 +43,8 @@ import { ExcelComponent } from './list-user/excel/excel.component';
     AddBulletinSoinComponent, ListBulletinSoinComponent, ArticleMedicalComponent,
     UpdateBulletinSoinComponent, ShowBulletinComponent, ConfirmDialogComponent, InfoDialogComponent,
     BordereauListComponent, ParametresGestionnaireComponent, DateEnvoiComponent, ValidationBulletinComponent,
-    BordereauHistoriqueComponent, BordereauElementComponent, HistoryComponent, ListUserComponent, ExcelComponent
+    BordereauHistoriqueComponent, BordereauElementComponent, HistoryComponent, ListUserComponent, ExcelComponent,
+    RemboursementDialogComponent
   ]
 
 
