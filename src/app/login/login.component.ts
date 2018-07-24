@@ -24,6 +24,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
 
+    document.title = 'Cynapsys | Se connecter';
+
     const type = localStorage.getItem('type');
 
     if (type !== null) {

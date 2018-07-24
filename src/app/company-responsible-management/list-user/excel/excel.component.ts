@@ -15,6 +15,7 @@ export class ExcelComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    document.title = 'Cynapsys | Excel';
 
 
     this.data = JSON.parse(localStorage.getItem('excel'));

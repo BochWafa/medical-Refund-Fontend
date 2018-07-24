@@ -36,7 +36,11 @@
               "src/assets/vendor/slick/slick.css",
               "src/assets/vendor/select2/select2.min.css",
               "src/assets/vendor/perfect-scrollbar/perfect-scrollbar.css",
-              "src/assets/css/theme.css"
+              "src/assets/css/theme.css",
+              "src/assets/home/vendor/bootstrap/css/bootstrap.min.css",
+              "src/assets/home/vendor/font-awesome/css/font-awesome.min.css",
+              "src/assets/home/vendor/magnific-popup/magnific-popup.css",
+              "src/assets/home/css/creative.min.css"
 
             ],
             "scripts": [
@@ -53,7 +57,12 @@
               "src/assets/vendor/perfect-scrollbar/perfect-scrollbar.js",
               "src/assets/vendor/chartjs/Chart.bundle.min.js",
               "src/assets/vendor/select2/select2.min.js",
-              "src/assets/js/main.js"
+              "src/assets/js/main.js",
+              "src/assets/home/vendor/bootstrap/js/bootstrap.bundle.min.js",
+              "src/assets/home/vendor/jquery-easing/jquery.easing.min.js",
+              "src/assets/home/vendor/scrollreveal/scrollreveal.min.js",
+              "src/assets/home/vendor/magnific-popup/jquery.magnific-popup.min.js",
+              "src/assets/home/js/creative.min.js"
             ]
           },
           "configurations": {

@@ -61,7 +61,7 @@ export class HeaderComponent implements OnInit {
     localStorage.setItem('gestionnaire', null);
     localStorage.setItem('type', null);
 
-    this.router.navigateByUrl('/login');
+    this.router.navigateByUrl('/accueil');
   }
 
 
