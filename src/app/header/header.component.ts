@@ -35,24 +35,29 @@ export class HeaderComponent implements OnInit {
     const as = JSON.parse(assure);
     if (as !== null) {
       this. name = as.prenom + ' ' + as.nom;
-      this.accessTokenService.getAccessToken().subscribe(
-        (ato: any) => {
-          this.bulletinService.getTotaleMontantByAssureId(as.id, ato.access_token).subscribe(
-            (totale: number) => {
-             this.totale = totale;
-            },
-            (e) => console.log(e)
-          );
-        },
-        (e) => console.log(e)
-      );
+      this.getTotale(as);
+      setInterval(() => {
+        this.getTotale(as);
+      }, 2000);
     }
 
   }
 
 
 
-
+getTotale(as) {
+  this.accessTokenService.getAccessToken().subscribe(
+    (ato: any) => {
+      this.bulletinService.getTotaleMontantByAssureId(as.id, ato.access_token).subscribe(
+        (totale: number) => {
+          this.totale = totale;
+        },
+        (e) => console.log(e)
+      );
+    },
+    (e) => console.log(e)
+  );
+}
 
   deconnexion() {
 

@@ -29,17 +29,10 @@ export class ConsutlerBulletinComponent implements OnInit {
 
     this.assure = JSON.parse(localStorage.getItem('assure'));
 
-    this.accessTokenService.getAccessToken().subscribe(
-      (ato: any) => {
-        this.bulletinService.getBulletinByAssureId(this.assure.id, ato.access_token).subscribe(
-          (bulletins: Array<BulletinSoin>) => {
-            this.bulletins = bulletins;
-          },
-          (e) => console.log(e)
-        );
-      },
-      (e) => console.log(e)
-    );
+    this.getBulletins();
+    setInterval(() => {
+    this.getBulletins();
+    }, 2000);
 
 
 
@@ -53,6 +46,24 @@ export class ConsutlerBulletinComponent implements OnInit {
   onInfo(id) {
     this.router.navigateByUrl('/dashboard/(dashboard-content:show-bulletin/' + id + ')', {skipLocationChange: true});
   }
+
+
+
+
+  getBulletins() {
+    this.accessTokenService.getAccessToken().subscribe(
+      (ato: any) => {
+        this.bulletinService.getBulletinByAssureId(this.assure.id, ato.access_token).subscribe(
+          (bulletins: Array<BulletinSoin>) => {
+            this.bulletins = bulletins;
+          },
+          (e) => console.log(e)
+        );
+      },
+      (e) => console.log(e)
+    );
+  }
+
 
 
 
