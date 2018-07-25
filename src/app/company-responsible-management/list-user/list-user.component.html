@@ -9,7 +9,7 @@
       <th>Nom</th>
       <th>Prénom</th>
       <th>Rôle</th>
-      <th>Date de Naissance</th>
+      <th>Date d'inscription</th>
       <th></th>
       <th></th>
       <th></th>
@@ -21,7 +21,7 @@
       <td>{{em.nom}}</td>
       <td>{{em.prenom}}</td>
       <td id="roleUser">{{em.role}}</td>
-      <td>{{em.dateNaissance}}</td>
+      <td>{{em.dateInscription | date : "MMM d, y HH:mm:ss"}}</td>
       <td>
         <button (click)="onInfoUser(em)" class="clickable"><i class="far fa-address-card"></i></button>
       </td>

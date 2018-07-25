@@ -65,8 +65,8 @@ g: Gestionnaire;
 onEditUser(em: User) {
 this.route.navigateByUrl('/dashboard/(dashboard-content:edit-user/' + em.cin + '/' + em.role + ')', {skipLocationChange: true});
 }
-onInfoUser(us: User) {
-    this.route.navigateByUrl('/dashboard/(dashboard-content:consult-user/' + us.cin + '/' + us.role + ')', {skipLocationChange: true});
+onInfoUser(em: User) {
+    this.route.navigateByUrl('/dashboard/(dashboard-content:consult-user/' + em.cin + '/' + em.role + ')', {skipLocationChange: true});
 }
 goAddEmploye() {
     this.route.navigateByUrl('/dashboard/(dashboard-content:add-assure)', {skipLocationChange: true});

@@ -1,19 +1,243 @@
-<div *ngIf="user !== undefined">
+<div *ngIf="mode === 1">
 <div class="table-responsive m-b-40">
   <h4>Historique des changements</h4>
   <br>
-  <br>
+  <div *ngIf="user.length !== 0">
   <table class="table table-borderless table-data3">
     <thead>
     <tr>
-      <th>Date Changement</th>
+      <th>Date de changement</th>
       <th></th>
     </tr>
     </thead>
     <tr *ngFor="let em of user ">
-      <td>{{em.dateDerniereModif}}</td>
-      <td><i class="fa fa-eye"></i></td>
+      <td>{{em.dateDerniereModif | date : "MMM d, y HH:mm:ss"}}</td>
+      <td><button (click)="onVisualize(em)"><i class="fa fa-eye"></i></button></td>
     </tr>
   </table>
 </div>
+
+<div *ngIf="user.length === 0">
+  <div *ngIf="role === 'Assuré' || role === 'Admin'">
+   <p>Aucune modification sur cet {{role}} n'a été faite.</p>
+  </div>
+  <div *ngIf="role === 'Gestionnaire'">
+    <p>Aucune modification sur ce gestionnaire n'a été faite.</p>
+   </div>
 </div>
+</div>
+</div>
+<div *ngIf="mode === 2">
+  <div class="card-header">
+    <strong><i class="fas fa-user"></i>
+
+      &nbsp;&nbsp;&nbsp;Consultation </strong> des coordonnées du {{role}}
+      <br>
+      Date: {{employe.dateDerniereModif | date : "MMM d, y HH:mm:ss"}}
+  </div>
+  <div class="card-body card-block">
+    <div *ngIf="employe !== undefined">
+    <div class="row form-group">
+      <div class="col col-md-3">
+        <label class=" form-control-label"><font face="verdana" color="green"><strong>Cin: </strong></font></label>
+      </div>
+      <div class="col-12 col-md-9">
+        <label>{{employe.cin}}</label>
+      </div>
+    </div>
+
+    <div class="row form-group">
+        <div class="col col-md-3">
+          <label class=" form-control-label"><font face="verdana" color="green"><strong>Date Cin</strong></font></label>
+        </div>
+        <div class="col-12 col-md-9">
+          <label>{{employe.dateCin}}</label>
+        </div>
+      </div>
+
+    <div class="row form-group">
+      <div class="col col-md-3">
+        <label class=" form-control-label"><font face="verdana" color="green"><strong>Numéro de matricule: </strong></font></label>
+      </div>
+      <div class="col-12 col-md-9">
+        <label>{{employe.numMatricule}}</label>
+      </div>
+    </div>
+
+
+    <div class="row form-group">
+      <div class="col col-md-3">
+        <label  class=" form-control-label"><font face="verdana" color="green"><strong>Nom: </strong></font></label>
+      </div>
+      <div class="col-12 col-md-9">
+        <label>{{employe.nom}}</label>
+      </div>
+    </div>
+
+ <div class="row form-group">
+      <div class="col col-md-3">
+        <label class=" form-control-label"><font face="verdana" color="green"><strong>Prénom: </strong></font></label>
+      </div>
+      <div class="col-12 col-md-9">
+        <label>{{employe.prenom}}</label>
+      </div>
+    </div>
+
+  <div class="row form-group">
+        <div class="col col-md-3">
+          <label class=" form-control-label"><font face="verdana" color="green"><strong>Sexe: </strong></font></label>
+        </div>
+        <div class="col-12 col-md-9">
+          <label>{{employe.sexe}}</label>
+        </div>
+      </div>
+
+    <div class="row form-group">
+      <div class="col col-md-3">
+        <label  class=" form-control-label"><font face="verdana" color="green"><strong>Email: </strong></font></label>
+      </div>
+      <div class="col-12 col-md-9">
+        <label>{{employe.email}}</label>
+      </div>
+    </div>
+
+
+    <div class="row form-group">
+      <div class="col col-md-3">
+        <label  class=" form-control-label"><font face="verdana" color="green"><strong>Date de naissance: </strong></font></label>
+      </div>
+      <div class="col-12 col-md-9">
+        <label>{{employe.dateNaissance}}</label>
+      </div>
+    </div>
+
+
+    <div class="row form-group">
+      <div class="col col-md-3">
+        <label class=" form-control-label"><font face="verdana" color="green"><strong>Adresse: </strong></font></label>
+      </div>
+      <div class="col-12 col-md-9">
+        <label>{{employe.adresse}}</label>
+      </div>
+    </div>
+
+    <div class="row form-group">
+        <div class="col col-md-3"><font face="verdana" color="green"><strong>Date de dernière modification: </strong></font></div>
+        <div class="col-12 col-md-9">
+          <label>{{employe.dateDerniereModif | date : "MMM d, y HH:mm:ss"}}</label>
+        </div>
+      </div>
+
+      <div class="row form-group">
+          <div class="col col-md-3"><font face="verdana" color="green"><strong>Date d'inscription: </strong></font></div>
+          <div class="col-12 col-md-9">
+            <label>{{employe.dateInscription | date : "MMM d, y HH:mm:ss" }}</label>
+          </div>
+        </div>
+
+      <div class="row form-group">
+          <div class="col col-md-3">
+            <label class=" form-control-label"><font face="verdana" color="green"><strong>Rôle: </strong></font> </label>
+          </div>
+          <div class="col-12 col-md-9">
+            <label>{{role}}</label>
+          </div>
+        </div>
+
+
+<div *ngIf="role === 'Assuré'">
+
+
+    <div class="row form-group">
+        <div class="col col-md-3">
+          <label class=" form-control-label"><font face="verdana" color="green"><strong>Poste: </strong></font></label>
+        </div>
+        <div class="col-12 col-md-9">
+          <label>{{employe.poste}}</label>
+        </div>
+      </div>
+
+      <div class="row form-group">
+        <div class="col col-md-3">
+          <label for="sf" class=" form-control-label"><font face="verdana" color="green"><strong>Situation familiale: </strong></font></label>
+        </div>
+        <div class="col-12 col-md-9">
+          <label>{{employe.situationFamiliale}}</label>
+      </div>
+      </div>
+
+
+      <div class="row form-group" *ngIf="employe.situationFamiliale === 'Marié' || employe.situationFamiliale === 'MariéEnfant'">
+          <div class="col col-md-3">
+            <label for="nc" class=" form-control-label"><font face="verdana" color="green"><strong>Nom du conjoint: </strong></font></label>
+          </div>
+          <div class="col-12 col-md-9">
+            <label>{{employe.nomConjoint }}</label>
+          </div>
+        </div>
+
+
+<div class="row form-group" *ngIf="employe.nbrPersonneEnCharge === 'MariéEnfant'">
+<div class="col col-md-3">
+  <label for="npc" class=" form-control-label"><font face="verdana" color="green"><strong>Nombre de personne(s) en charge: </strong></font></label>
+</div>
+<div class="col-12 col-md-9">
+  <label>{{employe.nbrPersonneEnCharge}}</label>
+</div>
+</div>
+
+
+    <div class="row form-group">
+      <div class="col col-md-3">
+        <label class=" form-control-label"><font face="verdana" color="green"><strong>Nationnalité: &nbsp;&nbsp;&nbsp;&nbsp;</strong></font></label>
+      </div>
+      <div class="col-12 col-md-9">
+        <label>{{employe.nationnalite}}</label>
+      </div>
+    </div>
+
+
+    <div class="row form-group">
+      <div class="col col-md-3">
+        <label class=" form-control-label"><font face="verdana" color="green"><strong>Salaire: </strong></font></label>
+      </div>
+      <div class="col-12 col-md-9">
+        <label>{{employe.salaire}}</label>
+      </div>
+    </div>
+
+
+    <div class="row form-group">
+      <div class="col col-md-3">
+        <label class=" form-control-label"><font face="verdana" color="green"><strong>Numéro d'affiliation Cnam: </strong></font></label>
+      </div>
+      <div class="col-12 col-md-9">
+        <label>{{employe.numAffiliationCnam}}</label>
+      </div>
+    </div>
+
+
+    <div class="row form-group">
+      <div class="col col-md-3">
+        <label class=" form-control-label"><font face="verdana" color="green"><strong>Filière Cnam: </strong></font></label>
+      </div>
+      <div class="col-12 col-md-9">
+        <label>{{employe.filiereCnam}}</label>
+      </div>
+    </div>
+
+
+    <div class="row form-group">
+      <div class="col col-md-3">
+        <label class=" form-control-label"><font face="verdana" color="green"><strong>Fiche d'affiliation Cnam: </strong></font></label>
+      </div>
+      <div class="col-12 col-md-9">
+        <label><a target="_blank" href="http://localhost:8080/assure/downloadAffFile/{{assure.urlFichierAffiliation}}"><i class="fa fa-download"></i> Download</a></label>
+      </div>
+    </div>
+  </div>
+</div>
+<button class="btn btn-success" (click)="mode = 1"><i class="fas fa-arrow-left"></i>&nbsp;&nbsp;&nbsp;Retour</button>
+</div>
+</div>
+

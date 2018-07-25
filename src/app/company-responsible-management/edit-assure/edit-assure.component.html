@@ -40,7 +40,7 @@
             <label for="mat" class=" form-control-label">Numéro de matricule</label>
           </div>
           <div class="col-12 col-md-9">
-            <input type="number" id="mat" name="mat" formControlName="numMatricule" placeholder="Entrer Votre N° De Matriculation..." class="form-control" [(ngModel)]="user.numMatricule">
+            <input type="number" id="mat" name="mat" formControlName="numMatricule" placeholder="Entrer Votre N° De Matriculation..." class="form-control" [(ngModel)]="user.numMatricule" disabled>
             <div class="alert alert-danger" *ngIf="(form.get('numMatricule').touched || form.get('numMatricule').dirty) && form.get('numMatricule').invalid">
               <div *ngIf="form.get('numMatricule').errors.required">Le champ <strong>Numéro de matricule</strong> est obligatoire</div>
               <div *ngIf="form.get('numMatricule').errors.verifyPositif && form.get('numMatricule').dirty">Entrer un <strong>Numéro de matricule</strong> valide</div>
@@ -322,6 +322,15 @@
 
       <div class="row form-group">
         <div class="col col-md-3">
+          <label for="cin" class=" form-control-label">Date cin: </label>
+        </div>
+        <div class="col-12 col-md-9">
+          <label>{{user.dateCin}}</label>
+        </div>
+      </div>
+
+      <div class="row form-group">
+        <div class="col col-md-3">
           <label for="mat" class=" form-control-label">Numéro de matricule: </label>
         </div>
         <div class="col-12 col-md-9">
@@ -380,12 +389,79 @@
 
       <div class="row form-group">
         <div class="col col-md-3">
-          <label for="npc" class=" form-control-label">Nombre De Personne En Charge: </label>
+          <label for="cin" class=" form-control-label">Sexe </label>
         </div>
         <div class="col-12 col-md-9">
-          <label>{{user.nbrPersonneEnCharge}}</label>
+          <label>{{user.sexe}}</label>
         </div>
       </div>
+
+      <div class="row form-group">
+          <div class="col col-md-3">
+            <label for="cin" class=" form-control-label">Date d'inscription: </label>
+          </div>
+          <div class="col-12 col-md-9">
+            <label>{{user.dateInscription}}</label>
+          </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col col-md-3">
+              <label for="cin" class=" form-control-label">Date de dernière modification: </label>
+            </div>
+            <div class="col-12 col-md-9">
+              <label>{{user.dateInscription}}</label>
+            </div>
+          </div>
+
+      <div class="row form-group">
+        <div class="col col-md-3">
+          <label for="role" class=" form-control-label">Rôle: </label>
+        </div>
+        <div class="col-12 col-md-9">
+          <label>{{role}}</label>
+        </div>
+      </div>
+<div *ngIf="role === 'Assuré'">
+
+    <div class="row form-group">
+        <div class="col col-md-3">
+          <label for="role" class=" form-control-label">Poste: </label>
+        </div>
+        <div class="col-12 col-md-9">
+          <label>{{user.poste}}</label>
+        </div>
+      </div>
+
+
+      <div class="row form-group">
+          <div class="col col-md-3">
+            <label for="sf" class=" form-control-label">Situation familiale: </label>
+          </div>
+          <div class="col-12 col-md-9">
+            <label>{{user.situationFamiliale}}</label>
+        </div>
+        </div>
+
+
+        <div class="row form-group" *ngIf="user.situationFamiliale === 'Marié' || user.situationFamiliale === 'MariéEnfant'">
+            <div class="col col-md-3">
+              <label for="nc" class=" form-control-label">Nom Du Conjoint: </label>
+            </div>
+            <div class="col-12 col-md-9">
+              <label>{{user.nomConjoint }}</label>
+            </div>
+          </div>
+
+
+<div class="row form-group" *ngIf="user.nbrPersonneEnCharge === 'MariéEnfant'">
+  <div class="col col-md-3">
+    <label for="npc" class=" form-control-label">Nombre De Personne En Charge: </label>
+  </div>
+  <div class="col-12 col-md-9">
+    <label>{{user.nbrPersonneEnCharge}}</label>
+  </div>
+</div>
 
       <div class="row form-group">
         <div class="col col-md-3">
@@ -399,29 +475,10 @@
 
       <div class="row form-group">
         <div class="col col-md-3">
-          <label for="sf" class=" form-control-label">Situation familiale: </label>
-        </div>
-        <div class="col-12 col-md-9">
-          <label>{{user.situationFamiliale}}</label>
-        </div>
-      </div>
-
-      <div class="row form-group">
-        <div class="col col-md-3">
           <label for="salaire" class=" form-control-label">Salaire: </label>
         </div>
         <div class="col-12 col-md-9">
           <label>{{user.salaire}}</label>
-        </div>
-      </div>
-
-
-      <div class="row form-group">
-        <div class="col col-md-3">
-          <label for="nc" class=" form-control-label">Nom Du Conjoint: </label>
-        </div>
-        <div class="col-12 col-md-9">
-          <label>{{user.nomConjoint }}</label>
         </div>
       </div>
 
@@ -453,16 +510,9 @@
           <label><a><i class="fa fa-download"></i> Download</a></label>
         </div>
       </div>
+    </div>
 
 
-      <div class="row form-group">
-        <div class="col col-md-3">
-          <label for="role" class=" form-control-label">Rôle: </label>
-        </div>
-        <div class="col-12 col-md-9">
-          <label>{{user.role}}</label>
-        </div>
-      </div>
 
     </div>
 

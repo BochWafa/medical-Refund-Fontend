@@ -2,6 +2,6 @@ export class User {
   cin: number;
   nom: string;
   prenom: string;
-  dateNaissance: Date;
+  dateInscription: Date;
   role: string;
 }

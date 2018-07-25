@@ -22,6 +22,9 @@ export class GestionnairesService {
   add(gestionnaire) {
     return this.http.post(this.url + '/create', gestionnaire);
   }
+  sendMail(cin: number) {
+    return this.http.get(this.url + '/sendmail/' + cin);
+  }
   getHistory(cin: number) {
     return this.http.get(this.url + '/history/' + cin);
   }

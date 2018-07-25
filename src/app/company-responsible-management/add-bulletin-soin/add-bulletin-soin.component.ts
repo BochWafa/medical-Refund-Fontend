@@ -101,7 +101,6 @@ export class AddBulletinSoinComponent implements OnInit {
 
   valider(pdf) {
 
-
   this.bulletinSoinService.sendBulletinPDF(pdf.files[0]).subscribe(
 
     (fileName: string) => {

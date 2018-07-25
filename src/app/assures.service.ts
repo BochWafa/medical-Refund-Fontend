@@ -7,6 +7,8 @@ import {Assure} from './assure';
 })
 export class AssuresService {
 url = 'http://localhost:8080/assure';
+private URL_ADD_FICHE_AFF_PDF = 'http://localhost:8080/assure/uploadAffFile';
+
   constructor(private http: HttpClient) { }
   addAssure(a: Assure) {
     return this.http.post(this.url + '/create', a);
@@ -14,13 +16,18 @@ url = 'http://localhost:8080/assure';
 getAll() {
     return this.http.get(this.url + '/all');
 }
-
+sendMail(cin: number) {
+  return this.http.get(this.url + '/sendmail/' + cin);
+}
 delete(cin: number) {
   return this.http.delete(this.url + '/delete/' + cin);
 }
 
-
-
+sendAffFilePDF(pdf) {
+  const formData = new FormData();
+  formData.append('file', pdf);
+  return this.http.post(this.URL_ADD_FICHE_AFF_PDF, formData, {responseType: 'text'});
+}
 add(assure) {
     return this.http.post(this.url + '/create', assure);
 }

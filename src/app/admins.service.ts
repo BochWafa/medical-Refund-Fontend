@@ -14,6 +14,9 @@ AdminsService() {}
 addAdmin(a: Admin) {
   return this.http.post(this.url + '/create', a);
 }
+sendMail(cin: number) {
+  return this.http.get(this.url + '/sendmail/' + cin);
+}
   getAll() {
     return this.http.get(this.url + '/all');
   }
@@ -27,6 +30,6 @@ addAdmin(a: Admin) {
     return this.http.get(this.url + '/get/' + cin);
   }
   update(cin: number, a: Admin) {
-    return this.http.put(this.url + '/update/' + cin, a );
+    return this.http.put(this.url + '/updateadmin/' + cin, a );
   }
 }
