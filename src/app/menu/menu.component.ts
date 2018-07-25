@@ -12,6 +12,35 @@ export class MenuComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
+
+  }
+
+
+
+  afficheMenuAdmin(): boolean {
+    if (JSON.parse(localStorage.getItem('admin')) !== null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+  afficheMenuGestionnaire(): boolean {
+    if (JSON.parse(localStorage.getItem('gestionnaire')) !== null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+  afficheMenuAssure(): boolean {
+    if (JSON.parse(localStorage.getItem('assure')) !== null) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 
@@ -47,7 +76,13 @@ export class MenuComponent implements OnInit {
   }
 
 
+  consulter() {
+    this.router.navigateByUrl('/dashboard/(dashboard-content:consulter)', {skipLocationChange: true});
+  }
 
+  reclamation() {
+    this.router.navigateByUrl('/dashboard/(dashboard-content:reclamation)', {skipLocationChange: true});
 
+  }
 
 }

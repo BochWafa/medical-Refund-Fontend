@@ -9,8 +9,13 @@ import { GestionnairesService } from '../../gestionnaires.service';
 import { AdminsService } from '../../admins.service';
 import { User } from '../../user';
 import { Router } from '@angular/router';
+<<<<<<< HEAD
 import { UsersService } from '../../users.service';
 import { isDefined } from '@angular/compiler/src/util';
+=======
+import {AccessTokenService} from '../../access-token.service';
+import {HeaderService} from '../../header/header.service';
+>>>>>>> 6784621fdb998c0ee1559cfa569c25a47190775c
 
 @Component({
   selector: 'app-add-employe',
@@ -55,6 +60,7 @@ admins = Array<Admin>();
 constructor(public es: AssuresService,
             public ads: AdminsService,
             public gs: GestionnairesService,
+<<<<<<< HEAD
           private us: UsersService) {
 this.es.getAll().subscribe((response: Array<Assure>) => {
   this.assures = response;
@@ -73,7 +79,33 @@ ngOnInit() {
       this.users = response;
       console.log(this.users.length);
     }, error1 => console.log(error1));
+=======
+            private accessTokenService: AccessTokenService, private router: Router, private headerService: HeaderService) { }
+
+
+
+
+ngOnInit() {
+
+
+  setTimeout( () => this.headerService.showSearch = false, 200);
+
+  const type = localStorage.getItem('type');
+
+  if(type === 'gestionnaire') {
+    this.router.navigateByUrl('/dashboard/(dashboard-content:list-bulletin)');
+  } else if (type === 'assure') {
+    this.router.navigateByUrl('/dashboard/(dashboard-content:consulter)');
+
   }
+
+
+>>>>>>> 6784621fdb998c0ee1559cfa569c25a47190775c
+  }
+
+
+
+
 testButton() {
   let test = true;
   console.log(this.form);
@@ -96,6 +128,7 @@ testButton() {
   }
   return test;
 }
+<<<<<<< HEAD
 verifyUnicityCin(cin: number) {
   let user: User;
   if (cin !== undefined && cin !== null) {
@@ -105,6 +138,9 @@ verifyUnicityCin(cin: number) {
         }
     }}
     return true; }
+=======
+
+>>>>>>> 6784621fdb998c0ee1559cfa569c25a47190775c
 verifyPositif(n: AbstractControl): ValidationErrors | null {
   if (n.value !== null &&  n.value <= 0) {
     return {verifyPositif: true}; }
@@ -195,6 +231,7 @@ add() {
   this.assure.dateNaissance = this.form.value.dateNaissance;
   this.assure.active = true;
   this.assure.dateInscription = new Date();
+<<<<<<< HEAD
   this.assure.dateDerniereModif = null;
     this.assure.password = this.randomString(8);
     this.ads.addAdmin(this.assure).subscribe((response: Admin) => {
@@ -206,6 +243,22 @@ add() {
     }, error => {console.log(error); } );
       },
     error => { console.log(error); });
+=======
+  this.assure.dateDerniereModif = new Date();
+this.accessTokenService.getAccessToken().subscribe(
+  (ato: any) => {
+    this.ads.addAdmin(this.assure, ato.access_token).subscribe((response: Admin) => {
+        console.log(response);
+        this.x.role = 'Admin';
+        this.mode = 2;
+      },
+      error => { console.log(error); });
+  },
+  (e) => console.log(e)
+);
+
+
+>>>>>>> 6784621fdb998c0ee1559cfa569c25a47190775c
   } else if (this.form.get('role').value === 'Gestionnaire') {
     this.assure = new Gestionnaire();
     this.assure.cin = this.form.value.cin;
@@ -220,6 +273,7 @@ this.assure.sexe = this.form.value.sexe;
 this.assure.dateNaissance = this.form.value.dateNaissance;
 this.assure.active = true;
 this.assure.dateInscription = new Date();
+<<<<<<< HEAD
 this.assure.dateDerniereModif = null;
 this.assure.password = this.randomString(8);
       this.gs.addGestionnaire(this.assure).subscribe((response: Gestionnaire) => {
@@ -231,6 +285,22 @@ this.assure.password = this.randomString(8);
         }, error => {console.log(error); } );
     },
       error => { console.log(error); });
+=======
+this.assure.dateDerniereModif = new Date();
+
+this.accessTokenService.getAccessToken().subscribe(
+  (ato: any) => {
+    this.gs.addGestionnaire(this.assure, ato.access_token).subscribe((response: Gestionnaire) => {
+        console.log(response);
+        this.x.role = 'Gestionnaire';
+        this.mode = 2;
+      },
+      error => { console.log(error); });
+  },
+  (e) => console.log(e)
+);
+
+>>>>>>> 6784621fdb998c0ee1559cfa569c25a47190775c
   } else if (this.form.get('role').value === 'Assuré') {
     this.assure = new Assure();
     this.assure.cin = this.form.value.cin;
@@ -253,7 +323,25 @@ this.assure.password = this.randomString(8);
     this.assure.dateDerniereModif = null;
     this.assure.nbrPersonneEnCharge = this.form.value.nbrPersonneEnCharge;
     this.assure.nationnalite = this.form.value.nationnalite;
+<<<<<<< HEAD
     this.assure.password = this.randomString(8);
+=======
+    this.accessTokenService.getAccessToken().subscribe(
+      (ato: any) => {
+        this.es.add(this.assure, ato.access_token).subscribe((response: Assure) => {
+            console.log(response);
+            this.x.role = 'Assuré';
+            this.mode = 2;
+          },
+          error => { console.log(error); });
+      },
+      (e) => console.log(e)
+    );
+
+  }
+
+}
+>>>>>>> 6784621fdb998c0ee1559cfa569c25a47190775c
 
     this.es.sendAffFilePDF(this.filedata).subscribe(
     (fileName: string) => {

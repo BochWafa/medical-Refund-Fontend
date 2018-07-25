@@ -126,6 +126,7 @@
         </div>
 
 
+
 <div #as></div>
 
 
@@ -148,11 +149,11 @@
   </div>
   <div class="card-footer">
     <button type="submit" class="btn btn-primary btn-sm" (click)="valider(file)" [disabled]="!validForm()">
-      <i class="fa fa-dot-circle-o"></i> Valider
+      <i class="fa fa-check"></i> Valider
     </button>
     &nbsp;&nbsp;&nbsp;
-    <button type="reset" class="btn btn-danger btn-sm">
-      <i class="fa fa-ban"></i> Reset
+    <button type="reset" class="btn btn-danger btn-sm" (click)="annuler()">
+      <i class="fa fa-ban"></i> Annuler
     </button>
   </div>
 

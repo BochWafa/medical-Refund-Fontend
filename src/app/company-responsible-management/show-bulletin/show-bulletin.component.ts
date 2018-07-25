@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {BulletinSoinService} from '../services/bulletin-soin.service';
 import {BulletinSoin} from '../../entities/bulletin-soin';
 import {AssuresService} from '../../assures.service';
+import {AccessTokenService} from '../../access-token.service';
+import {HeaderService} from '../../header/header.service';
 
 @Component({
   selector: 'app-show-bulletin',
@@ -14,29 +16,41 @@ export class ShowBulletinComponent implements OnInit {
   bulletinSoin: BulletinSoin;
   assures: Array<any>;
 
-  constructor(private route: ActivatedRoute, private service: BulletinSoinService, private assureService: AssuresService) { }
+  constructor(private route: ActivatedRoute, private service: BulletinSoinService, private assureService: AssuresService,
+              private accessTokenService: AccessTokenService, private headerService: HeaderService) { }
 
   ngOnInit() {
 
-    this.assureService.getAll().subscribe(
-      (result: Array<any>) => {
-        this.assures = result;
+    setTimeout(() => this.headerService.showSearch = false, 200);
+
+    this.accessTokenService.getAccessToken().subscribe(
+      (ato: any) => {
+        this.assureService.getAll(ato.access_token).subscribe(
+          (result: Array<any>) => {
+            this.assures = result;
+          },
+          (e) => console.log(e)
+        );
+
+        this.route.params.subscribe(
+          (params) => {
+
+            this.service.getBulletinById(params['id'], ato.access_token).subscribe(
+              (bulletin: BulletinSoin) => {
+                this.bulletinSoin = bulletin;
+              },
+              (e) => console.log(e)
+            );
+
+          }
+        );
+
       },
       (e) => console.log(e)
     );
 
-    this.route.params.subscribe(
-      (params) => {
 
-        this.service.getBulletinById(params['id']).subscribe(
-          (bulletin: BulletinSoin) => {
-            this.bulletinSoin = bulletin;
-          },
-               (e) => console.log(e)
-        );
 
-      }
-    );
 
 
   }

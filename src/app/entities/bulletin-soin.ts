@@ -18,6 +18,8 @@ export class BulletinSoin {
    articleMedicals: Array<ArticleMedical>;
    bordereaux: any;
    assure: Assure;
+   remboursement: number;
+   urlRemboursement: string;
 
 
   constructor(numBulletin, urlBulletin, montantRembourse, montantPharmacie, dateSoin, etat, active, assure) {

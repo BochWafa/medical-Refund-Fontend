@@ -6,6 +6,9 @@ import {Router} from '@angular/router';
 import {DivDialogService} from '../dialogs/div-dialog.service';
 import {ConfirmDialogComponent} from '../dialogs/confirm-dialog/confirm-dialog.component';
 import {InfoDialogComponent} from '../dialogs/info-dialog/info-dialog.component';
+import {AccessTokenService} from '../../access-token.service';
+import {HeaderService} from '../../header/header.service';
+import {RemboursementDialogComponent} from '../dialogs/remboursement-dialog/remboursement-dialog.component';
 
 @Component({
   selector: 'app-validation-bulletin',
@@ -15,28 +18,79 @@ import {InfoDialogComponent} from '../dialogs/info-dialog/info-dialog.component'
 export class ValidationBulletinComponent implements OnInit {
 
   bulletins: Array<BulletinSoin>;
+  bulletinsCopy: Array<BulletinSoin>;
   assures: Array<any>;
 
   constructor(private router: Router, private bulletinSoinService: BulletinSoinService,
               private assureService: AssuresService, private dialogService: DivDialogService,
-              private resolver: ComponentFactoryResolver) { }
+              private resolver: ComponentFactoryResolver, private accessTokenService: AccessTokenService,
+              private headerService: HeaderService) { }
+
+
+
+
+  activateSearch() {
+    this.headerService.showSearch = true;
+    this.headerService.placeholder = 'Chercher par Numéro CIN...';
+    this.headerService.searchEvent.subscribe(
+      (v) => {
+
+        const value = this.headerService.searchText;
+
+        if (value !== '') {
+          this.bulletins = this.bulletins.filter( u => {
+
+            const cin =  this.findAssureCinByBulletinId(u.id) + '';
+
+            if (cin.startsWith(value)) {
+              return true;
+            } else {
+              return false;
+            }
+
+          });
+        } else {
+          this.bulletins = this.bulletinsCopy;
+        }
+
+      }
+    );
+  }
+
 
   ngOnInit() {
 
-    this.bulletinSoinService.getAllBulletins().subscribe(
-      (result: Array<BulletinSoin>) => {
-        this.bulletins = result.filter( b => b.etat === 'Chez GAT');
+
+    setTimeout(() => this.activateSearch(), 500);
+
+
+    const type = localStorage.getItem('type');
+
+    if (type === 'assure') {
+      this.router.navigateByUrl('/dashboard/(dashboard-content:consulter)');
+    }
+
+    this.accessTokenService.getAccessToken().subscribe(
+      (ato: any) => {
+        this.bulletinSoinService.getAllBulletins(ato.access_token).subscribe(
+          (result: Array<BulletinSoin>) => {
+            this.bulletins = result.filter( b => b.etat === 'Chez GAT');
+            this.bulletinsCopy = this.bulletins;
+          },
+          (e) => console.log(e)
+
+        );
+
+        this.assureService.getAll(ato.access_token).subscribe(
+          (result: Array<any>) => {
+            this.assures = result;
+          },
+          (e) => console.log(e)
+        );
       },
       (e) => console.log(e)
-
     );
 
-    this.assureService.getAll().subscribe(
-      (result: Array<any>) => {
-        this.assures = result;
-      },
-      (e) => console.log(e)
-    );
 
   }
 
@@ -71,36 +125,64 @@ export class ValidationBulletinComponent implements OnInit {
   onValid(id) {
 
 
-    const factory = this.resolver.resolveComponentFactory(ConfirmDialogComponent);
-    const cr: ComponentRef<ConfirmDialogComponent> = this.dialogService.divDialog.createComponent(factory);
-    cr.instance.title = 'Confirmer la Validation';
-    cr.instance.message = 'Voulez vous vraiment confirmer le bulletin de soin';
+    const factory = this.resolver.resolveComponentFactory(RemboursementDialogComponent);
+    const cr: ComponentRef<RemboursementDialogComponent> = this.dialogService.divDialog.createComponent(factory);
+    cr.instance.title = 'Validation du bulletin de soin';
     cr.instance.ref = cr;
     cr.instance.sender.subscribe((v) => {
 
-      cr.destroy();
 
-      this.bulletinSoinService.validBulletin(id).subscribe(
-        (res) => {
+      this.accessTokenService.getAccessToken().subscribe(
+        (ato: any) => {
 
+          this.bulletinSoinService.sendBulletinPDF(cr.instance.PDF.files[0], ato.access_token).subscribe(
 
+            (filename: string) => {
 
-          const fact = this.resolver.resolveComponentFactory(InfoDialogComponent);
-          const crr: ComponentRef<InfoDialogComponent> = this.dialogService.divDialog.createComponent(fact);
-          crr.instance.title = 'Confirmation';
-          crr.instance.message = 'La validation du bulletin a été realisé avec succés';
-          crr.instance.sender.subscribe((vv) => {
-            crr.destroy();
-            this.ngOnInit();
+              const bulletin = this.bulletins.filter(b => b.id === id)[0];
 
 
+              bulletin.urlRemboursement = filename;
+              bulletin.remboursement = cr.instance.montant;
+              bulletin.resultat = cr.instance.resultat;
 
-          });
+
+              this.bulletinSoinService.validBulletin(bulletin, id, ato.access_token).subscribe(
+                (res) => {
+
+
+
+                  const fact = this.resolver.resolveComponentFactory(InfoDialogComponent);
+                  const crr: ComponentRef<InfoDialogComponent> = this.dialogService.divDialog.createComponent(fact);
+                  crr.instance.title = 'Confirmation';
+                  crr.instance.message = 'La validation du bulletin a été effectué avec succés';
+                  crr.instance.sender.subscribe((vv) => {
+                    crr.destroy();
+                    this.ngOnInit();
+
+
+
+                  });
+
+
+                },
+                (e) => console.log(e)
+              );
+
+
+
+
+
+            },
+            (e) => console.log(e)
+          );
+
 
 
         },
         (e) => console.log(e)
       );
+
 
     });
 

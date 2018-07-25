@@ -1,0 +1,42 @@
+<div class="card">
+  <div class="card-header">
+    <strong>Réclamation</strong>
+  </div>
+  <div class="card-body card-block">
+    <form action="" method="post" class="form-horizontal">
+
+
+      <div class="row form-group">
+
+        <div class="col-12 col-md-12">
+          <input type="text" name="objet"
+                 class="form-control"
+                 [(ngModel)]="objet"  name="objet" placeholder="Objet">
+        </div>
+      </div>
+
+
+
+      <div class="row form-group">
+        <div class="col-12 col-md-12">
+          <textarea name="message"
+                 class="form-control" rows="6"
+                    [(ngModel)]="message"  name="message" placeholder="Message..."></textarea>
+        </div>
+      </div>
+
+
+
+    </form>
+  </div>
+  <div class="card-footer">
+    <button type="submit" class="btn btn-primary btn-sm" (click)="evoyer()" [disabled]="!validForm()">
+      <i class="fa fa-check"></i> Envoyer
+    </button>
+    &nbsp;&nbsp;&nbsp;
+    <button type="reset" class="btn btn-danger btn-sm" (click)="annuler()">
+      <i class="fa fa-ban"></i> Annuler
+    </button>
+  </div>
+
+</div>

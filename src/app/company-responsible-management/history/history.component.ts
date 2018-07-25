@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { AssuresService } from '../../assures.service';
 import { AdminsService } from '../../admins.service';
 import { GestionnairesService } from '../../gestionnaires.service';
@@ -21,7 +21,7 @@ employe: any;
   constructor( private r: ActivatedRoute,
                 private as: AssuresService,
                 private ads: AdminsService,
-                private gs: GestionnairesService) {
+                private gs: GestionnairesService, private router: Router) {
     this.cin = this.r.snapshot.params['cin'];
     this.role = this.r.snapshot.params['role'];
       if (this.role === 'Assuré') {
@@ -45,6 +45,16 @@ employe: any;
       }
   }
   ngOnInit() {
+
+    const type = localStorage.getItem('type');
+
+    if (type === 'assure') {
+      this.router.navigateByUrl('/dashboard/(dashboard-content:consulter)');
+    } else if (type === 'gestionnaire') {
+      this.router.navigateByUrl('/dashboard/(dashboard-content:list-bulletin)');
+
+    }
+
   }
   onVisualize(em) {
     this.mode = 2;

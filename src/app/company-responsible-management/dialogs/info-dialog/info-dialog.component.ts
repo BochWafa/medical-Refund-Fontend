@@ -10,6 +10,7 @@ export class InfoDialogComponent implements OnInit {
 
   title: string;
   message: string;
+  showMsg = true;
 
   sender: Subject<boolean> = new Subject<boolean>();
 

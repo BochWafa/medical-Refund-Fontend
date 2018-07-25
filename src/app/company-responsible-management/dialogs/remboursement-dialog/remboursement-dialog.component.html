@@ -1,0 +1,66 @@
+<div class="modal" id="mediumModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <h5 class="modal-title" id="mediumModalLabel">{{title}}</h5>
+
+        <button type="button" (click)="close()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+
+
+
+        <div class="row form-group">
+          <div class="col col-md-3">
+            <label class="form-control-label">piéce jointe du remboursement (PDF)</label>
+          </div>
+          <div class="col-12 col-md-9">
+            <input type="file"  name="file" class="inputs"  #PDF="ngModel" [(ngModel)]="pdf"  #file>
+            <div class="alert alert-danger" [hidden]="PDF.pristine || PDFValid()">
+              <h6>Le fichier doit avoir l'extension PDF </h6>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="row form-group">
+          <div class="col col-md-3">
+            <label class=" form-control-label">Montant remboursé (Dinar)</label>
+          </div>
+          <div class="col-12 col-md-9" >
+            <input type="number" name="montant"
+                   class="form-control" min="0" max="999" #montantNumber="ngModel"
+                   [(ngModel)]="montant"  name="montant" id="montant">
+            <div class="alert alert-danger" [hidden]="montantNumber.pristine || motantValid()">
+              <h6>Le montant doit être un nombre entre 0 et 999 </h6>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row form-group">
+          <div class="col col-md-3">
+            <label class=" form-control-label">Remarque (facultatif)</label>
+          </div>
+          <div class="col-12 col-md-9" >
+            <textarea
+                   class="form-control" rows="4" #resultatR="ngModel"
+                   [(ngModel)]="resultat"  name="resultat" id="resultat"></textarea>
+
+          </div>
+        </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="close()">Annuler</button>
+        <button type="button" class="btn btn-primary" (click)="confirm(file)" [disabled]="!validForm()">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>

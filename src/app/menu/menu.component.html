@@ -8,6 +8,7 @@
     <nav class="navbar-sidebar">
       <ul class="list-unstyled navbar__list">
 
+        <ng-container *ngIf="afficheMenuAdmin()">
         <li>
           <span (click)="listEmploye()"><i class="fa fa-user-circle" aria-hidden="true"></i>Gestion des utilisateurs</span>
         </li>
@@ -33,6 +34,42 @@
         <li>
           <span (click)="parametres()"><i class="fa fa-cog" aria-hidden="true"></i>Paramétres</span>
         </li>
+        </ng-container>
+
+
+        <ng-container *ngIf="afficheMenuGestionnaire()">
+          <li>
+            <span (click)="listBulletin()"><i class="fa fa-stethoscope" aria-hidden="true"></i>Bulletins de soin</span>
+          </li>
+
+
+          <li>
+            <span (click)="bordoreauList()"><i class="fa fa-list-alt" aria-hidden="true"></i>Bordereau</span>
+          </li>
+
+          <li>
+            <span (click)="bordoreauHistorique()"><i class="fa fa-clock-o" aria-hidden="true"></i>Historique bordereau</span>
+          </li>
+
+          <li>
+            <span (click)="validerBulletin()"><i class="fa fa-check-circle"></i>Valider un bulletin</span>
+          </li>
+
+          <li>
+            <span (click)="parametres()"><i class="fa fa-cog" aria-hidden="true"></i>Paramétres</span>
+          </li>
+        </ng-container>
+
+
+        <ng-container *ngIf="afficheMenuAssure()">
+          <li>
+            <span (click)="consulter()"><i class="fa fa-search" aria-hidden="true"></i>Consulter mes bulletins</span>
+          </li>
+          <li>
+            <span (click)="reclamation()"><i class="fa fa fa-warning" aria-hidden="true"></i>Réclamation</span>
+          </li>
+        </ng-container>
+
 
       </ul>
     </nav>
