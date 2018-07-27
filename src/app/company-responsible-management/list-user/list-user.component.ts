@@ -155,16 +155,25 @@ g: Gestionnaire;
       );
 
   }}
+
 onEditUser(em: User) {
 this.route.navigateByUrl('/dashboard/(dashboard-content:edit-user/' + em.cin + '/' + em.role + ')', {skipLocationChange: true});
+  window.history.pushState(null, '', '/dashboard/(dashboard-content:edit-user/' + em.cin + '/' + em.role + ')');
+
 }
-onInfoUser(us: User) {
-    this.route.navigateByUrl('/dashboard/(dashboard-content:consult-user/' + us.cin + '/' + us.role + ')', {skipLocationChange: true});
+onInfoUser(em: User) {
+    this.route.navigateByUrl('/dashboard/(dashboard-content:consult-user/' + em.cin + '/' + em.role + ')', {skipLocationChange: true});
+  window.history.pushState(null, '', '/dashboard/(dashboard-content:consult-user/' + em.cin + '/' + em.role + ')');
+
 }
 goAddEmploye() {
     this.route.navigateByUrl('/dashboard/(dashboard-content:add-assure)', {skipLocationChange: true});
+  window.history.pushState(null, '', '/dashboard/(dashboard-content:add-assure)');
+
 }
 onHistoryUser(em: User) {
   this.route.navigateByUrl('/dashboard/(dashboard-content:history-user/' + em.cin + '/' + em.role + ')', {skipLocationChange: true});
+  window.history.pushState(null, '', '/dashboard/(dashboard-content:history-user/' + em.cin + '/' + em.role + ')');
+
 }
 }

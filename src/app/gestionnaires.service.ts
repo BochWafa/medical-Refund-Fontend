@@ -12,23 +12,26 @@ export class GestionnairesService {
   addGestionnaire(a: Gestionnaire, access_token: string) {
     return this.http.post(this.url + '/create?access_token=' + access_token, a);
   }
-  getAll() {
-    return this.http.get(this.url + '/all');
+  getAll(access_token: string) {
+    return this.http.get(this.url + '/all' + '?access_token=' + access_token);
   }
   delete(cin: number, access_token: string) {
     return this.http.delete(this.url + '/delete/' + cin + '?access_token=' + access_token);
   }
-  add(gestionnaire) {
-    return this.http.post(this.url + '/create', gestionnaire);
+  add(gestionnaire, access_token: string) {
+    return this.http.post(this.url + '/create' + '?access_token=' + access_token, gestionnaire);
   }
-  getHistory(cin: number) {
-    return this.http.get(this.url + '/history/' + cin);
+  sendMail(cin: number, access_token: string) {
+    return this.http.get(this.url + '/sendmail/' + cin + '?access_token=' + access_token);
+  }
+  getHistory(cin: number, access_token: string) {
+    return this.http.get(this.url + '/history/' + cin + '?access_token=' + access_token);
   }
   getGestionnaire(cin: number, access_token: string) {
     return this.http.get(this.url + '/get/' + cin + '?access_token=' + access_token);
   }
-  update(cin: number, a: Gestionnaire) {
-    return this.http.put(this.url + '/update/' + cin, a );
+  update(cin: number, a: Gestionnaire, access_token: string) {
+    return this.http.put(this.url + '/update/' + cin + '?access_token=' + access_token, a );
   }
 
 

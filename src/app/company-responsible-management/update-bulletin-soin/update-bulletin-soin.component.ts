@@ -71,6 +71,7 @@ export class UpdateBulletinSoinComponent implements OnInit, AfterViewInit {
 
     if (type === 'assure') {
       this.router.navigateByUrl('/dashboard/(dashboard-content:consulter)');
+      window.history.pushState(null, '', '/dashboard/(dashboard-content:consulter)');
     }
 
     this.accessTokenService.getAccessToken().subscribe(

@@ -59,6 +59,7 @@ export class AddBulletinSoinComponent implements OnInit {
 
        if (type === 'assure') {
       this.router.navigateByUrl('/dashboard/(dashboard-content:consulter)');
+         window.history.pushState(null, '', '/dashboard/(dashboard-content:consulter)');
 
     }
 
@@ -140,6 +141,7 @@ export class AddBulletinSoinComponent implements OnInit {
 
 
   valider(pdf) {
+
 
   this.accessTokenService.getAccessToken().subscribe(
     (ato: any) => {

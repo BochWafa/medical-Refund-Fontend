@@ -11,7 +11,7 @@
 
     <div class="row form-group">
       <div class="col col-md-3">
-        <label class=" form-control-label">Cin: </label>
+        <label class=" form-control-label"><font face="verdana" color="green"><strong>Cin: </strong></font></label>
       </div>
       <div class="col-12 col-md-9">
         <label>{{assure.cin}}</label>
@@ -20,7 +20,7 @@
 
     <div class="row form-group">
         <div class="col col-md-3">
-          <label class=" form-control-label">Date Cin: </label>
+          <label class=" form-control-label"><font face="verdana" color="green"><strong>Date Cin</strong></font></label>
         </div>
         <div class="col-12 col-md-9">
           <label>{{assure.dateCin}}</label>
@@ -29,7 +29,7 @@
 
     <div class="row form-group">
       <div class="col col-md-3">
-        <label class=" form-control-label">Numéro de matricule: </label>
+        <label class=" form-control-label"><font face="verdana" color="green"><strong>Numéro de matricule: </strong></font></label>
       </div>
       <div class="col-12 col-md-9">
         <label>{{assure.numMatricule}}</label>
@@ -39,7 +39,7 @@
 
     <div class="row form-group">
       <div class="col col-md-3">
-        <label  class=" form-control-label">Nom: </label>
+        <label  class=" form-control-label"><font face="verdana" color="green"><strong>Nom: </strong></font></label>
       </div>
       <div class="col-12 col-md-9">
         <label>{{assure.nom}}</label>
@@ -48,7 +48,7 @@
 
  <div class="row form-group">
       <div class="col col-md-3">
-        <label class=" form-control-label">Prénom: </label>
+        <label class=" form-control-label"><font face="verdana" color="green"><strong>Prénom: </strong></font></label>
       </div>
       <div class="col-12 col-md-9">
         <label>{{assure.prenom}}</label>
@@ -57,7 +57,7 @@
 
   <div class="row form-group">
         <div class="col col-md-3">
-          <label class=" form-control-label">Sexe: </label>
+          <label class=" form-control-label"><font face="verdana" color="green"><strong>Sexe: </strong></font></label>
         </div>
         <div class="col-12 col-md-9">
           <label>{{assure.sexe}}</label>
@@ -66,7 +66,7 @@
 
     <div class="row form-group">
       <div class="col col-md-3">
-        <label  class=" form-control-label">Email: </label>
+        <label  class=" form-control-label"><font face="verdana" color="green"><strong>Email: </strong></font></label>
       </div>
       <div class="col-12 col-md-9">
         <label>{{assure.email}}</label>
@@ -76,7 +76,7 @@
 
     <div class="row form-group">
       <div class="col col-md-3">
-        <label  class=" form-control-label">Date de naissance: </label>
+        <label  class=" form-control-label"><font face="verdana" color="green"><strong>Date de naissance: </strong></font></label>
       </div>
       <div class="col-12 col-md-9">
         <label>{{assure.dateNaissance}}</label>
@@ -86,7 +86,7 @@
 
     <div class="row form-group">
       <div class="col col-md-3">
-        <label class=" form-control-label">Adresse: </label>
+        <label class=" form-control-label"><font face="verdana" color="green"><strong>Adresse: </strong></font></label>
       </div>
       <div class="col-12 col-md-9">
         <label>{{assure.adresse}}</label>
@@ -94,22 +94,22 @@
     </div>
 
     <div class="row form-group">
-        <div class="col col-md-3">Date de dernière Modification:</div>
+        <div class="col col-md-3"><font face="verdana" color="green"><strong>Date de dernière modification: </strong></font></div>
         <div class="col-12 col-md-9">
-          <label>{{assure.dateDerniereModif}}</label>
+          <label>{{assure.dateDerniereModif | date : "MMM d, y HH:mm:ss"}}</label>
         </div>
       </div>
 
       <div class="row form-group">
-          <div class="col col-md-3">Date d'inscription':</div>
+          <div class="col col-md-3"><font face="verdana" color="green"><strong>Date d'inscription: </strong></font></div>
           <div class="col-12 col-md-9">
-            <label>{{assure.dateInscription}}</label>
+            <label>{{assure.dateInscription | date : "MMM d, y HH:mm:ss"}}</label>
           </div>
         </div>
 
       <div class="row form-group">
           <div class="col col-md-3">
-            <label class=" form-control-label">Role: </label>
+            <label class=" form-control-label"><font face="verdana" color="green"><strong>Rôle: </strong></font> </label>
           </div>
           <div class="col-12 col-md-9">
             <label>{{role}}</label>
@@ -122,25 +122,46 @@
 
     <div class="row form-group">
         <div class="col col-md-3">
-          <label class=" form-control-label">Poste: </label>
+          <label class=" form-control-label"><font face="verdana" color="green"><strong>Poste: </strong></font></label>
         </div>
         <div class="col-12 col-md-9">
           <label>{{assure.poste}}</label>
         </div>
       </div>
 
-    <div class="row form-group">
-      <div class="col col-md-3">
-        <label class=" form-control-label">Nombre De Personne En Charge: </label>
+      <div class="row form-group">
+        <div class="col col-md-3">
+          <label  class=" form-control-label"><font face="verdana" color="green"><strong>Situation familiale: </strong></font></label>
+        </div>
+        <div class="col-12 col-md-9">
+          <label>{{assure.situationFamiliale}}</label>
       </div>
-      <div class="col-12 col-md-9">
-        <label>{{assure.nbrPersonneEnCharge}}</label>
       </div>
-    </div>
+
+
+      <div class="row form-group" *ngIf="assure.situationFamiliale === 'Marié' || assure.situationFamiliale === 'MariéEnfant'">
+          <div class="col col-md-3">
+            <label  class=" form-control-label"><font face="verdana" color="green"><strong>Nom du conjoint: </strong></font></label>
+          </div>
+          <div class="col-12 col-md-9">
+            <label>{{assure.nomConjoint }}</label>
+          </div>
+        </div>
+
+
+<div class="row form-group" *ngIf="assure.nbrPersonneEnCharge === 'MariéEnfant'">
+<div class="col col-md-3">
+  <label  class=" form-control-label"><font face="verdana" color="green"><strong>Nombre de personne(s) en charge: </strong></font></label>
+</div>
+<div class="col-12 col-md-9">
+  <label>{{assure.nbrPersonneEnCharge}}</label>
+</div>
+</div>
+
 
     <div class="row form-group">
       <div class="col col-md-3">
-        <label class=" form-control-label">Nationnalité: &nbsp;&nbsp;&nbsp;&nbsp;</label>
+        <label class=" form-control-label"><font face="verdana" color="green"><strong>Nationnalité: &nbsp;&nbsp;&nbsp;&nbsp;</strong></font></label>
       </div>
       <div class="col-12 col-md-9">
         <label>{{assure.nationnalite}}</label>
@@ -148,18 +169,11 @@
     </div>
 
 
-    <div class="row form-group">
-      <div class="col col-md-3">
-        <label class=" form-control-label">Situation familiale: </label>
-      </div>
-      <div class="col-12 col-md-9">
-        <label>{{assure.situationFamiliale}}</label>
-      </div>
-    </div>
+
 
     <div class="row form-group">
       <div class="col col-md-3">
-        <label class=" form-control-label">Salaire: </label>
+        <label class=" form-control-label"><font face="verdana" color="green"><strong>Salaire: </strong></font></label>
       </div>
       <div class="col-12 col-md-9">
         <label>{{assure.salaire}}</label>
@@ -169,16 +183,7 @@
 
     <div class="row form-group">
       <div class="col col-md-3">
-        <label class=" form-control-label">Nom Du Conjoint: </label>
-      </div>
-      <div class="col-12 col-md-9">
-        <label>{{assure.nomConjoint }}</label>
-      </div>
-    </div>
-
-    <div class="row form-group">
-      <div class="col col-md-3">
-        <label class=" form-control-label">Numéro d'affiliation Cnam: </label>
+        <label class=" form-control-label"><font face="verdana" color="green"><strong>Numéro d'affiliation Cnam: </strong></font></label>
       </div>
       <div class="col-12 col-md-9">
         <label>{{assure.numAffiliationCnam}}</label>
@@ -188,7 +193,7 @@
 
     <div class="row form-group">
       <div class="col col-md-3">
-        <label class=" form-control-label">Filière CNAM: </label>
+        <label class=" form-control-label"><font face="verdana" color="green"><strong>Filière Cnam: </strong></font></label>
       </div>
       <div class="col-12 col-md-9">
         <label>{{assure.filiereCnam}}</label>
@@ -198,16 +203,12 @@
 
     <div class="row form-group">
       <div class="col col-md-3">
-        <label class=" form-control-label">Fiche D'Affiliation CNAM: </label>
+        <label class=" form-control-label"><font face="verdana" color="green"><strong>Fiche d'affiliation Cnam: </strong></font></label>
       </div>
       <div class="col-12 col-md-9">
-        <label><a><i class="fa fa-download"></i> Download</a></label>
+        <label><a target="_blank" href="http://localhost:8080/assure/downloadAffFile/{{assure.urlFichierAffiliation}}"><i class="fa fa-download"></i> Download</a></label>
       </div>
     </div>
-
-
-
-
   </div>
 </div>
 </div>

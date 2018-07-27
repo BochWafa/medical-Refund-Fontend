@@ -71,8 +71,10 @@ assure: any;
 
     if (type === 'assure') {
       this.router.navigateByUrl('/dashboard/(dashboard-content:consulter)');
+      window.history.pushState(null, '', '/dashboard/(dashboard-content:consulter)');
     } else if (type === 'gestionnaire') {
       this.router.navigateByUrl('/dashboard/(dashboard-content:list-bulletin)');
+      window.history.pushState(null, '', '/dashboard/(dashboard-content:list-bulletin)');
 
     }
 

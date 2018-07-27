@@ -6,6 +6,7 @@ import { GestionnairesService } from '../../gestionnaires.service';
 import { Assure } from '../../assure';
 import { Admin } from '../../Admin';
 import { Gestionnaire } from '../../Gestionnaire';
+import {AccessTokenService} from '../../access-token.service';
 
 @Component({
   selector: 'app-history',
@@ -16,28 +17,40 @@ export class HistoryComponent implements OnInit {
 cin: number;
 role: string;
 user: Array<any>;
+mode: number;
+employe: any;
   constructor( private r: ActivatedRoute,
                 private as: AssuresService,
                 private ads: AdminsService,
-                private gs: GestionnairesService, private router: Router) {
-    this.cin = this.r.snapshot.params['cin'];
-    this.role = this.r.snapshot.params['role'];
-      if (this.role === 'Assuré') {
-          this.as.getHistory(this.cin).subscribe((response: Array<Assure>) => {
+                private gs: GestionnairesService, private router: Router, private accessTokenService: AccessTokenService) {
+
+
+    this.accessTokenService.getAccessToken().subscribe(
+      (ato: any) => {
+        this.cin = this.r.snapshot.params['cin'];
+        this.role = this.r.snapshot.params['role'];
+        if (this.role === 'Assuré') {
+          this.as.getHistory(this.cin, ato.access_token).subscribe((response: Array<Assure>) => {
             this.user = new Array<Assure>();
             this.user = response;
+            this.mode = 1;
           }, error => {console.log(error); });
-      } else if (this.role === 'Admin') {
-        this.ads.getHistory(this.cin).subscribe((response: Array<Admin>) => {
-          this.user = new Array<Admin>();
-          this.user = response;
-        }, error => {console.log(error); });
-      } else if (this.role === 'Gestionnaire') {
-        this.gs.getHistory(this.cin).subscribe((response: Array<Gestionnaire>) => {
-          this.user = new Array<Gestionnaire>();
-          this.user = response;
-        }, error => {console.log(error); });
-      }
+        } else if (this.role === 'Admin') {
+          this.ads.getHistory(this.cin, ato.access_token).subscribe((response: Array<Admin>) => {
+            this.user = new Array<Admin>();
+            this.user = response;
+            this.mode = 1;
+          }, error => {console.log(error); });
+        } else if (this.role === 'Gestionnaire') {
+          this.gs.getHistory(this.cin, ato.access_token).subscribe((response: Array<Gestionnaire>) => {
+            this.user = new Array<Gestionnaire>();
+            this.user = response;
+            this.mode = 1;
+          }, error => {console.log(error); });
+        }
+      },
+      (e) => console.log(e)
+    );
   }
   ngOnInit() {
 
@@ -51,5 +64,10 @@ user: Array<any>;
     }
 
   }
+  onVisualize(em) {
+    this.mode = 2;
+    this.employe = em;
+  }
+
 
 }

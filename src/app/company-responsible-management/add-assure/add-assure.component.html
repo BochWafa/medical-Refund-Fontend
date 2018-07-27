@@ -11,12 +11,13 @@
           <label for="cin" class=" form-control-label">Cin</label>
         </div>
         <div class="col-12 col-md-9">
-          <input type="number" id="cin"  name="cin" formControlName="cin" placeholder="Entrer Votre Cin..." class="form-control">
-          <div class="alert alert-danger" *ngIf="(form.get('cin').dirty || form.get('cin').touched) && form.get('cin').invalid ">
-            <div *ngIf="form.get('cin').errors.required">Le champ <strong>Cin</strong> est obligatoire</div>
+          <input type="number" id="cin" class="invalid" name="cin" formControlName="cin" placeholder="Entrer Votre Cin..." class="form-control">
+          <div class="alert alert-danger" *ngIf="(form.get('cin').dirty || form.get('cin').touched) && (form.get('cin').invalid)">
+            <div *ngIf="form.get('cin').errors.required ">Le champ <strong>Cin</strong> est obligatoire</div>
             <div *ngIf="form.get('cin').errors.verifyCin && form.get('cin').dirty">Le champ <strong>Cin</strong> doit être composé de 8 chiffres</div>
+</div>
+            <div class="alert alert-danger" *ngIf="!verifyUnicityCin(form.get('cin').value) && form.get('cin').dirty">La valeur du <strong>CIN</strong> déja existante</div>
 
-          </div>
       </div>
       </div>
 
@@ -41,11 +42,13 @@
         </div>
         <div class="col-12 col-md-9">
           <input type="number" id="mat" name="mat" formControlName="numMatricule" placeholder="Entrer Votre N° De Matriculation..." class="form-control">
-          <div class="alert alert-danger" *ngIf="(form.get('numMatricule').touched || form.get('numMatricule').dirty) && form.get('numMatricule').invalid">
+          <div class="alert alert-danger" *ngIf="((form.get('numMatricule').touched || form.get('numMatricule').dirty) && form.get('numMatricule').invalid )">
             <div *ngIf="form.get('numMatricule').errors.required">Le champ <strong>Numéro de matricule</strong> est obligatoire</div>
-            <div *ngIf="form.get('numMatricule').errors.verifyPositif && form.get('numMatricule').dirty">Entrer un <strong>Numéro de matricule</strong> valide</div>
+           <div *ngIf="form.get('numMatricule').dirty">
+            <div *ngIf="form.get('numMatricule').errors.verifyPositif">Entrer un <strong>Numéro de matricule</strong> valide</div>
           </div>
         </div>
+      </div>
       </div>
 
 
@@ -129,20 +132,6 @@
 
       <div class="row form-group">
         <div class="col col-md-3">
-          <label for="pw" class=" form-control-label">Mot de passe</label>
-        </div>
-        <div class="col-12 col-md-9">
-          <input type="password" id="pw" formControlName="password" name="pw" placeholder="Entrer Votre Mot De Passe..." class="form-control">
-          <div class="alert alert-danger" *ngIf="(form.get('password').touched || form.get('password').dirty) && form.get('password').invalid">
-            <div *ngIf="form.get('password').errors.required">Le champ <strong>Mot de passe</strong> est obligatoire</div>
-            <div *ngIf="form.get('password').errors.verifyPassword">Le champs <strong>Mot de passe</strong> doit contenir des chiffres et des alphabets.</div>
-            <div *ngIf="form.get('password').errors.minlength">Le champs <strong>Mot de passe </strong> doit être composé de 4 caractères</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row form-group">
-        <div class="col col-md-3">
           <label for="role" class=" form-control-label">Rôle</label>
         </div>
         <div class="col-12 col-md-9">
@@ -168,9 +157,9 @@
             <div class="col-12 col-md-9">
               <select name="poste" id="poste" class="form-control" formControlName="poste">
                 <option value="PDG">PDG</option>
-                <option value="ChefProjet">A</option>
-                <option value="Développeur">B</option>
-                <option value="Commerciale">C</option>
+                <option value="ChefProjet">Chef de projet</option>
+                <option value="Développeur">Développeur</option>
+                <option value="Commerciale">Commerciale</option>
               </select>
                   <div class="alert alert-danger" *ngIf="form.get('poste').touched && form.get('poste').pristine">
                       Le champ <strong>Poste</strong> est obligatoire
@@ -283,7 +272,10 @@
               <label for="filegat" class=" form-control-label">Fiche D'Affiliation CNAM</label>
             </div>
             <div class="col-12 col-md-9">
-              <input type="file" id="filegat" name="filegat" class="form-control-file" formControlName="urlFichierAffiliation">
+              <input type="file" class="inputs" multiple id="filegat" name="file" formControlName="urlFichierAffiliation" (change)="fileEvent($event)" >
+              <div class="alert alert-danger" *ngIf="form.get('urlFichierAffiliation').touched && (form.get('urlFichierAffiliation').pristine || !PDFValid())">
+                Le <strong>Fichier d'Affiliation</strong> doit avoir l'extension PDF
+              </div>
             </div>
           </div>
         </div>
@@ -314,7 +306,7 @@
 
       <div class="row form-group">
           <div class="col col-md-3">
-            <label for="cin" class=" form-control-label">Cin: </label>
+            <label for="cin" class=" form-control-label"><font color="#004000"><strong>Cin: </strong></font></label>
           </div>
           <div class="col-12 col-md-9">
             <label>{{assure.cin}}</label>
@@ -416,7 +408,7 @@
 
 
 
-        <div *ngIf="assure.role === 'Assuré'">
+        <div *ngIf="x.role === 'Assuré'">
             <div class="row form-group">
                 <div class="col col-md-3">
                   <label for="role" class=" form-control-label">Poste: </label>
@@ -495,14 +487,13 @@
             <label for="filegat" class=" form-control-label">Fiche D'Affiliation CNAM: </label>
           </div>
           <div class="col-12 col-md-9">
-            <label><a><i class="fa fa-download"></i> Download</a></label>
+            <label><a target="_blank" href="http://localhost:8080/assure/downloadAffFile/{{assure.urlFichierAffiliation}}"><i class="fa fa-download"></i> Download</a></label>
           </div>
         </div>
 
       </div>
-      <button (click)="onRedirectToListe()" class="clickable btn btn-success"><i class="fas fa-user-plus"></i>&nbsp;&nbsp;Liste des utilisateurs</button>
-
+     <!-- <button (click)="onRedirectToListe()" class="clickable btn btn-success"><i class="fas fa-user-plus"></i>&nbsp;&nbsp;Liste des utilisateurs</button>
+     -->
     </div>
-
 </div>
 </div>

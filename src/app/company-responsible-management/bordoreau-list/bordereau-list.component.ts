@@ -61,6 +61,7 @@ export class BordereauListComponent implements OnInit {
 
     if (type === 'assure') {
       this.router.navigateByUrl('/dashboard/(dashboard-content:consulter)');
+      window.history.pushState(null, '', '/dashboard/(dashboard-content:consulter)');
     }
 
     this.getAssures();

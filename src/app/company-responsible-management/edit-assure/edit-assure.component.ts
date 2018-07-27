@@ -60,8 +60,10 @@ testButton() {
            this.form.get('numAffiliationCnam').value !== null &&
            this.form.get('filiereCnam').value !== null ) {
             if (this.form.get('situationFamiliale').value === 'Célibataire' ||
-            (this.form.get('situationFamiliale').value === 'Marié' && (this.form.get('nomConjoint').value !== '' && this.form.get('nomConjoint').value !== null)) ||
-            (this.form.get('situationFamiliale').value === 'MariéEnfant' && (this.form.get('nomConjoint').value !== '' && this.form.get('nomConjoint').value !== null) &&
+            (this.form.get('situationFamiliale').value === 'Marié' && (this.form.get('nomConjoint').value !== '' &&
+              this.form.get('nomConjoint').value !== null)) ||
+            (this.form.get('situationFamiliale').value === 'MariéEnfant' && (this.form.get('nomConjoint').value !== '' &&
+              this.form.get('nomConjoint').value !== null) &&
              this.form.get('nbrPersonneEnCharge').value !== null)) {
               test = false; }
            }
@@ -100,34 +102,42 @@ onChangeMode() {
 }
 
 updateUser() {
-    if (this.role === 'Assuré') {
-      this.es.update(this.cin, this.user).subscribe(() => {
-        console.log('okkkkkkkkkkkkk');
-          this.mode = 2;
-        },
-        error => { console.log('errror: ' + error); });
+
+  this.accessTokenService.getAccessToken().subscribe(
+    (ato: any) => {
+      if (this.role === 'Assuré') {
+        this.es.update(this.cin, this.user, ato.access_token).subscribe(() => {
+            console.log('okkkkkkkkkkkkk');
+            this.mode = 2;
+          },
+          error => { console.log('errror: ' + error); });
 
       } else if (this.role === 'Admin') {
-      this.ads.update(this.cin, this.user).subscribe(() => {
-         console.log('OKK');
-          this.mode = 2;
-        },
-        error => { console.log('errror: ' + error); });
+        this.ads.update(this.cin, this.user, ato.access_token).subscribe(() => {
+            console.log('OKK');
+            this.mode = 2;
+          },
+          error => { console.log('errror: ' + error); });
 
       } else if (this.role === 'Gestionnaire') {
-      this.gs.update(this.cin, this.user).subscribe(() => {
-        console.log('okkkkkkkkkkkkk');
-          this.mode = 2;
-        },
-        error => { console.log('errror: ' + error); });
-    }
+        this.gs.update(this.cin, this.user, ato.access_token).subscribe(() => {
+            console.log('okkkkkkkkkkkkk');
+            this.mode = 2;
+          },
+          error => { console.log('errror: ' + error); });
+      }
+    },
+    (e) => console.log(e)
+  );
+
   }
 
 
 constructor(private  activatedRoute: ActivatedRoute,
  private es: AssuresService,
  private ads: AdminsService,
- private gs: GestionnairesService, private accessTokenService: AccessTokenService, private router: Router, private headerService: HeaderService) {
+ private gs: GestionnairesService, private accessTokenService: AccessTokenService, private router: Router,
+            private headerService: HeaderService) {
 this.cin = this.activatedRoute.snapshot.params['cin'];
 this.role = this.activatedRoute.snapshot.params['role'];
 if (this.role === 'Assuré') {
@@ -175,8 +185,11 @@ if (this.role === 'Assuré') {
 
     if (type === 'assure') {
       this.router.navigateByUrl('/dashboard/(dashboard-content:consulter)');
+      window.history.pushState(null, '', '/dashboard/(dashboard-content:consulter)');
+
     } else if (type === 'gestionnaire') {
       this.router.navigateByUrl('/dashboard/(dashboard-content:list-bulletin)');
+      window.history.pushState(null, '', '/dashboard/(dashboard-content:list-bulletin)');
 
     }
 

@@ -14,11 +14,14 @@ AdminsService() {}
 addAdmin(a: Admin, access_token: string) {
   return this.http.post(this.url + '/create?access_token=' + access_token, a);
 }
-  getAll() {
-    return this.http.get(this.url + '/all');
+sendMail(cin: number, access_token: string) {
+  return this.http.get(this.url + '/sendmail/' + cin + '?access_token=' + access_token);
+}
+  getAll(access_token: string) {
+    return this.http.get(this.url + '/all' + '?access_token=' + access_token);
   }
-  getHistory(cin: number) {
-    return this.http.get(this.url + '/history/' + cin);
+  getHistory(cin: number, access_token: string) {
+    return this.http.get(this.url + '/history/' + cin + '?access_token=' + access_token);
   }
   delete(cin: number, access_token: string) {
     return this.http.delete(this.url + '/delete/' + cin + '?access_token=' + access_token);
@@ -26,8 +29,8 @@ addAdmin(a: Admin, access_token: string) {
   getAdmin(cin: number, access_token: string) {
     return this.http.get(this.url + '/get/' + cin + '?access_token=' + access_token);
   }
-  update(cin: number, a: Admin) {
-    return this.http.put(this.url + '/update/' + cin, a );
+  update(cin: number, a: Admin, access_token: string) {
+    return this.http.put(this.url + '/updateadmin/' + cin + '?access_token=' + access_token, a );
   }
 
 
