@@ -44,8 +44,12 @@ export class MenuComponent implements OnInit {
   }
 
 
+
+
+
   listEmploye() {
     this.router.navigateByUrl('/dashboard/(dashboard-content:list-user)', { skipLocationChange: true });
+    window.history.pushState(null, '', '/dashboard/(dashboard-content:list-user)');
   }
 
 
@@ -53,6 +57,7 @@ export class MenuComponent implements OnInit {
   listBulletin() {
 
     this.router.navigateByUrl('/dashboard/(dashboard-content:list-bulletin)', {skipLocationChange: true});
+    window.history.pushState(null, '', '/dashboard/(dashboard-content:list-bulletin)');
 
 
   }
@@ -60,28 +65,38 @@ export class MenuComponent implements OnInit {
 
   validerBulletin() {
     this.router.navigateByUrl('/dashboard/(dashboard-content:valid-bulletin)', {skipLocationChange: true});
+    window.history.pushState(null, '', '/dashboard/(dashboard-content:valid-bulletin)');
   }
 
 
   bordoreauList() {
     this.router.navigateByUrl('/dashboard/(dashboard-content:bordereau-list)', {skipLocationChange: true});
+    window.history.pushState(null, '', '/dashboard/(dashboard-content:bordereau-list)');
+
   }
 
   bordoreauHistorique() {
     this.router.navigateByUrl('/dashboard/(dashboard-content:bordereau-historique)', {skipLocationChange: true});
+    window.history.pushState(null, '', '/dashboard/(dashboard-content:bordereau-historique)');
+
   }
 
   parametres() {
     this.router.navigateByUrl('/dashboard/(dashboard-content:parametres)', {skipLocationChange: true});
+    window.history.pushState(null, '', '/dashboard/(dashboard-content:parametres)');
+
   }
 
 
   consulter() {
     this.router.navigateByUrl('/dashboard/(dashboard-content:consulter)', {skipLocationChange: true});
+    window.history.pushState(null, '', '/dashboard/(dashboard-content:consulter)');
+
   }
 
   reclamation() {
     this.router.navigateByUrl('/dashboard/(dashboard-content:reclamation)', {skipLocationChange: true});
+    window.history.pushState(null, '', '/dashboard/(dashboard-content:reclamation)');
 
   }
 

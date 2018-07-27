@@ -25,7 +25,7 @@ export class ParametresGestionnaireComponent implements OnInit {
 
   ngOnInit() {
 
-    setTimeout(() => this.headerService.showSearch = false, 200);
+    setTimeout(() => {this.headerService.showSearch = false; this.headerService.title = 2; }, 200);
 
     const type = localStorage.getItem('type');
 

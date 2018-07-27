@@ -22,6 +22,7 @@ import { BordereauHistoriqueComponent } from './bordereau-historique/bordereau-h
 import { BordereauElementComponent } from './bordereau-historique/bordereau-element/bordereau-element.component';
 import { ExcelComponent } from './list-user/excel/excel.component';
 import { RemboursementDialogComponent } from './dialogs/remboursement-dialog/remboursement-dialog.component';
+import { RefuserRemboursementComponent } from './dialogs/refuser-remboursement/refuser-remboursement.component';
 
 
 
@@ -34,7 +35,7 @@ import { RemboursementDialogComponent } from './dialogs/remboursement-dialog/rem
   ],
 
   entryComponents: [ConfirmDialogComponent, InfoDialogComponent, DateEnvoiComponent, BordereauElementComponent,
-    RemboursementDialogComponent],
+    RemboursementDialogComponent, RefuserRemboursementComponent],
 
   declarations: [
     AddAssureComponent,
@@ -44,7 +45,8 @@ import { RemboursementDialogComponent } from './dialogs/remboursement-dialog/rem
     UpdateBulletinSoinComponent, ShowBulletinComponent, ConfirmDialogComponent, InfoDialogComponent,
     BordereauListComponent, ParametresGestionnaireComponent, DateEnvoiComponent, ValidationBulletinComponent,
     BordereauHistoriqueComponent, BordereauElementComponent, HistoryComponent, ListUserComponent, ExcelComponent,
-    RemboursementDialogComponent
+    RemboursementDialogComponent,
+    RefuserRemboursementComponent
   ]
 
 

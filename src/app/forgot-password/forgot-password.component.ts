@@ -18,6 +18,10 @@ export class ForgotPasswordComponent implements OnInit {
               private dialogService: DivDialogService, private router: Router) { }
 
   ngOnInit() {
+
+    document.title = 'Cynapsys';
+
+
   }
 
 

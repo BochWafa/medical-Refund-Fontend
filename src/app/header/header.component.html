@@ -6,13 +6,36 @@
 
 
         <form class="form-header">
+
+
+
           <input class="au-input au-input--xl" type="text" name="search" (change)="doSearch(search.value)"   (keyup)="doSearch(search.value)" #search
                  [placeholder]="headerService.placeholder" *ngIf="totale === -1 && headerService.showSearch" />
           <button class="au-btn--submit" type="submit" *ngIf="totale === -1 && headerService.showSearch">
             <i class="zmdi zmdi-search"></i>
           </button>
 
-          <b><div class="remboursement" *ngIf="totale !== -1">Montant remboursé &nbsp;: &nbsp;<span>{{totale}} dinar</span></div></b>
+
+
+
+          <b><div class="remboursement" *ngIf="totale !== -1 && !headerService.showShow">Montant remboursé &nbsp;: &nbsp;<span>{{totale}} dinar</span></div></b>
+
+
+
+
+         <div class="remboursement" *ngIf="headerService.title === 1 && (totale !== -1 || !headerService.showSearch)">
+           <i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;&nbsp;Historique des bordereaux
+            </div>
+
+
+          <div class="remboursement" *ngIf="headerService.title === 2 && (totale !== -1 || !headerService.showSearch)">
+            <i class="fa fa-cog" aria-hidden="true"></i>&nbsp;&nbsp;Paramétres
+            &nbsp;</div>
+
+
+          <div class="remboursement" *ngIf="headerService.title === 3 &&  headerService.showShow">
+            <i class="fa  fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;Bulletin de soin
+            &nbsp;</div>
 
         </form>
 

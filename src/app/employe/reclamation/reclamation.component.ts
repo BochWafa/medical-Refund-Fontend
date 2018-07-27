@@ -6,6 +6,7 @@ import {EmployeService} from '../employe.service';
 import {Email} from '../../entities/email';
 import {DivDialogService} from '../../company-responsible-management/dialogs/div-dialog.service';
 import {InfoDialogComponent} from '../../company-responsible-management/dialogs/info-dialog/info-dialog.component';
+import {HeaderService} from '../../header/header.service';
 
 @Component({
   selector: 'app-reclamation',
@@ -23,9 +24,12 @@ export class ReclamationComponent implements OnInit {
 
   constructor(private router: Router, private accessTokenService: AccessTokenService,
                 private employeService: EmployeService, private dialogService: DivDialogService,
-                private resolver: ComponentFactoryResolver) { }
+                private resolver: ComponentFactoryResolver, private headerService: HeaderService) { }
 
   ngOnInit() {
+
+    setTimeout(() => this.headerService.showShow = false, 200);
+
 
     const assure = JSON.parse(localStorage.getItem('assure'));
     this.sender = 'CIN : ' + assure.cin + ' / Nom et Prénom : ' + assure.nom + ' ' + assure.prenom;
@@ -34,9 +38,11 @@ export class ReclamationComponent implements OnInit {
 
     if (type === 'admin') {
       this.router.navigateByUrl('/dashboard/(dashboard-content:list-user)');
+      window.history.pushState(null, '', '/dashboard/(dashboard-content:list-user)');
+
     } else if (type === 'gestionnaire') {
       this.router.navigateByUrl('/dashboard/(dashboard-content:list-bulletin)');
-
+      window.history.pushState(null, '', '/dashboard/(dashboard-content:list-bulletin)');
     }
   }
 

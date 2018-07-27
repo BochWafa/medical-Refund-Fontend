@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
+import * as $ from 'jquery';
+
 
 @Component({
   selector: 'app-home',
@@ -27,6 +29,83 @@ export class HomeComponent implements OnInit {
       }
     }
 
+
+
+    $(document).ready(function() {
+      // Add smooth scrolling to all links
+      $('#infoo').on('click', function(event) {
+
+        // Make sure this.hash has a value before overriding default behavior
+        if (this.hash !== '') {
+          // Prevent default anchor click behavior
+          event.preventDefault();
+
+          // Store hash
+          const hash = this.hash;
+
+          // Using jQuery's animate() method to add smooth page scroll
+          // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+          $('html, body').animate({
+            scrollTop: $(hash).offset().top
+          }, 800, function() {
+
+            // Add hash (#) to URL when done scrolling (default click behavior)
+            window.location.hash = hash;
+          });
+        } // End if
+      });
+    });
+
+
+    $(document).ready(function() {
+      // Add smooth scrolling to all links
+      $('#servicee').on('click', function(event) {
+
+        // Make sure this.hash has a value before overriding default behavior
+        if (this.hash !== '') {
+          // Prevent default anchor click behavior
+          event.preventDefault();
+
+          // Store hash
+          const hash = this.hash;
+
+          // Using jQuery's animate() method to add smooth page scroll
+          // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+          $('html, body').animate({
+            scrollTop: $(hash).offset().top
+          }, 800, function() {
+
+            // Add hash (#) to URL when done scrolling (default click behavior)
+            window.location.hash = hash;
+          });
+        } // End if
+      });
+    });
+
+    $(document).ready(function() {
+      // Add smooth scrolling to all links
+      $('#pluss').on('click', function(event) {
+
+        // Make sure this.hash has a value before overriding default behavior
+        if (this.hash !== '') {
+          // Prevent default anchor click behavior
+          event.preventDefault();
+
+          // Store hash
+          const hash = this.hash;
+
+          // Using jQuery's animate() method to add smooth page scroll
+          // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+          $('html, body').animate({
+            scrollTop: $(hash).offset().top
+          }, 800, function() {
+
+            // Add hash (#) to URL when done scrolling (default click behavior)
+            window.location.hash = hash;
+          });
+        } // End if
+      });
+    });
 
   }
 

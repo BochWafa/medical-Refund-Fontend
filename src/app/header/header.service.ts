@@ -14,6 +14,11 @@ export class HeaderService {
   searchEvent: Subject<boolean> = new Subject<boolean>();
 
 
+  title = 0;
+
+
+  showShow = false;
+
   constructor() { }
 
 

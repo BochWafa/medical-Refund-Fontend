@@ -122,16 +122,21 @@ export class ListBulletinSoinComponent implements OnInit {
   goAddBulletinSoin() {
 
     this.router.navigateByUrl('/dashboard/(dashboard-content:add-bulletin)', {skipLocationChange: true});
+    window.history.pushState(null, '', '/dashboard/(dashboard-content:add-bulletin)');
 
   }
 
 
   onInfo(id) {
     this.router.navigateByUrl('/dashboard/(dashboard-content:show-bulletin/' + id + ')', {skipLocationChange: true});
+    window.history.pushState(null, '', '/dashboard/(dashboard-content:show-bulletin/' + id + ')');
+
   }
 
   onEdit(id) {
     this.router.navigateByUrl('/dashboard/(dashboard-content:update-bulletin/' + id + ')', {skipLocationChange: true});
+    window.history.pushState(null, '', '/dashboard/(dashboard-content:update-bulletin/' + id + ')');
+
   }
 
 

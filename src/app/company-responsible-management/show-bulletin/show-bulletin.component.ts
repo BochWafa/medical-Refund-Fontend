@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {BulletinSoinService} from '../services/bulletin-soin.service';
 import {BulletinSoin} from '../../entities/bulletin-soin';
@@ -11,7 +11,7 @@ import {HeaderService} from '../../header/header.service';
   templateUrl: './show-bulletin.component.html',
   styleUrls: ['./show-bulletin.component.css']
 })
-export class ShowBulletinComponent implements OnInit {
+export class ShowBulletinComponent implements OnInit, OnDestroy {
 
   bulletinSoin: BulletinSoin;
   assures: Array<any>;
@@ -21,7 +21,7 @@ export class ShowBulletinComponent implements OnInit {
 
   ngOnInit() {
 
-    setTimeout(() => this.headerService.showSearch = false, 200);
+    setTimeout(() => {this.headerService.showSearch = false; this.headerService.title = 3; this.headerService.showShow = true; }, 200);
 
     this.accessTokenService.getAccessToken().subscribe(
       (ato: any) => {
@@ -109,6 +109,11 @@ return null;
     }}
 
     return null;
+  }
+
+  ngOnDestroy(): void {
+    setTimeout(() => {this.headerService.showShow = false; }, 200);
+
   }
 
 }

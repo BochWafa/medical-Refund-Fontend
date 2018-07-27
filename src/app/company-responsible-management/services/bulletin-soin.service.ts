@@ -15,6 +15,7 @@ export class BulletinSoinService {
   private URL_GET_BULLETIN_BY_ID = 'http://localhost:8080/bulletin/';
   private URL_DELETE_BULLETIN = 'http://localhost:8080/bulletin/delete/';
   private URL_VALID_BULLETIN = 'http://localhost:8080/bulletin/remboursement/';
+  private URL_REFUSER_BULLETIN = 'http://localhost:8080/bulletin/refuser/';
   private URL_GET_BY_BORDEREAU_ID = 'http://localhost:8080/bulletin/byBordereauId/';
   private URL_GET_BY_ASSURE_ID = 'http://localhost:8080/bulletin/byAssureId/';
   private URL_TOTALE_ASSURE_BY_ID = 'http://localhost:8080/bulletin/totale/';
@@ -86,7 +87,17 @@ validBulletin(bulletin: BulletinSoin, id: number, access_token: string) {
 }
 
 
-getBulletinsByBordereauId(id: number, access_token: string) {
+refuserBulletin(bulletin: BulletinSoin, id: number, access_token: string) {
+  const headers = new HttpHeaders();
+  headers.set('Content-Type', 'application/json; charset=utf-8');
+
+  return this.http.put(this.URL_REFUSER_BULLETIN + id + '?access_token=' + access_token, bulletin,
+    {headers: headers, responseType: 'text'});
+}
+
+
+
+  getBulletinsByBordereauId(id: number, access_token: string) {
     return this.http.get<Array<BulletinSoin>>(this.URL_GET_BY_BORDEREAU_ID + id + '?access_token=' + access_token);
 }
 

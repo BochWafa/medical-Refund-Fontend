@@ -208,7 +208,7 @@ addArticles() {
 
     this.accessTokenService.getAccessToken().subscribe(
       (ato: any) => {
-        this.service.addBulletinSoin(bulletin, ato.acces_token).subscribe(
+        this.service.addBulletinSoin(bulletin, ato.access_token).subscribe(
           (result: string) => {
             if (result === 'ok') {
               this.succes();
@@ -273,7 +273,7 @@ addArticles() {
 
 
         const bulletin = new BulletinSoin(this.numBulletin, this.bulletinSoin.urlBulletin, this.montant, this.montantPharmacie,
-          new Date(this.dateSoin), this.bulletinSoin.etat, this.bulletinSoin.active, this.assure);
+          new Date(this.dateSoin), 'En cours', this.bulletinSoin.active, this.assure);
         bulletin.resultat = this.bulletinSoin.resultat;
         bulletin.dateValidation = this.bulletinSoin.dateValidation;
         bulletin.dateAffiliation = this.bulletinSoin.dateAffiliation;

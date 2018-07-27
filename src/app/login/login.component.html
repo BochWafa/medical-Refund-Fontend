@@ -5,20 +5,20 @@
         <div class="login-content">
           <div class="login-logo">
 
-              <img src="assets/images/icon/logo.png" alt="logo cynapsys">
+              <img src="assets/images/icon/logo.png" alt="logo cynapsys" width="200">
 
           </div>
           <div class="login-form">
             <form>
               <div class="form-group">
-                <label>Adresse Email</label>
-                <input class="au-input au-input--full" type="email" name="email" placeholder="Taper votre email..."
+                <label></label>
+                <input class="au-input au-input--full" type="email" name="email" placeholder="Adresse email"
                 [(ngModel)]="email">
 
               </div>
               <div class="form-group">
-                <label>Mot de passe</label>
-                <input class="au-input au-input--full" type="password" name="password" placeholder="Taper votre mot de passe..."
+                <label></label>
+                <input class="au-input au-input--full" type="password" name="password" placeholder="Mot de passe"
                 [(ngModel)]="password">
                 <div class="alert alert-danger" [hidden]="hideError">
                   <h6>Email ou mot de passe incorrécte(s)</h6>
@@ -33,9 +33,7 @@
               <br>
               <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit" (click)="auth()">Se connecter</button>
 
-              <div class="social-login-content" style="text-align: center">
-              <img src="assets/images/icon/gat-assurance.jpg" width="150" height="50">
-              </div>
+
             </form>
 
           </div>

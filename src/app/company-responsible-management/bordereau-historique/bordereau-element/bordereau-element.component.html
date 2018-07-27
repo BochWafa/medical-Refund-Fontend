@@ -12,20 +12,19 @@
     <thead>
     <tr>
       <th>CIN</th>
-      <th>Piéce jointe</th>
       <th>Date Affiliation</th>
       <th>Date Soin</th>
+      <th>Piéce jointe</th>
       <th></th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let b of bulletins">
       <td>{{findAssureCinByBulletinId(b.id)}}</td>
-      <td><a target="_blank" href="http://localhost:8080/bulletin/downloadBulletinFile/{{b.urlBulletin}}">
-        <i class="fa fa-download"></i>Télecharger</a></td>
       <td>{{b.dateAffiliation | date:'dd/MM/yyyy'}}</td>
       <td>{{b.dateSoin | date:'dd/MM/yyyy'}}</td>
-
+      <td><a target="_blank" href="http://localhost:8080/bulletin/downloadBulletinFile/{{b.urlBulletin}}">
+        <i class="fa fa-download"></i>Télecharger</a></td>
 
       <td>
         <button (click)="onInfo(b.id)"class="clickable" data-toggle="tooltip" title="Détails"><i class="fa fa-file-text"></i></button>

@@ -9,6 +9,7 @@ import {InfoDialogComponent} from '../dialogs/info-dialog/info-dialog.component'
 import {AccessTokenService} from '../../access-token.service';
 import {HeaderService} from '../../header/header.service';
 import {RemboursementDialogComponent} from '../dialogs/remboursement-dialog/remboursement-dialog.component';
+import {RefuserRemboursementComponent} from '../dialogs/refuser-remboursement/refuser-remboursement.component';
 
 @Component({
   selector: 'app-validation-bulletin',
@@ -68,6 +69,7 @@ export class ValidationBulletinComponent implements OnInit {
 
     if (type === 'assure') {
       this.router.navigateByUrl('/dashboard/(dashboard-content:consulter)');
+      window.history.pushState(null, '', '/dashboard/(dashboard-content:consulter)');
     }
 
     this.accessTokenService.getAccessToken().subscribe(
@@ -118,6 +120,8 @@ export class ValidationBulletinComponent implements OnInit {
 
   onInfo(id) {
     this.router.navigateByUrl('/dashboard/(dashboard-content:show-bulletin/' + id + ')', {skipLocationChange: true});
+    window.history.pushState(null, '', '/dashboard/(dashboard-content:show-bulletin/' + id + ')');
+
   }
 
 
@@ -191,6 +195,53 @@ export class ValidationBulletinComponent implements OnInit {
 
   }
 
+
+
+  onRefuse(id) {
+
+const factory = this.resolver.resolveComponentFactory(RefuserRemboursementComponent);
+const ref: ComponentRef<RefuserRemboursementComponent> = this.dialogService.divDialog.createComponent(factory);
+
+ref.instance.title = 'Refuser le bulletin de soin';
+ref.instance.ref = ref;
+ref.instance.sender.subscribe((v) => {
+
+
+  this.accessTokenService.getAccessToken().subscribe(
+    (ato: any) => {
+
+      const bulletin = this.bulletins.filter(b => b.id === id)[0];
+
+      bulletin.resultat = ref.instance.resultat;
+
+      this.bulletinSoinService.refuserBulletin(bulletin, id, ato.access_token).subscribe(
+        (res) => {
+
+
+          const fact = this.resolver.resolveComponentFactory(InfoDialogComponent);
+          const crr: ComponentRef<InfoDialogComponent> = this.dialogService.divDialog.createComponent(fact);
+          crr.instance.title = 'Confirmation';
+          crr.instance.message = 'L\'opération a été effectué avec succés';
+          crr.instance.sender.subscribe((vv) => {
+            crr.destroy();
+            this.ngOnInit();
+
+          });
+
+        },
+        (e) => console.log(e)
+      );
+
+    },
+    (e) => console.log(e)
+  );
+
+
+});
+
+
+
+  }
 
 
 }

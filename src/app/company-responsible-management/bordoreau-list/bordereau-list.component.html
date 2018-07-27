@@ -17,7 +17,7 @@
     <tbody>
     <ng-container *ngFor="let assure of assures">
       <ng-container *ngFor="let bulletin of assure.bulletinSoins">
-    <tr *ngIf="bulletin.etat === 'En cours'">
+    <tr *ngIf="bulletin.etat === 'En cours' && bulletin.active === true">
       <td>{{assure.numMatricule}}</td>
       <td>{{assure.cin}}</td>
       <td>{{assure.nom}}</td>

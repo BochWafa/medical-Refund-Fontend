@@ -28,7 +28,8 @@ export class BordereauHistoriqueComponent implements OnInit {
 
   ngOnInit() {
 
-    setTimeout(() => this.headerService.showSearch = false, 200);
+
+    setTimeout(() => {this.headerService.showSearch = false; this.headerService.title = 1; }, 200);
     const type = localStorage.getItem('type');
 
    if (type === 'assure') {

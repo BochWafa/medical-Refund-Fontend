@@ -1,8 +1,6 @@
 <div *ngIf="bulletinSoin !== null && bulletinSoin !== undefined">
 
-      <h1 class="display-5 my-3">Bulletin de soin</h1>
 
-<br><br>
 
 
       <div class="au-card au-card-top-countries col-lg-12" id="card">
@@ -16,21 +14,17 @@
               </tr>
               <tr>
                 <td>Montant à remboursé</td>
-                <td class="text-right">{{bulletinSoin.montantRembourse}} Dinard</td>
+                <td class="text-right">{{bulletinSoin.montantRembourse}} Dinar</td>
               </tr>
               <tr>
                 <td>Montant pharmacie</td>
-                <td class="text-right">{{bulletinSoin.montantPharmacie}} Dinard</td>
+                <td class="text-right">{{bulletinSoin.montantPharmacie}} Dinar</td>
               </tr>
               <tr>
                 <td>Date de soin</td>
                 <td class="text-right">{{bulletinSoin.dateSoin | date:'dd/MM/yyyy'}}</td>
               </tr>
-              <tr>
-                <td>Fichier PDF</td>
-                <td class="text-right"><a target="_blank" href="http://localhost:8080/bulletin/downloadBulletinFile/{{bulletinSoin.urlBulletin}}">
-                  <i class="fa fa-download"></i>Télecharger</a></td>
-              </tr>
+
               <tr>
                 <td>Nom</td>
                 <td class="text-right">{{findAssureNomByBulletinId(bulletinSoin.id)}}</td>
@@ -43,6 +37,19 @@
                 <td>Matricule</td>
                 <td class="text-right">{{findAssureMatriculeByBulletinId(bulletinSoin.id)}}</td>
               </tr>
+              <tr>
+                <td>Etat</td>
+
+                <td class="text-right" *ngIf="bulletinSoin.etat === 'En cours'" style="color: #ff0088">{{bulletinSoin.etat}}</td>
+                <td class="text-right" *ngIf="bulletinSoin.etat === 'Chez GAT'" style="color: #ff8c00">{{bulletinSoin.etat}}</td>
+                <td class="text-right" *ngIf="bulletinSoin.etat === 'Remboursé'" style="color: #00b009">{{bulletinSoin.etat}}</td>
+                <td class="text-right" *ngIf="bulletinSoin.etat === 'Refusé'" style="color: red">{{bulletinSoin.etat}}</td>
+              </tr>
+              <tr>
+                <td>Fichier PDF</td>
+                <td class="text-right"><a target="_blank" href="http://localhost:8080/bulletin/downloadBulletinFile/{{bulletinSoin.urlBulletin}}">
+                  <i class="fa fa-download"></i>Télecharger</a></td>
+              </tr>
               </tbody>
             </table>
           </div>
@@ -51,10 +58,25 @@
 
 
       <br>
+  <div *ngIf="bulletinSoin.etat === 'Refusé'" >
+    <div class="card" style="width: 700px" id="prob">
+      <div class="card-header bg-dark">
+        <strong class="card-title text-light">Probléme</strong>
+      </div>
+      <div class="card-body text-white bg-danger">
+        <p class="card-text text-light">
+          {{bulletinSoin.resultat}}
+        </p>
+      </div>
+    </div>
+  </div>
       <br>
 
 
-      <div *ngFor="let article of bulletinSoin.articleMedicals ; let i = index" class="articles">
+
+
+
+  <div *ngFor="let article of bulletinSoin.articleMedicals ; let i = index" class="articles">
 
         <div class="au-card m-b-30">
           <div class="au-card-inner">

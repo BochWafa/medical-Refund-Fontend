@@ -6,10 +6,10 @@
     <thead>
     <tr>
       <th class="op">CIN</th>
-      <th class="op">Piéce jointe</th>
       <th class="op">Affiliation</th>
       <th class="op">Date Soin</th>
       <th class="op">Etat</th>
+      <th class="op">Piéce jointe</th>
       <th></th>
       <th></th>
       <th></th>
@@ -18,14 +18,15 @@
     <tbody>
     <tr *ngFor="let b of bulletins">
       <td>{{findAssureCinByBulletinId(b.id)}}</td>
-      <td><a target="_blank" href="http://localhost:8080/bulletin/downloadBulletinFile/{{b.urlBulletin}}">
-        <i class="fa fa-download"></i>Télecharger</a></td>
       <td>{{b.dateAffiliation | date:'dd/MM/yyyy'}}</td>
       <td>{{b.dateSoin | date:'dd/MM/yyyy'}}</td>
-      <td *ngIf="b.etat === 'En cours'" style="color: red">{{b.etat}}</td>
+      <td *ngIf="b.etat === 'En cours'" style="color: #ff0088">{{b.etat}}</td>
       <td *ngIf="b.etat === 'Chez GAT'" style="color: #ff8c00">{{b.etat}}</td>
       <td *ngIf="b.etat === 'Remboursé'" style="color: #00b009">{{b.etat}}</td>
+      <td *ngIf="b.etat === 'Refusé'" style="color: red">{{b.etat}}</td>
 
+      <td><a target="_blank" href="http://localhost:8080/bulletin/downloadBulletinFile/{{b.urlBulletin}}">
+        <i class="fa fa-download"></i>Télecharger</a></td>
 
 
 
@@ -44,7 +45,7 @@
 
   <br>
   <a target="_blank" href="/excel"> <button type="button" (click)="excel()" [hidden]="bulletins === undefined || bulletins.length === 0" class="btn btn-success" >
-    <img src="/assets/images/icon/excel.png" height="25" width="30"/>&nbsp;&nbsp;&nbsp;Exporter&nbsp;</button></a>
+    <img src="/assets/images/icon/excel.png" height="25" width="27"/>&nbsp;&nbsp;&nbsp;Exporter&nbsp;</button></a>
 
 
 </div>

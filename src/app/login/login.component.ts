@@ -97,19 +97,21 @@ export class LoginComponent implements OnInit {
 
 
 
-
   connectAdmin() {
     this.router.navigateByUrl('/dashboard/(dashboard-content:list-user)');
+    window.history.pushState(null, '', '/dashboard/(dashboard-content:list-user)');
   }
 
 connectGestionnaire() {
   this.router.navigateByUrl('/dashboard/(dashboard-content:list-bulletin)');
+  window.history.pushState(null, '', '/dashboard/(dashboard-content:list-bulletin)');
 
 }
 
 
 connectAssure() {
   this.router.navigateByUrl('/dashboard/(dashboard-content:consulter)');
+  window.history.pushState(null, '', '/dashboard/(dashboard-content:consulter)');
 }
 
 }
