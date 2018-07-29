@@ -34,7 +34,6 @@ form = new FormGroup({
   email: new FormControl('', [Validators.required, Validators.email]),
   adresse: new FormControl('', Validators.required),
   dateNaissance: new FormControl('',  Validators.required),
-  password: new FormControl('', [Validators.required , Validators.minLength(4), this.verifyPassword]),
   role: new FormControl(null, Validators.required),
 
   poste: new FormControl(),

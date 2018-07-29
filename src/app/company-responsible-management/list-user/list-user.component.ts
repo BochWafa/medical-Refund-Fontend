@@ -143,7 +143,7 @@ g: Gestionnaire;
         (ato: any) => {
           this.gs.getGestionnaire(em.cin, ato.access_token).subscribe ((response: Gestionnaire) => {
             this.g = response;
-            this.gs.delete(this.a.cin, ato.access_token).subscribe (() => {
+            this.gs.delete(this.g.cin, ato.access_token).subscribe (() => {
               this.users.splice(
                 this.users.indexOf(em),
                 1

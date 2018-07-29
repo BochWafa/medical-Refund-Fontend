@@ -316,8 +316,6 @@ this.assure.password = this.randomString(8);
     this.assure.nationnalite = this.form.value.nationnalite;
     this.assure.password = this.randomString(8);
 
-
-
     this.accessTokenService.getAccessToken().subscribe(
       (ato: any) => {
 
