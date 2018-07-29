@@ -308,8 +308,11 @@
           <div class="col col-md-3">
             <label for="cin" class=" form-control-label"><font color="#004000"><strong>Cin: </strong></font></label>
           </div>
-          <div class="col-12 col-md-9">
+          <div class="col-12 col-md-9" *ngIf="assure.cin.toString().length === 8">
             <label>{{assure.cin}}</label>
+          </div>
+          <div class="col-12 col-md-9" *ngIf="assure.cin.toString().length === 7">
+            <label>{{"0" + assure.cin.toString()}}</label>
           </div>
         </div>
 

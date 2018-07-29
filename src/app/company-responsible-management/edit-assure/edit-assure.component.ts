@@ -18,6 +18,7 @@ import {HeaderService} from '../../header/header.service';
 })
 export class EditAssureComponent implements OnInit {
 mode = 1;
+strCin: string;
 cin: number;
 role: string;
 user: any;
@@ -102,6 +103,7 @@ onChangeMode() {
 }
 
 updateUser() {
+  this.user.dateDerniereModif = new Date();
 
   this.accessTokenService.getAccessToken().subscribe(
     (ato: any) => {
@@ -146,6 +148,9 @@ if (this.role === 'Assuré') {
       this.es.getAssure(this.cin, ato.access_token).subscribe((response: Assure) => {
         this.user = new Assure();
         this.user = response;
+        if (this.user.cin.toString().length === 7 ) {
+          this.strCin = '0' + this.user.cin.toString();
+        } else {this.strCin = this.user.cin.toString(); }
       });
     },
     (e) => console.log(e)
@@ -157,7 +162,9 @@ if (this.role === 'Assuré') {
       this.ads.getAdmin(this.cin, ato.access_token).subscribe((response: Admin) => {
         this.user = new Admin();
         this.user = response;
-        console.log('user:' + this.user.sexe);
+        if (this.user.cin.toString().length === 7 ) {
+          this.strCin = '0' + this.user.cin.toString();
+        } else {this.strCin = this.user.cin.toString(); }
 
       });
     },
@@ -170,6 +177,9 @@ if (this.role === 'Assuré') {
       this.gs.getGestionnaire(this.cin, ato.access_token).subscribe((response: Gestionnaire) => {
         this.user = new Gestionnaire();
         this.user = response;
+        if (this.user.cin.toString().length === 7 ) {
+          this.strCin = '0' + this.user.cin.toString();
+        } else {this.strCin = this.user.cin.toString(); }
       });
     },
     (e) => console.log(e)

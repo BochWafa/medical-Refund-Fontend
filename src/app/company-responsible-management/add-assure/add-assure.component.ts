@@ -157,7 +157,7 @@ verifyUnicityCin(cin: number) {
 
 verifyCin(control: AbstractControl): ValidationErrors | null {
 if (control.value) {
-  if (control.value <= 0 || control.value.toString().length !== 8) {
+  if (control.value <= 0 || (control.value.toString().length !== 8 && control.value.toString().length !== 7)) {
   return {verifyCin: true}; }
  }
 return  null;
@@ -258,24 +258,6 @@ add() {
       (e) => console.log(e)
     );
 
-
-
-
-
-  this.assure.dateDerniereModif = new Date();
-this.accessTokenService.getAccessToken().subscribe(
-  (ato: any) => {
-    this.ads.addAdmin(this.assure, ato.access_token).subscribe((response: Admin) => {
-        console.log(response);
-        this.x.role = 'Admin';
-        this.mode = 2;
-      },
-      error => { console.log(error); });
-  },
-  (e) => console.log(e)
-);
-
-
   } else if (this.form.get('role').value === 'Gestionnaire') {
     this.assure = new Gestionnaire();
     this.assure.cin = this.form.value.cin;
@@ -310,21 +292,6 @@ this.assure.password = this.randomString(8);
       (e) => console.log(e)
     );
 
-
-this.assure.dateDerniereModif = new Date();
-
-this.accessTokenService.getAccessToken().subscribe(
-  (ato: any) => {
-    this.gs.addGestionnaire(this.assure, ato.access_token).subscribe((response: Gestionnaire) => {
-        console.log(response);
-        this.x.role = 'Gestionnaire';
-        this.mode = 2;
-      },
-      error => { console.log(error); });
-  },
-  (e) => console.log(e)
-);
-
   } else if (this.form.get('role').value === 'Assuré') {
     this.assure = new Assure();
     this.assure.cin = this.form.value.cin;
@@ -349,19 +316,6 @@ this.accessTokenService.getAccessToken().subscribe(
     this.assure.nationnalite = this.form.value.nationnalite;
     this.assure.password = this.randomString(8);
 
-
-
-    this.accessTokenService.getAccessToken().subscribe(
-      (ato: any) => {
-        this.es.add(this.assure, ato.access_token).subscribe((response: Assure) => {
-            console.log(response);
-            this.x.role = 'Assuré';
-            this.mode = 2;
-          },
-          error => { console.log(error); });
-      },
-      (e) => console.log(e)
-    );
 
 
     this.accessTokenService.getAccessToken().subscribe(

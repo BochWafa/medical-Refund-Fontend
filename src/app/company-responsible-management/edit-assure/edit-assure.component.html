@@ -11,12 +11,7 @@
             <label for="cin" class=" form-control-label">Cin</label>
           </div>
           <div class="col-12 col-md-9">
-            <input type="number" id="cin"  name="cin" formControlName="cin" placeholder="Entrer Votre Cin..." class="form-control" [(ngModel)]="user.cin" disabled>
-            <div class="alert alert-danger" *ngIf="(form.get('cin').dirty || form.get('cin').touched) && form.get('cin').invalid ">
-              <div *ngIf="form.get('cin').errors.required">Le champ <strong>Cin</strong> est obligatoire</div>
-              <div *ngIf="form.get('cin').errors.verifyCin && form.get('cin').dirty">Le champ <strong>Cin</strong> doit être composé de 8 chiffres</div>
-
-            </div>
+            <input type="text" id="cin"  name="cin" formControlName="cin" class="form-control" [(ngModel)]="strCin" disabled>
         </div>
         </div>
 
@@ -315,8 +310,11 @@
         <div class="col col-md-3">
           <label for="cin" class=" form-control-label">Cin: </label>
         </div>
-        <div class="col-12 col-md-9">
+        <div class="col-12 col-md-9" *ngIf="user.cin.toString().length === 8">
           <label>{{user.cin}}</label>
+        </div>
+        <div class="col-12 col-md-9" *ngIf="user.cin.toString().length === 7">
+          <label>{{"0" + user.cin}}</label>
         </div>
       </div>
 
@@ -401,7 +399,7 @@
             <label for="cin" class=" form-control-label">Date d'inscription: </label>
           </div>
           <div class="col-12 col-md-9">
-            <label>{{user.dateInscription}}</label>
+            <label>{{user.dateInscription | date : "MMM d, y HH:mm:ss"}}</label>
           </div>
         </div>
 
@@ -410,7 +408,7 @@
               <label for="cin" class=" form-control-label">Date de dernière modification: </label>
             </div>
             <div class="col-12 col-md-9">
-              <label>{{user.dateInscription}}</label>
+              <label>{{user.dateDerniereModif | date : "MMM d, y HH:mm:ss"}}</label>
             </div>
           </div>
 

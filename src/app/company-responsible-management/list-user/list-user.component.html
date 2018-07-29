@@ -17,7 +17,8 @@
     </tr>
     </thead>
     <tr *ngFor="let em of users">
-      <td>{{em.cin}}</td>
+      <td *ngIf="em.cin.toString().length === 8">{{em.cin}}</td>
+      <td *ngIf="em.cin.toString().length === 7">{{"0" + em.cin}}</td>
       <td>{{em.nom}}</td>
       <td>{{em.prenom}}</td>
       <td id="roleUser">{{em.role}}</td>
